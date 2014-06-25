@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
 	<meta name="author" content="Muhammad Usman">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="<c:url value="/resources/bootstrap-cerulean.css"/>" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -27,22 +28,22 @@
 		padding: 9px 0;
 	  }
 	</style>
-	<link href="css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="css/charisma-app.css" rel="stylesheet">
-	<link href="css/jquery-ui-1.8.21.custom.css" rel="stylesheet">
-	<link href='css/fullcalendar.css' rel='stylesheet'>
-	<link href='css/fullcalendar.print.css' rel='stylesheet'  media='print'>
-	<link href='css/chosen.css' rel='stylesheet'>
-	<link href='css/uniform.default.css' rel='stylesheet'>
-	<link href='css/colorbox.css' rel='stylesheet'>
-	<link href='css/jquery.cleditor.css' rel='stylesheet'>
-	<link href='css/jquery.noty.css' rel='stylesheet'>
-	<link href='css/noty_theme_default.css' rel='stylesheet'>
-	<link href='css/elfinder.min.css' rel='stylesheet'>
-	<link href='css/elfinder.theme.css' rel='stylesheet'>
-	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
-	<link href='css/opa-icons.css' rel='stylesheet'>
-	<link href='css/uploadify.css' rel='stylesheet'>
+	<link href="<c:url value="/resources/bootstrap-responsive.css"/>" rel="stylesheet">
+	<link href="<c:url value="/resources/charisma-app.css"/>" rel="stylesheet">
+	<link href="<c:url value="/resources/jquery-ui-1.8.21.custom.css"/>" rel="stylesheet">
+	<link href='<c:url value="/resources/fullcalendar.css"/> css/' rel='stylesheet'>
+	<link href='<c:url value="/resources/fullcalendar.print.css"/>' rel='stylesheet'  media='print'>
+	<link href='<c:url value="/resources/chosen.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/uniform.default.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/colorbox.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/jquery.cleditor.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/jquery.noty.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/noty_theme_default.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/elfinder.min.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/elfinder.theme.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/jquery.iphone.toggle.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/opa-icons.css"/>' rel='stylesheet'>
+	<link href='<c:url value="/resources/uploadify.css"/>' rel='stylesheet'>
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
@@ -50,7 +51,7 @@
 	<![endif]-->
 
 	<!-- The fav icon -->
-	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="shortcut icon" href="<c:url value="/images/favicon.ico"/>">
 		
 </head>
 
