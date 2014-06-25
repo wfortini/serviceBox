@@ -7,4 +7,5 @@ import br.com.webnow.domain.Usuario;
 public interface UsuarioRepository extends GraphRepository<Usuario>,
                                            ViuUserDetailsService{
 
+	Usuario findByLogin(String login);
 }
