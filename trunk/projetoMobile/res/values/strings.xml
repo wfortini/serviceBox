@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">viuMobile</string>
+    <string name="app_name">Rede cooperar</string>
+    <string name="directions_input">Directions Input</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="load_directions">Carregar</string> 
+    <string name="action_config">Carregar</string> 
 </resources>
