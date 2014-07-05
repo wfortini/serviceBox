@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5077000" android:versionName="5.0.77-000" package="com.google.android.gms">
+    <uses-sdk android:minSdkVersion="9"/>
+    <application/>
+</manifest>
