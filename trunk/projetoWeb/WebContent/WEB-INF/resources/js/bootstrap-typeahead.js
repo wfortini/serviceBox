@@ -37,6 +37,7 @@
     this.source = this.options.source
     this.shown = false
     this.listen()
+    
   }
 
   Typeahead.prototype = {
@@ -181,24 +182,24 @@
       switch(e.keyCode) {
         case 40: // down arrow
         case 38: // up arrow
-          break
+          break;
 
         case 9: // tab
         case 13: // enter
           if (!this.shown) return
           this.select()
-          break
+          break;
 
         case 27: // escape
           if (!this.shown) return
           this.hide()
-          break
+          break;
 
         default:
           this.lookup()
       }
 
-      e.stopPropagation()
+      e.stopPropagation();
       e.preventDefault()
   }
 
@@ -210,19 +211,19 @@
         case 13: // enter
         case 27: // escape
           e.preventDefault()
-          break
+          break;
 
         case 38: // up arrow
-          if (e.type != 'keydown') break
-          e.preventDefault()
+          if (e.type != 'keydown') break;
+          e.preventDefault();
           this.prev()
-          break
+          break;
 
         case 40: // down arrow
-          if (e.type != 'keydown') break
-          e.preventDefault()
+          if (e.type != 'keydown') break;
+          e.preventDefault();
           this.next()
-          break
+          break;
       }
 
       e.stopPropagation()
