@@ -19,8 +19,24 @@ public class Usuario {
 	
 	@Indexed
 	private String nome;
+	private String sobreNome;
+	private String sexo;
 	private String apelido;
 	private String fotoPerfil;
+	
+	
+	public String getSobreNome() {
+		return sobreNome;
+	}
+	public void setSobreNome(String sobreNome) {
+		this.sobreNome = sobreNome;
+	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
 	public Long getNodeId() {
 		return nodeId;
 	}
