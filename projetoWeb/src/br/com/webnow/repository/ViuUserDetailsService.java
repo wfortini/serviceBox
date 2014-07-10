@@ -6,10 +6,13 @@ import br.com.webnow.domain.Usuario;
 
 public interface ViuUserDetailsService {
 	
+	//TODO: deve extender de extends UserDetailsService
+	
+	
 	Usuario getUserFromSession();
 
     @Transactional
-    Usuario registrar(String login, String nome, String password);
+    Usuario registrar(Usuario usuario);
 
     @Transactional
     void adicionarAmigo(String login, final Usuario userFromSession);
