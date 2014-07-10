@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,34 +181,42 @@
 							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
 						</div>
 					</div>
+			     	<div class="error">${error}</div>	
 					<div class="box-content">
-						<form class="form-horizontal">
+						<form class="form-horizontal" action="<c:url value="/registrar" />" method="POST">
 							<fieldset>
+							  <div class="control-group">
+								<label class="control-label" for="login">Login</label>
+								<div class="controls">
+								  <input class="input-xlarge focused" name="login"  id="login" type="text" value="${login}">
+								</div>
+							  </div>
+							  
 							  <div class="control-group">
 								<label class="control-label" for="nome">Nome</label>
 								<div class="controls">
-								  <input class="input-xlarge focused" id="nome" type="text" value="">
+								  <input class="input-xlarge focused" name="nome" id="nome" type="text" value="${nome}">
 								</div>
 							  </div>
 							  
 							  <div class="control-group">
 								<label class="control-label" for="sobrenome">Sobre Nome</label>
 								<div class="controls">
-								  <input class="input-xlarge focused" id="sobrenome" type="text" value="">
+								  <input class="input-xlarge focused" name="sobrenome" id="sobrenome" type="text" value="${sobrenome}">
 								</div>
 							  </div>
 							  
 							  <div class="control-group">
 								<label class="control-label" for="apelido">Apelido</label>
 								<div class="controls">
-								  <input class="input-xlarge focused" id="apelido" type="text" value="">
+								  <input class="input-xlarge focused" name="apelido" id="apelido" type="text" value="${apelido}">
 								</div>
 							  </div>
 							  
 							  <div class="control-group">
 								<label class="control-label" for="password">Password</label>
 								<div class="controls">
-								  <input class="input-xlarge focused" id="password" type="text" value="">
+								  <input class="input-xlarge focused" name="password" id="password" type="password" value="">
 								</div>
 							  </div>
 							  
@@ -214,18 +224,16 @@
 								<label class="control-label">Sexo</label>
 								<div class="controls">
 								  <label class="radio">
-									<input type="radio" name="radioSexo" id="idRadioMasculino" value="option1" checked="">
+									<input type="radio" name="radioSexo" id="idRadioMasculino" value="option1" checked="${masculino}">
 									   Masculino
 								  </label>
 								  <div style="clear:both"></div>
 								  <label class="radio">
-									<input type="radio" name="radioSexo" id="idRadioFeminino" value="option2">
+									<input type="radio" name="radioSexo" id="idRadioFeminino" value="option2" checked="${feminino}">
 									  Feminino
 								  </label>
 								</div>
 							  </div>
-							  
-							  
 							  
 							  <div class="control-group">
 								<label class="control-label" for="selectError3">Plain Select</label>
@@ -245,14 +253,12 @@
 								<button class="btn">Cancelar</button>
 							  </div>
 							</fieldset>
-						  </form>
-					
-					</div>
-				</div><!--/span-->
-			
-			</div><!--/row-->        
+						  </form>					
+					</div> <!-- box contents -->
+				</div><!--/span 12-->			
+			</div><!--/row sorteable-->        
                 
-                
+           
                 
                 
 			<!-- content ends -->
