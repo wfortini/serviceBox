@@ -15,12 +15,12 @@
         android:layout_height="48dip"
         android:background="@drawable/background_tabs" />
 
-    <com.ecs.google.maps.v2.component.CustomViewPager
+    <br.com.mobilenow.componente.CustomViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabs"
         tools:context=".MainActivity" >
-    </com.ecs.google.maps.v2.component.CustomViewPager>
+    </br.com.mobilenow.componente.CustomViewPager>
 
 </RelativeLayout>
