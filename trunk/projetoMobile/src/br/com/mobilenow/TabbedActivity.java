@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Window;
-import br.com.mobilenow.fragmento.UsuarioFragment;
+import br.com.mobilenow.fragment.CaronaMapFragment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.astuetz.PagerSlidingTabStrip;
@@ -44,7 +44,7 @@ public class TabbedActivity extends SherlockFragmentActivity {
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
 
-		private final String[] TITULO = { 	"Cadastro", 
+		private final String[] TITULO = { 	"Carona", 
 											};
 
 		public MyPagerAdapter(FragmentManager fm) {
@@ -67,7 +67,7 @@ public class TabbedActivity extends SherlockFragmentActivity {
 				
 				Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(makeFragmentName(R.id.pager, position));
 				System.out.println("*********** fragmentByTag = " + fragmentByTag);
-				return UsuarioFragment.newInstance(position, "Fragment with menu");
+				return CaronaMapFragment.newInstance(position, "Fragment with menu");
 				
 			} else 
 				return null; //SimpleCardFragment.newInstance(position);
