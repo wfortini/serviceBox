@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        <item android:id="@+id/action_bar_cadastro"
+        android:showAsAction="ifRoom"
+        android:title="@string/item_menu_cadastro"/>	
+        
+		<item android:id="@+id/action_bar_start_animation"
+        android:showAsAction="ifRoom"
+        android:title="@string/item_menu_outro"/>	
+				
+    
+</menu>
