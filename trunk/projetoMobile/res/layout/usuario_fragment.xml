@@ -9,35 +9,126 @@
     app:columnCount="1" >
 
     <TextView
-        android:id="@+id/from_label"
+        android:id="@+id/login_label"
         app:layout_gravity="fill_horizontal"
-        android:text="@string/from"
+        android:text="@string/login"
         android:textColor="?android:textColorSecondary" />
 
-    <AutoCompleteTextView
-        android:id="@+id/from"
+    <EditText
+        android:id="@+id/login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:completionThreshold="3" />
+        app:layout_gravity="fill_horizontal"        
+        android:hint="@string/hint_login"
+        android:inputType="textEmailAddress"
+        />
 
     <TextView
-        android:id="@+id/to_label"
+        android:id="@+id/nome_label"
         app:layout_gravity="fill_horizontal"
-        android:text="@string/to"
+        android:text="@string/nome"
         android:textColor="?android:textColorSecondary" />
 
-    <AutoCompleteTextView
-        android:id="@+id/to"
+    <EditText
+        android:id="@+id/nome"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         app:layout_gravity="fill_horizontal"
-        android:completionThreshold="3" />
+        android:hint="@string/hint_nome"
+        android:inputType="text"
+        />
+     
+     <TextView
+        android:id="@+id/sobrenome_label"
+        app:layout_gravity="fill_horizontal"
+        android:text="@string/sobrenome"
+        android:textColor="?android:textColorSecondary" />
 
+    <EditText
+        android:id="@+id/sobrenome"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_gravity="fill_horizontal"
+        android:hint="@string/hint_sobrenome"
+        android:inputType="text"
+        />
+    
+    <TextView
+        android:id="@+id/sexo_label"
+        app:layout_gravity="fill_horizontal"
+        android:text="@string/sexo"
+        android:textColor="?android:textColorSecondary" />    
+    
+    <RadioGroup 
+        android:id="@+id/sexo" 
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:orientation="horizontal">
+    
+        <RadioButton 
+            android:checked="true" 
+            android:id="@+id/masculino" 
+            android:layout_height="wrap_content" 
+            android:layout_width="wrap_content" 
+            android:text="@string/masculino">
+       </RadioButton>
+       
+       <RadioButton 
+           android:id="@+id/feminino" 
+           android:layout_height="wrap_content" 
+           android:layout_width="wrap_content" 
+           android:text="@string/feminino">
+     </RadioButton>    
+   </RadioGroup>
+    
+    <TextView
+        android:id="@+id/telefone_label"
+        app:layout_gravity="fill_horizontal"
+        android:text="@string/telefone"
+        android:textColor="?android:textColorSecondary" />
+
+    <EditText
+        android:id="@+id/telefone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_gravity="fill_horizontal"
+        android:hint="@string/hint_telefone"
+        android:inputType="text"
+        />
+    
+    <TextView
+        android:id="@+id/senha_label"
+        app:layout_gravity="fill_horizontal"
+        android:text="@string/senha"
+        android:textColor="?android:textColorSecondary" />
+
+    <EditText
+        android:id="@+id/senha"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_gravity="fill_horizontal"
+        android:hint="@string/hint_senha"
+        android:inputType="text"
+        />
+    
+    <TextView
+        android:id="@+id/confirma_label"
+        app:layout_gravity="fill_horizontal"
+        android:text="@string/confirma"
+        android:textColor="?android:textColorSecondary" />
+
+    <EditText
+        android:id="@+id/confirma"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_gravity="fill_horizontal"
+        android:hint="@string/hint_confirma"
+        android:inputType="text"
+        />
     <Button
-        android:id="@+id/load_directions"
+        android:id="@+id/registrar"
         android:layout_columnSpan="@integer/create_account_pane_column_count"
         app:layout_gravity="fill_horizontal"
-        android:text="@string/load_directions" />
+        android:text="@string/bt_registra" />
 
 </android.support.v7.widget.GridLayout>
