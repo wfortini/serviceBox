@@ -45,12 +45,12 @@ public class UsuarioController {
 	        	usuario = usuarioRepository.registrar(usuario);
 	        	System.out.println(usuario);
 	            //return "forward:/usuario/"+login;
-	        	return  "/registrar";
+	        	return  "/home";
 	        } catch(Exception e) {
 	            model.addAttribute("login",login);
 	            model.addAttribute("nome",nome);
 	            model.addAttribute("error",e.getMessage());
-	            return "/registrar";
+	            return "/home";
 	        }
 	    }
 	    
