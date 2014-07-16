@@ -114,5 +114,28 @@ public class Usuario {
 		this.sexo = sexo;
 		this.apelido = apelido;
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario user = (Usuario) o;
+        if (nodeId == null) return super.equals(o);
+        return nodeId.equals(user.nodeId);
+
+    }
+	
+	@Override
+    public int hashCode() {
+
+        return nodeId != null ? nodeId.hashCode() : super.hashCode();
+    }
+	
+	@Override
+	public String toString() {
+		
+		return "Node Id: " + this.getNodeId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
+	}
 
 }
