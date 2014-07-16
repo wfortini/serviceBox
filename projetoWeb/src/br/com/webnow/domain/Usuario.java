@@ -38,6 +38,16 @@ public class Usuario implements Serializable{
 	
 	
 	
+	public Set<Usuario> getAmigos() {
+		return amigos;
+	}
+
+
+	public void setAmigos(Set<Usuario> amigos) {
+		this.amigos = amigos;
+	}
+
+
 	public Usuario(String login, String password, String nome,
 			String sobreNome, String sexo, String apelido) {
 		super();
