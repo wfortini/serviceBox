@@ -105,10 +105,12 @@ public class UsuarioActivity extends FragmentActivity{
 		protected Usuario doInBackground(Void... params) {			
 			
 			try {
-				final String url = "http://localhost:8080/projetoWeb/registrarUsuario.json";
+				final String url = "http://192.168.0.133:8080/projetoWeb/registrarUsuario.json";
 				RestTemplate restTemplate = new RestTemplate();
-				restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter()); 
-				return restTemplate.postForObject(url, usuario, Usuario.class);	
+				restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+				Usuario usuarioResponse = restTemplate.postForObject(url, usuario, Usuario.class);
+				Log.i("UsuarioActivity", "===" + usuarioResponse);
+				return 	usuarioResponse;
 			} catch (Exception e) {
 				Log.e("UsuarioActivity", e.getMessage());
 			}
