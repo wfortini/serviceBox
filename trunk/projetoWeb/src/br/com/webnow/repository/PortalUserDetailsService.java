@@ -4,7 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.webnow.domain.Usuario;
 
-public interface ViuUserDetailsService {
+public interface PortalUserDetailsService {
 	
 	//TODO: deve extender de extends UserDetailsService
 	

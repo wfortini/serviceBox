@@ -1,6 +1,8 @@
 package br.com.webnow.domain;
 
-public enum TipoRelacionamento {
+import org.neo4j.graphdb.RelationshipType;
+
+public enum TipoRelacionamento implements RelationshipType{
 	
 	 AMIGO("amigo"),
 	 COMENTARIO("comentario"),

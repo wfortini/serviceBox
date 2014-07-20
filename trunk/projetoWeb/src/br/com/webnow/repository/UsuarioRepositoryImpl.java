@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.webnow.domain.Usuario;
 
-public class UsuarioRepositoryImpl implements ViuUserDetailsService{
+public class UsuarioRepositoryImpl implements PortalUserDetailsService{
 	
 	@Autowired
     private Neo4jOperations template;

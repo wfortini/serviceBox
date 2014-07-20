@@ -1,5 +1,7 @@
 package br.com.webnow.controller;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.webnow.domain.Carona;
+import br.com.webnow.domain.Estacionamento;
+import br.com.webnow.domain.Reboque;
+import br.com.webnow.domain.Servico;
+import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
+import br.com.webnow.repository.servico.ServicoRepository;
 
 
 @Controller
@@ -22,6 +30,9 @@ public class UsuarioController {
 	 
 	 @Autowired
 	 private UsuarioRepository usuarioRepository;
+	 
+	 @Autowired
+	 private ServicoRepository servicoRepository;
 
 	    @RequestMapping(value = "/usuario", method = RequestMethod.GET)
 	    public String profile(Model model) {
@@ -40,11 +51,55 @@ public class UsuarioController {
 	            @RequestParam(value = "radioSexo") String sexo,
 	            Model model) {
 
-	        try {
+	        try {/**
 	        	Usuario usuario = new Usuario(login, password, nome, sobreNome, sexo, apelido);
 	        	usuario = usuarioRepository.registrar(usuario);
-	        	System.out.println(usuario);
-	            //return "forward:/usuario/"+login;
+	        	Usuario u = usuarioRepository.findByLogin("wellington");
+	        	System.out.println(u);
+	        	
+	        	
+	        	Carona c = new Carona();
+	        	c.setDataInicialPrestacao(new Date());
+	        	c.setServicoDisponivel(true);
+	        	c.setTipoServico(TipoServico.CARONA.getCodigo());
+	        	
+	        	servicoRepository.save(c);
+	        	
+	        	Reboque r = new Reboque();
+	        	r.setDataInicialPrestacao(new Date());
+	        	r.setServicoDisponivel(true);
+	        	r.setTipoServico(TipoServico.REBOQUE.getCodigo());
+	        	
+	        	servicoRepository.save(r);
+	        	
+	        	Estacionamento e = new Estacionamento();
+	        	e.setDataInicialPrestacao(new Date());
+	        	e.setServicoDisponivel(true);
+	        	e.setTipoServico(TipoServico.CARONA.getCodigo());
+	        	**/
+	        	
+	        	//servicoRepository.save(e);
+	        	
+	            Servico s1 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
+	            System.out.println("========================" +s1);
+	            Servico s2 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
+	            System.out.println("========================" +s2);
+	            Servico s3 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
+	            
+	            System.out.println("========================" +s3);
+	            Usuario u = usuarioRepository.findByLogin("wellington");
+	            u.addServico(s1);
+	            u.addServico(s2);
+	            u.addServico(s3);
+	            
+	            usuarioRepository.save(u);
+	            
+	            
+	        	
+	        	
+	        	
+	        	
+	        	
 	        	return  "/home";
 	        } catch(Exception e) {
 	            model.addAttribute("login",login);
