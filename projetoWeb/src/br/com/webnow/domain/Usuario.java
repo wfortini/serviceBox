@@ -10,7 +10,7 @@ import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
-
+import static org.neo4j.graphdb.Direction.INCOMING;
 
 @NodeEntity
 public class Usuario implements Serializable{
@@ -33,19 +33,31 @@ public class Usuario implements Serializable{
 	private String fotoPerfil;
 	private Date dataCadastro;
 	
-	@RelatedTo(type = "amigo", direction = Direction.BOTH)
+	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
 	private Set<Usuario> amigos;
 	
-	
+	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)
+	private Set<Servico> servicosPrestados;
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
 	}
 
-
-	public void setAmigos(Set<Usuario> amigos) {
-		this.amigos = amigos;
+    public void addServico(Servico servico){
+    	this.servicosPrestados.add(servico);
+    }
+    
+    public boolean isPrestaServico(Servico servico){
+    	return servico != null && getServicosPrestados().contains(servico);
+    }
+    
+	public void addAmigos(Usuario amigo) {
+		this.amigos.add(amigo);
 	}
+	
+	public boolean isAmigo(Usuario other) {
+        return other!=null && getAmigos().contains(other);
+    }
 
 
 	public Usuario(String login, String password, String nome,
@@ -121,6 +133,10 @@ public class Usuario implements Serializable{
 	}
 	
 	
+	public Set<Servico> getServicosPrestados() {
+		return servicosPrestados;
+	}
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;

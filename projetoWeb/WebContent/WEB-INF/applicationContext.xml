@@ -21,7 +21,7 @@ http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd">
 
     <context:spring-configured/>
 
-    <neo4j:config storeDirectory="target/data/graph.db"/>
+    <neo4j:config storeDirectory="L:/data/graph.db"/>
     <neo4j:repositories base-package="br.com.webnow.repository"/>
 
     <!-- neo4j:config graphDatabaseService="graphDatabaseService"/>
