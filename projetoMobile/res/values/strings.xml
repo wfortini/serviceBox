@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Rede cooperar</string>
     <string name="registrar_usuario">Registrar Usuário</string>
     <string name="login">Login</string>
@@ -10,21 +12,26 @@
     <string name="telefone">Telefone</string>
     <string name="senha">Senha</string>
     <string name="confirma">Confirma</string>
-        
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="load_directions">Carregar</string> 
-    <string name="action_config">Carregar</string> 
-    <string name="hint_login">Entre com seu email</string> 
-    <string name="hint_nome">Entre com seu nome</string> 
-    <string name="hint_sobrenome">Entre com seu sobre nome</string> 
-    <string name="hint_sexo">Selecione seu sexo</string> 
-    <string name="hint_telefone">Entre com seu telefone</string> 
-    <string name="hint_senha">Entre com sua senha</string> 
-    <string name="hint_confirma">Repita sua senha</string> 
+    <string name="load_directions">Carregar</string>
+    <string name="action_config">Carregar</string>
+    <string name="hint_login">Entre com seu email</string>
+    <string name="hint_nome">Entre com seu nome</string>
+    <string name="hint_sobrenome">Entre com seu sobre nome</string>
+    <string name="hint_sexo">Selecione seu sexo</string>
+    <string name="hint_telefone">Entre com seu telefone</string>
+    <string name="hint_senha">Entre com sua senha</string>
+    <string name="hint_confirma">Repita sua senha</string>
     <string name="bt_registra">Registrar</string>
-    
     <string name="item_menu_cadastro">Cadastro</string>
     <string name="item_menu_outro">Outros</string>
+    
+    <string name="title_activity_activity_acesso">ActivityAcesso</string>
+    <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
+    <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
+    <string name="account_signup_instructions"><![CDATA[Need an account, visit <a href="http://trovebox.com">trovebox.com</a>]]></string>
+    <string name="account_login_button">Sign in with your email</string>
+
 </resources>

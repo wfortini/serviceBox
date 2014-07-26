@@ -25,7 +25,8 @@ public class SherlockMapFragment extends SupportMapFragment implements OnCreateO
             throw new IllegalStateException(getClass().getSimpleName() + " must be attached to a SherlockFragmentActivity.");
         }
         mActivity = (SherlockFragmentActivity)activity;
- 
+        mActivity.setProgressBarIndeterminate(false);
+        mActivity.setProgressBarIndeterminateVisibility(false);
         super.onAttach(activity);
     }
  
