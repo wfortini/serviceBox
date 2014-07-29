@@ -33,5 +33,14 @@
     <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
     <string name="account_signup_instructions"><![CDATA[Need an account, visit <a href="http://trovebox.com">trovebox.com</a>]]></string>
     <string name="account_login_button">Sign in with your email</string>
+    
+    <string name="title_activity_login">Login</string>
+    <string name="sign_in_instructions"><![CDATA[<b>Enter</b> an email, password and hit <b>Login</b>]]></string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
+    <string name="hint_username">username</string>
+    <string name="account_forgot_password_button">Forgot password?</string>
+    <string name="password_recovery_instructions">Enter your email to recover your password</string>
+    <string name="account_own_server_button">Using your own domain?</string>
 
 </resources>
