@@ -24,5 +24,21 @@
         <item name="android:background">@drawable/btn_bg_bege_com_icone_servicebox</item>
         <item name="android:textColor">@color/ab_fg_black</item>
     </style>
+    
+    <style name="ServiceBox.YellowButton" parent="Box.Button">
+        <item name="android:background">@drawable/btn_bg_yellow_trovebox</item>
+        <item name="android:textColor">@color/ab_fg_black</item>
+    </style>
+    
+    <style name="ServiceBox.BeigeButton" parent="Box.Button">
+        <item name="android:background">@drawable/btn_bg_beige_trovebox</item>
+        <item name="android:textColor">@color/ab_fg_black</item>
+    </style>
+    
+    <style name="ServiceBox.OliveButton" parent="Box.Button">
+        <item name="android:background">@drawable/btn_bg_olive_trovebox</item>
+        <item name="android:textColor">@color/ab_fg_black</item>
+    </style>
+   
 
 </resources>
