@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 public class LoginActivity extends Activity {
 
@@ -13,6 +15,29 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_acesso_login);
 	}
 
+	public void loginButtonAction(View view) {
+        //CommonUtils.debug(TAG, "Login the user");
+        //TrackerUtils.trackButtonClickEvent("login_button", AccountLogin.this);
+
+        EditText editText = (EditText) findViewById(R.id.edit_email);
+        String email = editText.getText().toString();
+
+        editText = (EditText) findViewById(R.id.edit_password);
+        String password = editText.getText().toString();
+
+        if (!GuiUtils.validateBasicTextData(new String[] {
+                email, password
+        }, new int[] {
+                R.string.field_email, R.string.field_password
+        })) {
+            return;
+        }
+        
+         // clean up login information
+        //Preferences.logout(this);
+
+        //getLoginFragment().doLogin(email, password);
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
