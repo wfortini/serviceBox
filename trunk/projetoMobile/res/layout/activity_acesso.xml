@@ -56,12 +56,12 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/account_login_button"
+            android:id="@+id/conta_login_button"
             style="@style/ServiceBox.BeigeWithIconButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="accountLoginButtonAction"
-            android:text="@string/account_login_button" />
+            android:onClick="contaLoginButtonAction"
+            android:text="@string/conta_login_button" />
 
         <ImageView
             android:layout_width="wrap_content"

@@ -32,7 +32,7 @@
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
     <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
     <string name="account_signup_instructions"><![CDATA[Need an account, visit <a href="http://trovebox.com">trovebox.com</a>]]></string>
-    <string name="account_login_button">Sign in with your email</string>
+    <string name="conta_login_button">Entre com seu login</string>
     
     <string name="title_activity_login">Login</string>
     <string name="sign_in_instructions"><![CDATA[<b>Enter</b> an email, password and hit <b>Login</b>]]></string>
