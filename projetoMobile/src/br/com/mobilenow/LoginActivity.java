@@ -1,13 +1,18 @@
 package br.com.mobilenow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.common.util.GuiUtils;
 
 public class LoginActivity extends Activity {
+	
+	 private static final String TAG = LoginActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +21,7 @@ public class LoginActivity extends Activity {
 	}
 
 	public void loginButtonAction(View view) {
-        //CommonUtils.debug(TAG, "Login the user");
+        CommonUtils.debug(TAG, "Login do usuario");
         //TrackerUtils.trackButtonClickEvent("login_button", AccountLogin.this);
 
         EditText editText = (EditText) findViewById(R.id.edit_email);
@@ -28,10 +33,13 @@ public class LoginActivity extends Activity {
         if (!GuiUtils.validateBasicTextData(new String[] {
                 email, password
         }, new int[] {
-                R.string.field_email, R.string.field_password
+                R.string.campo_email, R.string.campo_password
         })) {
             return;
         }
+        
+        Intent intent = new Intent(this, TabbedActivity.class);
+        startActivity(intent);
         
          // clean up login information
         //Preferences.logout(this);
