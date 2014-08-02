@@ -42,5 +42,9 @@
     <string name="account_forgot_password_button">Forgot password?</string>
     <string name="password_recovery_instructions">Enter your email to recover your password</string>
     <string name="account_own_server_button">Using your own domain?</string>
+    
+    <string name="campo_email">email</string>
+    <string name="campo_password">password</string>
+    <string name="campo_username">username</string>
 
 </resources>

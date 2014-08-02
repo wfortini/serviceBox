@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import br.com.servicebox.common.util.CommonUtils;
 
 public class AcessoActivity extends Activity {
 	
@@ -15,8 +16,8 @@ public class AcessoActivity extends Activity {
 		setContentView(R.layout.activity_acesso);
 	}
 	
-	public void accountLoginButtonAction(View view) {
-        //CommonUtils.debug(TAG, "Start account login button action");
+	public void contaLoginButtonAction(View view) {
+        CommonUtils.debug(TAG, "Iniciando acesso ao usuario ao sistema");
         //TrackerUtils.trackButtonClickEvent("account_login_button", AccountActivity.this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
