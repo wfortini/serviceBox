@@ -258,7 +258,7 @@ public class GuiUtils {
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
             if (TextUtils.isEmpty(value)) {
-                String pleaseSpecifyFirst = activity.getString(R.string.pleaseSpecifyFirst,
+                String pleaseSpecifyFirst = activity.getString(R.string.favorEspecifiquePrimeiro,
                         titles[i]);
                 info(pleaseSpecifyFirst, activity);
                 return false;
@@ -280,7 +280,7 @@ public class GuiUtils {
             String value = values[i];
             if (TextUtils.isEmpty(value)) {
                 String pleaseSpecifyFirst = CommonUtils.getStringResource(
-                        R.string.pleaseSpecifyFirst, CommonUtils.getStringResource(titles[i]));
+                        R.string.favorEspecifiquePrimeiro, CommonUtils.getStringResource(titles[i]));
                 info(pleaseSpecifyFirst);
                 return false;
             }
@@ -337,7 +337,7 @@ public class GuiUtils {
     public static boolean checkOnline(boolean silent) {
         boolean result = CommonUtils.isOnline(CommonConfigurationUtils.getApplicationContext());
         if (!result && !silent) {
-            GuiUtils.alert(R.string.noInternetAccess);
+            GuiUtils.alert(R.string.naoInternetAcesso);
         }
         return result;
     }
@@ -379,7 +379,7 @@ public class GuiUtils {
     public static boolean checkLoggedIn(boolean silent) {
         boolean result = CommonConfigurationUtils.isLoggedIn();
         if (!result && !silent) {
-            GuiUtils.alert(R.string.errorNotLoggedIn);
+            GuiUtils.alert(R.string.erroNaoLogadoAinda);
         }
         return result;
     }
