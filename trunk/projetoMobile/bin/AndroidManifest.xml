@@ -58,8 +58,9 @@
             android:label="@string/registrar_usuario" >
         </activity>
         <activity
-            android:name=".AcessoActivity"
-            android:label="@string/title_activity_activity_acesso" >
+            android:name=".AcessoActivity"             
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.ServiceBox.SemActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,8 +68,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".LoginActivity"             
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.ServiceBox.SemActionBar" >
         </activity>
     </application>
 
