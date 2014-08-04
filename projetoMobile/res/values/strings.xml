@@ -31,7 +31,7 @@
     <string name="title_activity_activity_acesso">ActivityAcesso</string>
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
     <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
-    <string name="account_signup_instructions"><![CDATA[Need an account, visit <a href="http://trovebox.com">trovebox.com</a>]]></string>
+    
     <string name="conta_login_button">Acessar minha conta.</string>
     <string name="conta_cadastro_button">Cadastra-se agora!</string>
     
@@ -40,8 +40,8 @@
     <string name="hint_email">email</string>
     <string name="hint_password">password</string>
     <string name="hint_username">username</string>
-    <string name="account_forgot_password_button">Forgot password?</string>
-    <string name="password_recovery_instructions">Enter your email to recover your password</string>
+    <string name="account_forgot_password_button">Esqueceu seu password?</string>
+    <string name="password_recovery_instructions">Digite seu e-mail para recuperar sua senha</string>
     <string name="account_own_server_button">Using your own domain?</string>
     
     <string name="campo_email">email</string>

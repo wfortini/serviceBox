@@ -1,134 +1,145 @@
-<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:alignmentMode="alignBounds"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:useDefaultMargins="true"
-    app:columnCount="1" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1" >
 
-    <TextView
-        android:id="@+id/login_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/login"
-        android:textColor="?android:textColorSecondary" />
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-    <EditText
-        android:id="@+id/login"
-        android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"        
-        android:hint="@string/hint_login"
-        android:inputType="textEmailAddress"
-        />
+        android:layout_weight="1"
+        android:padding="@dimen/servicebox_site_padding" >
 
-    <TextView
-        android:id="@+id/nome_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/nome"
-        android:textColor="?android:textColorSecondary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/nome"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:hint="@string/hint_nome"
-        android:inputType="text"
-        />
-     
-     <TextView
-        android:id="@+id/sobrenome_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/sobrenome"
-        android:textColor="?android:textColorSecondary" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:baselineAligned="false">
 
-    <EditText
-        android:id="@+id/sobrenome"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:hint="@string/hint_sobrenome"
-        android:inputType="text"
-        />
-    
-    <TextView
-        android:id="@+id/sexo_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/sexo"
-        android:textColor="?android:textColorSecondary" />    
-    
-    <RadioGroup 
-        android:id="@+id/sexo" 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content" 
-        android:orientation="horizontal">
-    
-        <RadioButton 
-            android:checked="true" 
-            android:id="@+id/masculino" 
-            android:layout_height="wrap_content" 
-            android:layout_width="wrap_content" 
-            android:text="@string/masculino">
-       </RadioButton>
-       
-       <RadioButton 
-           android:id="@+id/feminino" 
-           android:layout_height="wrap_content" 
-           android:layout_width="wrap_content" 
-           android:text="@string/feminino">
-     </RadioButton>    
-   </RadioGroup>
-    
-    <TextView
-        android:id="@+id/telefone_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/telefone"
-        android:textColor="?android:textColorSecondary" />
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp" >
 
-    <EditText
-        android:id="@+id/telefone"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:hint="@string/hint_telefone"
-        android:inputType="text"
-        />
-    
-    <TextView
-        android:id="@+id/senha_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/senha"
-        android:textColor="?android:textColorSecondary" />
+                    <ImageView
+                        android:id="@+id/image_upload"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon" />
 
-    <EditText
-        android:id="@+id/senha"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:hint="@string/hint_senha"
-        android:inputType="text"
-        />
-    
-    <TextView
-        android:id="@+id/confirma_label"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/confirma"
-        android:textColor="?android:textColorSecondary" />
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@android:drawable/ic_menu_zoom" />
+                </RelativeLayout>
 
-    <EditText
-        android:id="@+id/confirma"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_gravity="fill_horizontal"
-        android:hint="@string/hint_confirma"
-        android:inputType="text"
-        />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <View
+		                android:layout_width="match_parent"
+		                android:layout_height="20dp" />
+                    <EditText
+                        android:id="@+id/nome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nome"
+                        android:inputType="textCapSentences" />
+                </LinearLayout>
+                
+            </LinearLayout> 
+            
+            <EditText
+		        android:id="@+id/sobrenome"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"		        
+		        android:hint="@string/sobrenome"
+		        android:inputType="text"
+		        />
+            
+            <EditText
+			        android:id="@+id/login"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"			                
+			        android:hint="@string/login"
+			        android:inputType="textEmailAddress"
+			        /> 
+			
+            
+            <RadioGroup 
+		        android:id="@+id/sexo" 
+		        android:layout_height="wrap_content" 
+		        android:layout_width="wrap_content" 
+		        android:orientation="horizontal">
+		    
+		        <RadioButton 
+		            android:checked="true" 
+		            android:id="@+id/masculino" 
+		            android:layout_height="wrap_content" 
+		            android:layout_width="wrap_content" 
+		            android:hint="@string/masculino">
+		       </RadioButton>
+		       
+		       <RadioButton 
+		           android:id="@+id/feminino" 
+		           android:layout_height="wrap_content" 
+		           android:layout_width="wrap_content" 
+		           android:hint="@string/feminino">
+		     </RadioButton>    
+		   </RadioGroup>
+            
+             <EditText
+		        android:id="@+id/telefone"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"		        
+		        android:hint="@string/telefone"
+		        android:inputType="text"
+		        />
+            
+           <EditText
+		        android:id="@+id/senha"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"		        
+		        android:hint="@string/senha"
+		        android:inputType="textPassword"
+		        />
+           
+           <EditText
+		        android:id="@+id/confirma"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"		       
+		        android:hint="@string/hint_confirma"
+		        android:inputType="textPassword"
+		        />
+           
+             
+        </LinearLayout>
+    </ScrollView>  
+
     <Button
         android:id="@+id/registrar"
-        android:layout_columnSpan="@integer/create_account_pane_column_count"
-        app:layout_gravity="fill_horizontal"
-        android:text="@string/bt_registra" />
+        style="@style/ServiceBox.YellowButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_registra"  />
 
-</android.support.v7.widget.GridLayout>
+</LinearLayout>
