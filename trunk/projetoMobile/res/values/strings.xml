@@ -27,6 +27,11 @@
     <string name="bt_registra">Registrar</string>
     <string name="item_menu_cadastro">Cadastro</string>
     <string name="item_menu_outro">Outros</string>
+    <string name="escolha_foto_primeiro">Por favor, escolha uma foto em primeiro lugar</string>
+    
+    <!-- errors -->
+    <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>
+    <string name="errorCanNotFindExternalStorageForTakingPicture">Não é possível encontrar de armazenamento externo para tirar uma foto</string>
     
     <string name="title_activity_activity_acesso">ActivityAcesso</string>
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
