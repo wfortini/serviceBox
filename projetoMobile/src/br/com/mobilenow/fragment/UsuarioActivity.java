@@ -1,22 +1,52 @@
 package br.com.mobilenow.fragment;
 
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.Date;
+import java.util.Set;
+import java.util.prefs.Preferences;
 
-import android.os.AsyncTask;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Dialog;
+import org.holoeverywhere.widget.Switch;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
+import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.domain.Usuario;
+import br.com.servicebox.common.fragment.CommonClosableOnRestoreDialogFragment;
+import br.com.servicebox.common.fragment.CommonFragment;
+import br.com.servicebox.common.image.ImageFileSystemFetcher;
+import br.com.servicebox.common.image.ImageResizer;
+import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.common.util.FileUtils;
+import br.com.servicebox.common.util.GuiUtils;
+import br.com.servicebox.common.util.ImageUtils;
 
-public class UsuarioActivity extends FragmentActivity{
+public class UsuarioActivity extends Activity{
 	
+	static final String TAG = UsuarioActivity.class.getSimpleName();
+	private static final int REQUEST_GALLERY = 0;
+	private static final int REQUEST_CAMERA = 1;
 	protected static final int RESULT_CODE = 123;
 	private EditText edLogin;
 	private EditText edNome;
@@ -87,49 +117,475 @@ public class UsuarioActivity extends FragmentActivity{
 				
 				usuario = new Usuario(edLogin.getText().toString(), edSenha.getText().toString(), 
 						           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, null);
-				
-				
-				new RequisicaoTask().execute();			
-				
-				
-				
+								
 			}
 		});
 		
 	}
 	
-	
-	private class RequisicaoTask extends AsyncTask<Void, Void, Usuario>{
-
+	public static class UploadUiFragment extends CommonFragment
+	implements OnClickListener
+	{
+		static final String UPLOAD_IMAGE_FILE = "UploadActivityFile";
+		static final String UPLOAD_IMAGE_FILE_ORIGINAL = "UploadActivityFileOriginal";
+		static final String UPLOAD_IMAGE_FILE_URI = "UploadActivityFileUri";
+		static final String SELECTED_ALBUMS = "SELECTED_ALBUMS";
+		
+		private File mUploadImageFile;
+		private File mUploadImageFileOriginal;
+		private Uri fileUri;
+		
+		Switch uploadOriginalSwitch;
+		Switch privateSwitch;
+		Switch twitterSwitch;
+		Switch facebookSwitch;
+		
+		EditText tagsText;
+		EditText albumsText;
+		private SelectImageDialogFragment imageSelectionFragment;
+		/**
+		 * This variable controls whether the dialog should be shown in the
+		 * onResume action
+		 */
+		private boolean showSelectionDialogOnResume = false;
+		
+		static WeakReference<UploadUiFragment> currentInstance;
+		
 		@Override
-		protected Usuario doInBackground(Void... params) {			
-			
-			try {
-				final String url = "http://192.168.0.133:8080/projetoWeb/registrarUsuario.json";
-				RestTemplate restTemplate = new RestTemplate();
-				restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-				Usuario usuarioResponse = restTemplate.postForObject(url, usuario, Usuario.class);
-				Log.i("UsuarioActivity", "===" + usuarioResponse);
-				return 	usuarioResponse;
-			} catch (Exception e) {
-				Log.e("UsuarioActivity", e.getMessage());
-			}
-			
-			return null;
+		public void onCreate(Bundle savedInstanceState) {
+		    super.onCreate(savedInstanceState);
+		    currentInstance = new WeakReference<UploadUiFragment>(this);
+		    if (savedInstanceState != null)
+		    {
+		        mUploadImageFile = CommonUtils.getSerializableFromBundleIfNotNull(
+		                UPLOAD_IMAGE_FILE, savedInstanceState);
+		        mUploadImageFileOriginal = CommonUtils.getSerializableFromBundleIfNotNull(
+		                UPLOAD_IMAGE_FILE_ORIGINAL, savedInstanceState);
+		        String fileUriString = savedInstanceState.getString(UPLOAD_IMAGE_FILE_URI);
+		        if (fileUriString != null)
+		        {
+		            fileUri = Uri.parse(fileUriString);
+		        }
+		    }
 		}
 		
 		@Override
-        protected void onPreExecute() {
+		public void onDestroy() {
+		    super.onDestroy();
+		    if (currentInstance != null)
+		    {
+		        if (currentInstance.get() == UploadUiFragment.this
+		                || currentInstance.get() == null)
+		        {
+		            CommonUtils.debug(TAG, "Nullify current instance");
+		            currentInstance = null;
+		        } else
+		        {
+		            CommonUtils.debug(TAG,
+		                    "Skipped nullify of current instance, such as it is not the same");
+		        }
+		    }
+		}
+		
+		
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater,
+		        ViewGroup container, Bundle savedInstanceState) {
+		    super.onCreateView(inflater, container, savedInstanceState);
+		    View v = inflater.inflate(R.layout.usuario_fragment, container, false);		    
+		    return v;
+		}
+		
+		@Override
+		public void onResume() {
+		    super.onResume();		    
+		    if (showSelectionDialogOnResume)
+		    {
+		        showSelectionDialog();
+		    }
+		}
+		
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+		    super.onViewCreated(view, savedInstanceState);
+		    init(view, savedInstanceState);
+		}
+		
+		@Override
+		public void onSaveInstanceState(Bundle outState) {
+		    super.onSaveInstanceState(outState);
+		    outState.putSerializable(UPLOAD_IMAGE_FILE, mUploadImageFile);
+		    outState.putSerializable(UPLOAD_IMAGE_FILE_ORIGINAL, mUploadImageFileOriginal);
+		    outState.putParcelable(SELECTED_ALBUMS, (Parcelable) albumsText.getTag());
+		    if (fileUri != null)
+		    {
+		        outState.putString(UPLOAD_IMAGE_FILE_URI, fileUri.toString());
+		    }
+		}
+		
+		void init(View v, Bundle savedInstanceState)
+		{
+		    final Button buttonUpload = (Button) v.findViewById(R.id.button_cadastro);
+		    buttonUpload.setOnClickListener(this);
+		    buttonUpload.setEnabled(false);		    
+		    v.findViewById(R.id.image_upload).setOnClickListener(this);		    
+		
+		    Intent intent = getActivity().getIntent();
+		    boolean showOptions = true;
+		    if (intent != null)
+		    {
+		       
+		    }
+		    if (mUploadImageFile != null)
+		    {
+		        showOptions = !setSelectedImageFile();
+		    }
+		    if (showOptions)
+		    {
+		        showSelectionDialog();
+		    }		   
+		    
+		}		
+		
+		
+		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		    super.onActivityResult(requestCode, resultCode, data);
+		    if (checkNoUploadImageSelectedResult(requestCode, resultCode, data)) {
+		        // TrackerUtils.trackUiEvent("uploadNoImageSelectedResult",
+		        //        requestCode == REQUEST_GALLERY ? "gallery" : "camera");
+		        showSelectionDialogOnResume = true;
+		        if (requestCode == REQUEST_CAMERA)
+		        {
+		            removeGalleryEntryForCurrentFile();
+		        }
+		        return;
+		    }
+		    switch (requestCode) {		        
+		        
+		        case REQUEST_GALLERY:
+		            if (resultCode == RESULT_OK && data.getData() != null) {
+		                setSelectedImageUri(data.getData());
+		            }
+		            break;
+		        case REQUEST_CAMERA:
+		            if (resultCode == RESULT_OK) {
+		                updateingGalleryPictureSize();
+		                setSelectedImageFile();
+		            } else {
+		                mUploadImageFile = null;
+		            }
+		            break;		        
+		        default:
+		            break;
+		    }
+		}
+		
+		private boolean checkNoUploadImageSelectedResult(int requestCode, int resultCode,
+		        Intent data) {
+		    boolean result = resultCode != RESULT_OK && (requestCode == REQUEST_GALLERY
+		            || requestCode == REQUEST_CAMERA);
+		    if (!result && resultCode == RESULT_OK && requestCode == REQUEST_GALLERY)
+		    {
+		        Uri selectedImageUri = data.getData();
+		        if (selectedImageUri != null)
+		        {
+		            String selectedImage = selectedImageUri.toString();
+		            if (selectedImage.indexOf("content://com.android.gallery3d.provider") != -1
+		                    || selectedImage
+		                            .indexOf("content://com.android.sec.gallery3d.provider") != -1
+		                    || selectedImage.indexOf("content://com.google.android.gallery3d") != -1)
+		            {
+		                //TrackerUtils.trackErrorEvent("unsupported_gallery_upload", selectedImage);
+		                GuiUtils.alert(R.string.errorUploadPicassaNaoSuportado);
+		                result = true;
+		            }
+		        }
+		    }
+		    return result;
+		}
+		
+		@Override
+		public void onActivityResultUI(int requestCode, int resultCode, Intent data) {
+		    super.onActivityResultUI(requestCode, resultCode, data);
+		    if (checkNoUploadImageSelectedResult(requestCode, resultCode, data)) {
+		        showSelectionDialog();
+		        return;
+		    }
+		    // discard delayed selection dialog showing if planned
+		    showSelectionDialogOnResume = false;
+		    // this is necessary because onActivityResultDelayed is called
+		    // after the onCreateView method so the dialog may appear there if
+		    // view were recreated and here need to be closed
+		    if (imageSelectionFragment != null && !imageSelectionFragment.isDetached())
+		    {
+		        imageSelectionFragment.dismissAllowingStateLoss();
+		        imageSelectionFragment = null;
+		    }
+		}
+		
+		public void removeGalleryEntryForCurrentFile()
+		{
+		    CommonUtils.debug(TAG, "Removing empty gallery entry: " + fileUri);
+		    //TrackerUtils.trackBackgroundEvent("removeGalleryEntryForCurrentFile", TAG);
+		    // #271 fix, using another context instead of getActivity()
+		    int rowsDeleted = ServiceBoxApplication.getContext().getContentResolver()
+		            .delete(fileUri, null, null);
+		
+		    CommonUtils.debug(TAG, "Rows deleted:" + rowsDeleted);
+		}
+		
+		public void updateingGalleryPictureSize()
+		{
+		    int sdk = android.os.Build.VERSION.SDK_INT;
+		    if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB)
+		    {
+		        return;
+		    }
+		 //   TrackerUtils.trackBackgroundEvent("updateingGalleryPictureSize", TAG);
+		
+		    CommonUtils.debug(TAG, "Updating gallery entry: " + fileUri);
+		    BitmapFactory.Options options = ImageResizer.calculateImageSize(mUploadImageFile
+		            .getAbsolutePath());
+		    ContentValues values = new ContentValues();
+		    values.put(MediaStore.Images.Media.WIDTH, options.outWidth);
+		    values.put(MediaStore.Images.Media.HEIGHT, options.outHeight);
+		    // #271 fix, using another context instead of getActivity()
+		    int rowsUpdated = ServiceBoxApplication.getContext().getContentResolver()
+		            .update(fileUri, values, null, null);
+		    CommonUtils.debug(TAG, "Rows updated:" + rowsUpdated);
+		} // fim metodo updateingGalleryPictureSize
+		
+		public File getNextFileName(String prefix) throws IOException
+		{
+		    return new File(FileUtils
+		            .getStorageFolder(getActivity()),
+		            prefix + new Date().getTime() + ".jpg");
+		} // fim metodo
+		
+		public void showSelectionDialog()
+		{
+		    if (imageSelectionFragment != null)
+		    {
+		        //TrackerUtils.trackUiEvent("imageSelectionDialogCreation.skipped", TAG);
+		        return;
+		    }
+		    // if instance is saved we can't show dialog such as it will cause
+		    // illegal state exception. Instead we plan showing in the onResume
+		    // event if it will appear
+		    /**
+		    if (isInstanceSaved())
+		    {
+		        //TrackerUtils.trackUiEvent("imageSelectionDialogCreation.delayedToOnResume", TAG);
+		        showSelectionDialogOnResume = true;
+		        return;
+		    }
+		    **/
+		    //TrackerUtils.trackUiEvent("imageSelectionDialogCreation.show", TAG);
+		    showSelectionDialogOnResume = false;
+		    imageSelectionFragment = SelectImageDialogFragment
+		            .newInstance(new SelectImageDialogFragment.SelectedActionHandler() {
+		
+		                private static final long serialVersionUID = 1L;
+		
+		                @Override
+		                public void cameraOptionSelected() {
+		                    try {
+		                        mUploadImageFile = getNextFileName("upload_");
+		                        // this is a hack for some
+		                        // devices taken from here
+		                        // http://thanksmister.com/2012/03/16/android_null_data_camera_intent/
+		                        ContentValues values = new ContentValues();
+		                        values.put(MediaStore.Images.Media.TITLE,
+		                                mUploadImageFile.getName());
+		                        values.put(MediaStore.Images.Media.DATA,
+		                                mUploadImageFile.getAbsolutePath());
+		
+		                        Intent intent = new Intent(
+		                                MediaStore.ACTION_IMAGE_CAPTURE);
+		
+		                        fileUri = getActivity()
+		                                .getContentResolver()
+		                                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+		                                        values);
+		                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+		
+		                        startActivityForResult(intent, REQUEST_CAMERA);
+		
+		                    } catch (IOException e) {
+		                        GuiUtils.error(
+		                                TAG,
+		                                R.string.errorCanNotFindExternalStorageForTakingPicture,
+		                                e);
+		                    }
+		                }
+		
+		                @Override
+		                public void galleryOptionSelected() {
+		                    Intent intent = new Intent(Intent.ACTION_PICK);
+		                    intent.setType("image/*");
+		                    startActivityForResult(intent, REQUEST_GALLERY);
+		                }
+		
+		                @Override
+		                public void onDismiss() {
+		                    imageSelectionFragment = null;
+		                }
+		            });
+		    imageSelectionFragment.show(getSupportActivity());
+		} // fim metodo showSelectionDialog
+		
+		private void setSelectedImageUri(Uri imageUri) {
+		    mUploadImageFile = new File(ImageUtils.getRealPathFromURI(getActivity(), imageUri));
+		    setSelectedImageFile();
+		}
+		
+		private boolean setSelectedImageFile() {
+		    if (!mUploadImageFile.exists())
+		    {
+		        mUploadImageFile = null;
+		        mUploadImageFileOriginal = null;
+		        return false;
+		    }
+		    ImageView previewImage = (ImageView) getView().findViewById(R.id.image_upload);
+		    previewImage.setImageBitmap(ImageFileSystemFetcher.processBitmap(
+		            mUploadImageFile.getAbsolutePath(), 200, 200));
+		    return true;
+		}
+		
+		@Override
+		public void onClick(View v) {
+		    switch (v.getId()) {		        
+		        
+		        case R.id.button_cadastro:
+		            //TrackerUtils.trackButtonClickEvent("button_upload", getActivity());
+		            if (mUploadImageFile != null) {
+		                startUpload(mUploadImageFile, mUploadImageFileOriginal);
+		            } else
+		            {
+		                GuiUtils.alert(R.string.escolha_foto_primeiro);
+		                showSelectionDialog();
+		            }
+		            break;		        
+		        case R.id.image_upload:
+		            //TrackerUtils.trackButtonClickEvent("image_upload", getActivity());
+		            if (mUploadImageFile != null)
+		            {
+		                Intent intent = new Intent();
+		                intent.setAction(android.content.Intent.ACTION_VIEW);
+		                intent.setDataAndType(Uri.fromFile(mUploadImageFile), "image/png");
+		                startActivity(intent);
+		            } else
+		            {
+		                showSelectionDialog();
+		            }
+		            break;
+		    }
+		}	
+		
+		
+		/**
+		 * @param uploadFile
+		 * @param originalUploadFile the original upload file. Necessary only in
+		 *            case image was edited in editor
+		 */
+		private void startUpload(File uploadFile, File originalUploadFile) {
+		    
 			
 		}
 		
-		protected void onPostExecute(Void unused) {
-            
-            //pDialog.dismiss();
-        }
+		/**
+		 * Get the standard upload meta data
+		 * 
+		 * @param isPrivate whether upload should be private
+		 * @return
+		 */
+		public Usuario getUsuario()
+		{
+		    return null;
+		}
+				
+		@Override
+		public void onDestroyView() {
+		    super.onDestroyView();		   
+		}		
 		
-	}
-	
-	
+		public static class SelectImageDialogFragment extends CommonClosableOnRestoreDialogFragment
+		{
+		    public static interface SelectedActionHandler extends Serializable
+		    {
+		        void cameraOptionSelected();
+		
+		        void galleryOptionSelected();
+		
+		        void onDismiss();
+		    }
+		
+		    private SelectedActionHandler handler;
+		
+		    public static SelectImageDialogFragment newInstance(
+		            SelectedActionHandler handler)
+		    {
+		        SelectImageDialogFragment frag = new SelectImageDialogFragment();
+		        frag.handler = handler;
+		        return frag;
+		    }
+		
+		    @Override
+		    public void onCancel(DialogInterface dialog) {
+		        super.onCancel(dialog);
+		        getActivity().finish();
+		    }
+		
+		    @Override
+		    public void onDismiss(DialogInterface dialog) {
+		        super.onDismiss(dialog);
+		        if (handler != null)
+		        {
+		            handler.onDismiss();
+		        }
+		    }
+		
+		    @Override
+		    public Dialog onCreateDialog(Bundle savedInstanceState) {
+		        final CharSequence[] items = {
+		                getString(R.string.upload_camera_option),
+		                getString(R.string.upload_gallery_option)
+		        };
+		
+		        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+		                R.style.Theme_Trovebox_Dialog_Light);
+		        builder.setTitle(R.string.upload_title);
+		        builder.setItems(items, new DialogInterface.OnClickListener() {
+		            @Override
+		            public void onClick(DialogInterface dialog, int item) {
+		                if (handler == null)
+		                {
+		                    return;
+		                }
+		                switch (item) {
+		                    case 0:
+		                        TrackerUtils.trackContextMenuClickEvent("menu_camera",
+		                                SelectImageDialogFragment.this);
+		                        handler.cameraOptionSelected();
+		                        return;
+		                    case 1:
+		                        TrackerUtils.trackContextMenuClickEvent("menu_gallery",
+		                                SelectImageDialogFragment.this);
+		                        handler.galleryOptionSelected();
+		                        return;
+		                }
+		            }
+		        });
+		        return builder.create();
+		    }
+		}
+		}
+			
+			
+			
+			
+			
 
 }
