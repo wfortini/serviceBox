@@ -28,7 +28,10 @@ http://www.springframework.org/schema/data/neo4j/spring-neo4j-2.0.xsd">
     <bean id="graphDatabaseService" class="org.springframework.data.neo4j.rest.SpringRestGraphDatabase" scope="singleton">
         <constructor-arg value="http://localhost:7474/db/data" />
     </bean -->
-
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+      <property name="maxUploadSize" value="268435456"/> <!-- 256 megs -->
+   </bean>
     
 
     <tx:annotation-driven mode="proxy"/>
