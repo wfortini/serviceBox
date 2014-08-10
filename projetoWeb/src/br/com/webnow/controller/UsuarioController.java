@@ -7,18 +7,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.webnow.domain.Servico;
-import br.com.webnow.domain.TipoServico;
+import br.com.servicebox.net.Response;
 import br.com.webnow.domain.Usuario;
+import br.com.webnow.exception.UsuarioException;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.util.FileUtil;
 
 
 @Controller
@@ -74,29 +74,7 @@ public class UsuarioController {
 	        	e.setDataInicialPrestacao(new Date());
 	        	e.setServicoDisponivel(true);
 	        	e.setTipoServico(TipoServico.CARONA.getCodigo());
-	        	**/
-	        	
-	        	//servicoRepository.save(e);
-	        	
-	            Servico s1 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
-	            System.out.println("========================" +s1);
-	            Servico s2 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
-	            System.out.println("========================" +s2);
-	            Servico s3 =  servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
-	            
-	            System.out.println("========================" +s3);
-	            Usuario u = usuarioRepository.findByLogin("wellington");
-	            u.addServico(s1);
-	            u.addServico(s2);
-	            u.addServico(s3);
-	            
-	            usuarioRepository.save(u);
-	            
-	            
-	        	
-	        	
-	        	
-	        	
+	        	**/        	
 	        	
 	        	return  "/home";
 	        } catch(Exception e) {
@@ -107,7 +85,7 @@ public class UsuarioController {
 	        }
 	    }
 	    @RequestMapping(value = "/registrarUsuario", method = RequestMethod.POST)
-	    public @ResponseBody Usuario registrarUsuario(
+	    public @ResponseBody Response registrarUsuario(
 	            @RequestParam(value = "file") MultipartFile foto,
 	            @RequestParam(value = "login") String login, 
 	            @RequestParam(value = "nome") String nome, 
@@ -118,28 +96,22 @@ public class UsuarioController {
 	    
 	    {
 	    	
-	    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,null);
-	    	usuario.setDataCadastro(new Date());
-	    	usuario.setFotoPerfil(imagemPerfil);
-	    	
-	    	
 	    	try {
-	    		 Usuario user = usuarioRepository.registrar(usuario);
-	    		 return user;
-				
+	    		if(foto.getSize() <= 0) throw new UsuarioException("Imagem inválida");
+	    		
+		    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,null);
+		    	usuario.setDataCadastro(new Date());
+		    	          // não estou tratando se o arquivo da foto já exite
+		    	usuario = FileUtil.salvarArquivoLocal(usuario, foto);    	
+		    	
+		    	usuario = usuarioRepository.registrar(usuario);		    	
+		    	return new Response(true, "Usuário cadastrado com sucesso.", usuario.getNodeId());
+	    	}catch(UsuarioException ux){
+	    		return new Response(false, ux.getMessage(), null);
 			} catch (Exception e) {
-				return new Usuario();
+				logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
+				return new Response(false, "Falha no cadastro do usuário", null);
 			}
 	    }
-	    /**
-	    @RequestMapping(value = "/registrarUsuario", method = RequestMethod.POST)
-	    public @ResponseBody Usuario registrarUsuario(@RequestBody  Usuario usuario){
-	    	
-	    	   try {
-				return usuarioRepository.registrar(usuario);
-			} catch (Exception e) {
-				return usuario;
-			}
-	    }
-        **/
+	   
 }

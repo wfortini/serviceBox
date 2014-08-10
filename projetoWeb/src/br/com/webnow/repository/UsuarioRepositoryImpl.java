@@ -5,6 +5,7 @@ import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.webnow.domain.Usuario;
+import br.com.webnow.exception.UsuarioException;
 
 public class UsuarioRepositoryImpl implements PortalUserDetailsService{
 	
@@ -26,11 +27,11 @@ public class UsuarioRepositoryImpl implements PortalUserDetailsService{
 	public Usuario registrar(Usuario usuario) {
 		
 		Usuario usuarioExiste = findByLogin(usuario.getLogin());
-        if (usuarioExiste!=null) throw new RuntimeException("Login já existe: "+usuario.getLogin());
-        if (usuario.getNome() ==null || usuario.getNome().isEmpty()) throw new RuntimeException("No name provided.");
-        if (usuario.getPassword() ==null || usuario.getPassword().isEmpty()) throw new RuntimeException("No password provided.");
+        if (usuarioExiste!=null) throw new UsuarioException("Login já existe: "+usuario.getLogin());
+        if (usuario.getNome() ==null || usuario.getNome().isEmpty()) throw new UsuarioException("Nome não preenchido.");
+        if (usuario.getPassword() ==null || usuario.getPassword().isEmpty()) throw new UsuarioException("Password não preenchido.");
         usuario =template.save(usuario);
-        //setUserInSession(user);
+        
         return usuario;
 	}
 
