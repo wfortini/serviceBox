@@ -28,6 +28,9 @@
     <string name="item_menu_cadastro">Cadastro</string>
     <string name="item_menu_outro">Outros</string>
     <string name="escolha_foto_primeiro">Por favor, escolha uma foto em primeiro lugar</string>
+    <string name="upload_opcao_camera">Camera</string>
+    <string name="upload_opcao_galeria">Galeria</string>
+    <string name="titulo_dialog">Upload</string>
     
     <!-- errors -->
     <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>

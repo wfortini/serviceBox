@@ -3,7 +3,6 @@ package br.com.mobilenow.domain;
 import java.util.Date;
 import java.util.Set;
 
-
 public class Usuario {	
 	
 	private Long nodeId;
@@ -18,10 +17,24 @@ public class Usuario {
 	private String apelido;
 	private String fotoPerfil;
 	private Date dataCadastro;	
-	private Set<Usuario> amigos;	
+	private Set<Usuario> amigos;
+	private Set<Servico> servicosPrestados;
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void addServico(Servico servico){
+    	this.servicosPrestados.add(servico);
+    }
+    
+    public boolean isPrestaServico(Servico servico){
+    	return servico != null && getServicosPrestados().contains(servico);
+    }
+    
+
+	public Set<Servico> getServicosPrestados() {
+		return servicosPrestados;
 	}
 	
 	public Long getNodeId() {

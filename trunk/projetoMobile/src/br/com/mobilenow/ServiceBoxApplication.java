@@ -1,6 +1,8 @@
 package br.com.mobilenow;
 
-import android.app.Application;
+
+import org.holoeverywhere.app.Application;
+
 import android.content.Context;
 import br.com.servicebox.common.util.CommonConfigurationUtils;
 import br.com.servicebox.common.util.CommonConfigurationUtils.CommonConfiguration;

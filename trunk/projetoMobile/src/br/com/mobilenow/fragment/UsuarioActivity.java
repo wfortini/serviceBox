@@ -4,28 +4,37 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.nio.charset.Charset;
 import java.util.Date;
-import java.util.Set;
-import java.util.prefs.Preferences;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.widget.Switch;
+import org.holoeverywhere.app.ProgressDialog;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,6 +42,7 @@ import android.widget.RadioGroup;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.domain.Usuario;
+import br.com.servicebox.common.activity.CommonActivity;
 import br.com.servicebox.common.fragment.CommonClosableOnRestoreDialogFragment;
 import br.com.servicebox.common.fragment.CommonFragment;
 import br.com.servicebox.common.image.ImageFileSystemFetcher;
@@ -41,89 +51,30 @@ import br.com.servicebox.common.util.CommonUtils;
 import br.com.servicebox.common.util.FileUtils;
 import br.com.servicebox.common.util.GuiUtils;
 import br.com.servicebox.common.util.ImageUtils;
+import br.com.servicebox.net.Response;
 
-public class UsuarioActivity extends Activity{
+public class UsuarioActivity extends CommonActivity{
 	
 	static final String TAG = UsuarioActivity.class.getSimpleName();
 	private static final int REQUEST_GALLERY = 0;
 	private static final int REQUEST_CAMERA = 1;
 	protected static final int RESULT_CODE = 123;
-	private EditText edLogin;
-	private EditText edNome;
-	private EditText edSobrenome;
-	private EditText edTelefone;
-	private EditText edSenha;
-	private EditText edConfSenha;
-	private String sexo;
-	private RadioGroup rgSexo;
-	private Usuario usuario;
+	
+	
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.usuario_fragment);
-		
-		edLogin = (EditText) findViewById(R.id.login);
-		edNome = (EditText) findViewById(R.id.nome);
-		edSobrenome = (EditText) findViewById(R.id.sobrenome);
-		edTelefone = (EditText) findViewById(R.id.telefone);
-		edSenha = (EditText) findViewById(R.id.senha);
-		edConfSenha = (EditText) findViewById(R.id.confirma);
-		rgSexo = (RadioGroup) findViewById(R.id.sexo);
-		if(rgSexo.getCheckedRadioButtonId() == R.id.masculino){
-			sexo = "M";
-		}else{
-			sexo = "F";
-		}
-		
-		Button btRegistrar = (Button) findViewById(R.id.registrar);
-		btRegistrar.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				if(edLogin.getText() == null || edLogin.getText().toString().equals("")){
-					edLogin.setError("Login inválido.");
-					return;
-				}
-				if(edNome.getText() == null || edNome.getText().toString().equals("")){
-					edNome.setError("Nome inválido");
-					return;
-				}
-				
-				if(edSobrenome.getText() == null || edSobrenome.getText().toString().equals("")){
-					edSobrenome.setError("Sobrenome inválido.");
-				}
-				
-				if(edTelefone.getText() == null || edTelefone.getText().toString().equals("")){
-					edTelefone.setError("Telefone inválido.");
-					return;
-				}
-				if(edSenha.getText() == null || edSenha.getText().toString().equals("")){
-					edSenha.setError("Senha inválida.");
-					return;
-				}
-				if(edSenha.getTextSize() < 7){
-					edSenha.setError("Senha deve ter no minimo 7 caracteres.");
-					return;
-				}
-				
-				if(edConfSenha.getText() == null || edConfSenha.getText().toString().equals("") ||
-						      !edSenha.getText().toString().equals(edConfSenha.getText().toString())){
-					edConfSenha.setError("Confime sua senha");
-					return;
-				}
-				
-				usuario = new Usuario(edLogin.getText().toString(), edSenha.getText().toString(), 
-						           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, null);
-								
-			}
-		});
+		if (savedInstanceState == null)
+        {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new UsuarioUiFragment())
+                    .commit();
+        }		
 		
 	}
 	
-	public static class UploadUiFragment extends CommonFragment
+	public static class UsuarioUiFragment extends CommonFragment
 	implements OnClickListener
 	{
 		static final String UPLOAD_IMAGE_FILE = "UploadActivityFile";
@@ -135,13 +86,17 @@ public class UsuarioActivity extends Activity{
 		private File mUploadImageFileOriginal;
 		private Uri fileUri;
 		
-		Switch uploadOriginalSwitch;
-		Switch privateSwitch;
-		Switch twitterSwitch;
-		Switch facebookSwitch;
+		private EditText edLogin;
+		private EditText edNome;
+		private EditText edSobrenome;
+		private EditText edTelefone;
+		private EditText edSenha;
+		private EditText edConfSenha;
+		private String sexo;
+		private RadioGroup rgSexo;
+		private Usuario usuario;
+		private ProgressDialog progressDialog;
 		
-		EditText tagsText;
-		EditText albumsText;
 		private SelectImageDialogFragment imageSelectionFragment;
 		/**
 		 * This variable controls whether the dialog should be shown in the
@@ -149,12 +104,12 @@ public class UsuarioActivity extends Activity{
 		 */
 		private boolean showSelectionDialogOnResume = false;
 		
-		static WeakReference<UploadUiFragment> currentInstance;
+		static WeakReference<UsuarioUiFragment> currentInstance;
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 		    super.onCreate(savedInstanceState);
-		    currentInstance = new WeakReference<UploadUiFragment>(this);
+		    currentInstance = new WeakReference<UsuarioUiFragment>(this);
 		    if (savedInstanceState != null)
 		    {
 		        mUploadImageFile = CommonUtils.getSerializableFromBundleIfNotNull(
@@ -166,7 +121,7 @@ public class UsuarioActivity extends Activity{
 		        {
 		            fileUri = Uri.parse(fileUriString);
 		        }
-		    }
+		    }		    
 		}
 		
 		@Override
@@ -174,7 +129,7 @@ public class UsuarioActivity extends Activity{
 		    super.onDestroy();
 		    if (currentInstance != null)
 		    {
-		        if (currentInstance.get() == UploadUiFragment.this
+		        if (currentInstance.get() == UsuarioUiFragment.this
 		                || currentInstance.get() == null)
 		        {
 		            CommonUtils.debug(TAG, "Nullify current instance");
@@ -216,8 +171,7 @@ public class UsuarioActivity extends Activity{
 		public void onSaveInstanceState(Bundle outState) {
 		    super.onSaveInstanceState(outState);
 		    outState.putSerializable(UPLOAD_IMAGE_FILE, mUploadImageFile);
-		    outState.putSerializable(UPLOAD_IMAGE_FILE_ORIGINAL, mUploadImageFileOriginal);
-		    outState.putParcelable(SELECTED_ALBUMS, (Parcelable) albumsText.getTag());
+		    outState.putSerializable(UPLOAD_IMAGE_FILE_ORIGINAL, mUploadImageFileOriginal);		   
 		    if (fileUri != null)
 		    {
 		        outState.putString(UPLOAD_IMAGE_FILE_URI, fileUri.toString());
@@ -226,9 +180,22 @@ public class UsuarioActivity extends Activity{
 		
 		void init(View v, Bundle savedInstanceState)
 		{
-		    final Button buttonUpload = (Button) v.findViewById(R.id.button_cadastro);
-		    buttonUpload.setOnClickListener(this);
-		    buttonUpload.setEnabled(false);		    
+
+		    edLogin = (EditText) getView().findViewById(R.id.login);
+			edNome = (EditText) getView().findViewById(R.id.nome);
+			edSobrenome = (EditText) getView().findViewById(R.id.sobrenome);
+			edTelefone = (EditText) getView().findViewById(R.id.telefone);
+			edSenha = (EditText) getView().findViewById(R.id.senha);
+			edConfSenha = (EditText) getView().findViewById(R.id.confirma);
+			rgSexo = (RadioGroup) getView().findViewById(R.id.sexo);
+			if(rgSexo.getCheckedRadioButtonId() == R.id.masculino){
+				sexo = "M";
+			}else{
+				sexo = "F";
+			}
+			
+			Button btRegistrar = (Button) getView().findViewById(R.id.registrar);
+			btRegistrar.setOnClickListener(this);		    
 		    v.findViewById(R.id.image_upload).setOnClickListener(this);		    
 		
 		    Intent intent = getActivity().getIntent();
@@ -237,6 +204,7 @@ public class UsuarioActivity extends Activity{
 		    {
 		       
 		    }
+		    /**
 		    if (mUploadImageFile != null)
 		    {
 		        showOptions = !setSelectedImageFile();
@@ -244,7 +212,8 @@ public class UsuarioActivity extends Activity{
 		    if (showOptions)
 		    {
 		        showSelectionDialog();
-		    }		   
+		    }	
+		    **/	   
 		    
 		}		
 		
@@ -458,10 +427,46 @@ public class UsuarioActivity extends Activity{
 		public void onClick(View v) {
 		    switch (v.getId()) {		        
 		        
-		        case R.id.button_cadastro:
+		        case R.id.registrar:
 		            //TrackerUtils.trackButtonClickEvent("button_upload", getActivity());
+			        	if(edLogin.getText() == null || edLogin.getText().toString().equals("")){
+							edLogin.setError("Login inválido.");
+							return;
+						}
+						if(edNome.getText() == null || edNome.getText().toString().equals("")){
+							edNome.setError("Nome inválido");
+							return;
+						}
+						
+						if(edSobrenome.getText() == null || edSobrenome.getText().toString().equals("")){
+							edSobrenome.setError("Sobrenome inválido.");
+						}
+						
+						if(edTelefone.getText() == null || edTelefone.getText().toString().equals("")){
+							edTelefone.setError("Telefone inválido.");
+							return;
+						}
+						if(edSenha.getText() == null || edSenha.getText().toString().equals("")){
+							edSenha.setError("Senha inválida.");
+							return;
+						}
+						if(edSenha.getTextSize() < 7){
+							edSenha.setError("Senha deve ter no minimo 7 caracteres.");
+							return;
+						}
+						
+						if(edConfSenha.getText() == null || edConfSenha.getText().toString().equals("") ||
+								      !edSenha.getText().toString().equals(edConfSenha.getText().toString())){
+							edConfSenha.setError("Confime sua senha");
+							return;
+						}
+						
+						usuario = new Usuario(edLogin.getText().toString(), edSenha.getText().toString(), 
+								           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, null);
+										
+				 
 		            if (mUploadImageFile != null) {
-		                startUpload(mUploadImageFile, mUploadImageFileOriginal);
+		            	new RequisicaoTask().execute();		                
 		            } else
 		            {
 		                GuiUtils.alert(R.string.escolha_foto_primeiro);
@@ -482,29 +487,8 @@ public class UsuarioActivity extends Activity{
 		            }
 		            break;
 		    }
-		}	
+		}		
 		
-		
-		/**
-		 * @param uploadFile
-		 * @param originalUploadFile the original upload file. Necessary only in
-		 *            case image was edited in editor
-		 */
-		private void startUpload(File uploadFile, File originalUploadFile) {
-		    
-			
-		}
-		
-		/**
-		 * Get the standard upload meta data
-		 * 
-		 * @param isPrivate whether upload should be private
-		 * @return
-		 */
-		public Usuario getUsuario()
-		{
-		    return null;
-		}
 				
 		@Override
 		public void onDestroyView() {
@@ -550,13 +534,13 @@ public class UsuarioActivity extends Activity{
 		    @Override
 		    public Dialog onCreateDialog(Bundle savedInstanceState) {
 		        final CharSequence[] items = {
-		                getString(R.string.upload_camera_option),
-		                getString(R.string.upload_gallery_option)
+		                getString(R.string.upload_opcao_camera),
+		                getString(R.string.upload_opcao_galeria)
 		        };
 		
 		        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
-		                R.style.Theme_Trovebox_Dialog_Light);
-		        builder.setTitle(R.string.upload_title);
+		                R.style.Theme_ServiceBox_Dialog_Light);
+		        builder.setTitle(R.string.titulo_dialog);
 		        builder.setItems(items, new DialogInterface.OnClickListener() {
 		            @Override
 		            public void onClick(DialogInterface dialog, int item) {
@@ -566,13 +550,13 @@ public class UsuarioActivity extends Activity{
 		                }
 		                switch (item) {
 		                    case 0:
-		                        TrackerUtils.trackContextMenuClickEvent("menu_camera",
-		                                SelectImageDialogFragment.this);
+		                        //TrackerUtils.trackContextMenuClickEvent("menu_camera",
+		                        //        SelectImageDialogFragment.this);
 		                        handler.cameraOptionSelected();
 		                        return;
 		                    case 1:
-		                        TrackerUtils.trackContextMenuClickEvent("menu_gallery",
-		                                SelectImageDialogFragment.this);
+		                       // TrackerUtils.trackContextMenuClickEvent("menu_gallery",
+		                       //         SelectImageDialogFragment.this);
 		                        handler.galleryOptionSelected();
 		                        return;
 		                }
@@ -581,7 +565,82 @@ public class UsuarioActivity extends Activity{
 		        return builder.create();
 		    }
 		}
+		
+		
+		private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
+			
+			@Override
+	        protected void onPreExecute() {
+				super.onPreExecute();
+				progressDialog = new ProgressDialog(getActivity());
+				progressDialog.setTitle("Aguarde");
+				progressDialog.setMessage("Registrando...");
+				progressDialog.setCancelable(false);
+				progressDialog.show();
+			}
+
+			@Override
+			protected Response doInBackground(Void... params) {
+				
+				  FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+	              formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
+
+				
+				try {
+					final String url = "http://192.168.0.133:8080/projetoWeb/registrarUsuario.json";
+					
+					RestTemplate restTemplate = new RestTemplate();
+					restTemplate.getMessageConverters().add( formHttpMessageConverter );
+					restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+					
+					 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+                     
+					 map.add("login", usuario.getLogin());
+					 map.add("nome", usuario.getNome());
+					 map.add("sobrenome", usuario.getSobreNome());
+					 map.add("senha", usuario.getPassword());
+					 map.add("sexo", usuario.getSexo());
+					 map.add("imagemPerfil", mUploadImageFile.getName());
+					 
+		             map.add("file", new FileSystemResource(mUploadImageFile));
+		             
+		             HttpHeaders imageHeaders = new HttpHeaders();
+		             imageHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+		             HttpEntity<MultiValueMap<String, Object>> imageEntity = new HttpEntity<MultiValueMap<String, Object>>(map, imageHeaders);
+
+	                //restTemplate.exchange(url, HttpMethod.POST, imageEntity, Usuario.class);
+					Response response = restTemplate.postForObject(url, imageEntity, Response.class);
+					
+					return 	response;
+				}catch(ResourceAccessException rae){
+					CommonUtils.error(TAG, rae.getMessage());
+					return new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null);
+				} catch (Exception e) {
+					Log.e("UsuarioActivity", e.getMessage());
+					return new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null);
+				}
+				
+				
+			}
+			
+			@Override
+			protected void onCancelled() {
+				super.onCancelled();
+			}
+			
+			@Override
+			protected void onPostExecute(Response result) {				
+				super.onPostExecute(result);
+				progressDialog.dismiss();
+			}
+			
 		}
+
+		
+		
+	}
 			
 			
 			
