@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.util.Date;
 
+import org.apache.http.client.protocol.RequestTargetAuthentication;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
@@ -41,17 +42,18 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
-import br.com.mobilenow.domain.Usuario;
+import br.com.mobilenow.util.ServiceBoxUtil;
 import br.com.servicebox.common.activity.CommonActivity;
+import br.com.servicebox.common.domain.Usuario;
 import br.com.servicebox.common.fragment.CommonClosableOnRestoreDialogFragment;
 import br.com.servicebox.common.fragment.CommonFragment;
 import br.com.servicebox.common.image.ImageFileSystemFetcher;
 import br.com.servicebox.common.image.ImageResizer;
+import br.com.servicebox.common.net.Response;
 import br.com.servicebox.common.util.CommonUtils;
 import br.com.servicebox.common.util.FileUtils;
 import br.com.servicebox.common.util.GuiUtils;
 import br.com.servicebox.common.util.ImageUtils;
-import br.com.servicebox.net.Response;
 
 public class UsuarioActivity extends CommonActivity{
 	
@@ -466,7 +468,9 @@ public class UsuarioActivity extends CommonActivity{
 										
 				 
 		            if (mUploadImageFile != null) {
-		            	new RequisicaoTask().execute();		                
+		            	
+		            	new RequisicaoTask().execute();
+		            	            
 		            } else
 		            {
 		                GuiUtils.alert(R.string.escolha_foto_primeiro);
@@ -487,7 +491,9 @@ public class UsuarioActivity extends CommonActivity{
 		            }
 		            break;
 		    }
-		}		
+		}
+		
+		
 		
 				
 		@Override
@@ -566,15 +572,17 @@ public class UsuarioActivity extends CommonActivity{
 		    }
 		}
 		
-		
-		private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
+	/** processamento assincrono **/	
+	private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
+			
+			Response response = null;
 			
 			@Override
 	        protected void onPreExecute() {
 				super.onPreExecute();
 				progressDialog = new ProgressDialog(getActivity());
-				progressDialog.setTitle("Aguarde");
-				progressDialog.setMessage("Registrando...");
+				progressDialog.setTitle(R.string.aguarde_por_favor);
+				progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
 				progressDialog.setCancelable(false);
 				progressDialog.show();
 			}
@@ -611,19 +619,44 @@ public class UsuarioActivity extends CommonActivity{
 		             HttpEntity<MultiValueMap<String, Object>> imageEntity = new HttpEntity<MultiValueMap<String, Object>>(map, imageHeaders);
 
 	                //restTemplate.exchange(url, HttpMethod.POST, imageEntity, Usuario.class);
-					Response response = restTemplate.postForObject(url, imageEntity, Response.class);
+		             Response response = null;
+		             if (GuiUtils.checkOnline()){
+					         response = restTemplate.postForObject(url, imageEntity, Response.class);
+		             }
+		             
+		             return response;
 					
-					return 	response;
 				}catch(ResourceAccessException rae){
 					CommonUtils.error(TAG, rae.getMessage());
-					return new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null);
+					response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
 				} catch (Exception e) {
 					Log.e("UsuarioActivity", e.getMessage());
-					return new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null);
+					response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
 				}
 				
-				
+				return response;
 			}
+			
+			public void retornoRegistro(Response response){							
+					
+					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
+						GuiUtils.alert(response.getMessage());
+						getActivity().finish();
+					}else if(Response.LOGIN_DUPLICADO == response.getCode()){
+						edLogin.setError(response.getMessage());
+						GuiUtils.alert(response.getMessage());
+					}else if (Response.ERRO_NOME_INVALIDO == response.getCode()){
+						edNome.setError(response.getMessage());
+						GuiUtils.alert(response.getMessage());
+					}else if(Response.ERRO_PASSWORD_INVALIDO == response.getCode()){
+						edSenha.setError(response.getMessage());
+						GuiUtils.alert(response.getMessage());
+					}else{
+						GuiUtils.alert(response.getMessage());
+					}			
+			}
+			
+			
 			
 			@Override
 			protected void onCancelled() {
@@ -634,6 +667,7 @@ public class UsuarioActivity extends CommonActivity{
 			protected void onPostExecute(Response result) {				
 				super.onPostExecute(result);
 				progressDialog.dismiss();
+				this.retornoRegistro(result);
 			}
 			
 		}
