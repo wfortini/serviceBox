@@ -6,7 +6,7 @@ import org.springframework.data.neo4j.repository.RelationshipOperationsRepositor
 import br.com.webnow.domain.Usuario;
 
 public interface UsuarioRepository extends GraphRepository<Usuario>, RelationshipOperationsRepository<Usuario>,
-                                           PortalUserDetailsService{
+                                           ServiceBoxUserDetailsService{
 
 	Usuario findByLogin(String login);
 }
