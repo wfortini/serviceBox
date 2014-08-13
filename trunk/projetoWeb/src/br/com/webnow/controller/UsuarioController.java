@@ -1,7 +1,5 @@
 package br.com.webnow.controller;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import br.com.servicebox.net.Response;
-import br.com.webnow.domain.Usuario;
-import br.com.webnow.exception.UsuarioException;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
-import br.com.webnow.util.FileUtil;
 
 
 @Controller
@@ -84,34 +76,6 @@ public class UsuarioController {
 	            return "/home";
 	        }
 	    }
-	    @RequestMapping(value = "/registrarUsuario", method = RequestMethod.POST)
-	    public @ResponseBody Response registrarUsuario(
-	            @RequestParam(value = "file") MultipartFile foto,
-	            @RequestParam(value = "login") String login, 
-	            @RequestParam(value = "nome") String nome, 
-	            @RequestParam(value = "sobrenome") String sobrenome, 
-	            @RequestParam(value = "senha") String senha, 
-	            @RequestParam(value = "sexo") String sexo, 
-	            @RequestParam(value = "imagemPerfil") String imagemPerfil) 
 	    
-	    {
-	    	
-	    	try {
-	    		if(foto.getSize() <= 0) throw new UsuarioException("Imagem inválida");
-	    		
-		    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,null);
-		    	usuario.setDataCadastro(new Date());
-		    	          // não estou tratando se o arquivo da foto já exite
-		    	usuario = FileUtil.salvarArquivoLocal(usuario, foto);    	
-		    	
-		    	usuario = usuarioRepository.registrar(usuario);		    	
-		    	return new Response(true, "Usuário cadastrado com sucesso.", usuario.getNodeId());
-	    	}catch(UsuarioException ux){
-	    		return new Response(false, ux.getMessage(), null);
-			} catch (Exception e) {
-				logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
-				return new Response(false, "Falha no cadastro do usuário", null);
-			}
-	    }
 	   
 }

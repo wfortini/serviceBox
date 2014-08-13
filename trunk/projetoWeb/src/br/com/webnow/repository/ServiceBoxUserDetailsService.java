@@ -4,12 +4,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.webnow.domain.Usuario;
 
-public interface PortalUserDetailsService {
+public interface ServiceBoxUserDetailsService {
 	
 	//TODO: deve extender de extends UserDetailsService
 	
 	
-	Usuario getUserFromSession();
+	Usuario getUserFromSession();	
 
     @Transactional
     Usuario registrar(Usuario usuario);
