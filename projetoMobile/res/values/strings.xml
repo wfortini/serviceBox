@@ -30,11 +30,15 @@
     <string name="escolha_foto_primeiro">Por favor, escolha uma foto em primeiro lugar</string>
     <string name="upload_opcao_camera">Camera</string>
     <string name="upload_opcao_galeria">Galeria</string>
-    <string name="titulo_dialog">Upload</string>
+    <string name="titulo_dialog">Obter imagem de:</string>
+    <string name="aguarde_por_favor">"Aguarde por favor"</string>
+    <string name="processando">"Processando..."</string>
     
     <!-- errors -->
     <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>
     <string name="errorCanNotFindExternalStorageForTakingPicture">Não é possível encontrar de armazenamento externo para tirar uma foto</string>
+    <string name="erroNaoConhecido">Não foi possivél identificar o erro ocorrido</string>
+    <string name="errorCouldNotLogin">Could not login</string>
     
     <string name="title_activity_activity_acesso">ActivityAcesso</string>
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
@@ -51,6 +55,7 @@
     <string name="account_forgot_password_button">Esqueceu seu password?</string>
     <string name="password_recovery_instructions">Digite seu e-mail para recuperar sua senha</string>
     <string name="account_own_server_button">Using your own domain?</string>
+    <string name="logging_in_message">Please wait. Logging you in…</string>
     
     <string name="campo_email">email</string>
     <string name="campo_password">password</string>
