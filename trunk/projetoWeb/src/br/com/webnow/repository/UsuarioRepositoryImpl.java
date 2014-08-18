@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.servicebox.net.Response;
+import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
 

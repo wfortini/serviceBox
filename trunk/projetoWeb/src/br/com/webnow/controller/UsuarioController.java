@@ -1,5 +1,7 @@
 package br.com.webnow.controller;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.webnow.domain.Carona;
+import br.com.webnow.domain.Estacionamento;
+import br.com.webnow.domain.Reboque;
+import br.com.webnow.domain.Servico;
+import br.com.webnow.domain.TipoServico;
+import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 
@@ -41,11 +49,17 @@ public class UsuarioController {
 	            @RequestParam(value = "radioSexo") String sexo,
 	            Model model) {
 
-	        try {/**
-	        	Usuario usuario = new Usuario(login, password, nome, sobreNome, sexo, apelido);
-	        	usuario = usuarioRepository.registrar(usuario);
+	        try {
+	        	//Usuario usuario = new Usuario(login, password, nome, sobreNome, sexo, apelido);
+	        	//usuario = usuarioRepository.registrar(usuario);
 	        	Usuario u = usuarioRepository.findByLogin("wellington");
 	        	System.out.println(u);
+	        	
+	        	for(Servico s : u.getServicosPrestados()){
+					
+					System.out.println("=================" + s);
+					
+				}
 	        	
 	        	
 	        	Carona c = new Carona();
@@ -53,7 +67,8 @@ public class UsuarioController {
 	        	c.setServicoDisponivel(true);
 	        	c.setTipoServico(TipoServico.CARONA.getCodigo());
 	        	
-	        	servicoRepository.save(c);
+	        	c = servicoRepository.save(c);
+	        	u.addServico(c);
 	        	
 	        	Reboque r = new Reboque();
 	        	r.setDataInicialPrestacao(new Date());
@@ -61,12 +76,13 @@ public class UsuarioController {
 	        	r.setTipoServico(TipoServico.REBOQUE.getCodigo());
 	        	
 	        	servicoRepository.save(r);
-	        	
+	        	u.addServico(r);
 	        	Estacionamento e = new Estacionamento();
 	        	e.setDataInicialPrestacao(new Date());
 	        	e.setServicoDisponivel(true);
 	        	e.setTipoServico(TipoServico.CARONA.getCodigo());
-	        	**/        	
+	        	u.addServico(e);
+	        	usuarioRepository.save(u);
 	        	
 	        	return  "/home";
 	        } catch(Exception e) {
