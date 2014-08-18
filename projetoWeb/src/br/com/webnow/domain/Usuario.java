@@ -9,6 +9,7 @@ import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 import static org.neo4j.graphdb.Direction.INCOMING;
 
@@ -20,13 +21,14 @@ public class Usuario implements Serializable{
 	@GraphId
 	private Long nodeId;
 	
-	@Indexed
+	@Indexed(unique = true)
 	private String login;
 	
 	private String password;
 	
-	@Indexed
+	@Indexed(indexName = "idx_usuario_nome", indexType = IndexType.FULLTEXT)
 	private String nome;
+	
 	private String sobreNome;
 	private String sexo;
 	private String apelido;

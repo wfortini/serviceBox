@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.net.LoginResponse;
-import br.com.servicebox.net.Response;
+import br.com.servicebox.common.net.Response;
+import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
+import br.com.webnow.net.LoginResponse;
 import br.com.webnow.repository.AutorizarRepository;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
@@ -36,24 +38,84 @@ public class AutorizarController {
 	 @Autowired
 	 private AutorizarRepository autenticarRepository;
 	 
+	 @RequestMapping(value = "/teste", method = RequestMethod.POST)
+	 public String profile(Model model) {
+		 
+		 String login = "wellington";
+		 String pwd = "12345";
+		 LoginResponse loginResponse = new LoginResponse();
+		 try {
+			Usuario usuario = autenticarRepository.autenticar(login, pwd);
+			
+			for(Servico s : usuario.getServicosPrestados()){
+				
+				System.out.println("=================" + s);
+				
+			}
+			
+			if (usuario != null && usuario.getNodeId() != null){						
+				loginResponse.setUsuario(usuario);
+				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
+				loginResponse.setCode(Response.SUCESSO);
+				loginResponse.setMessage("Usuário autorizado");
+				loginResponse.setSucesso(true);
+				return "/home";
+			}else{
+				
+				loginResponse.setUsuario(new Usuario());
+				loginResponse.setCode(Response.USUARIO_NAO_AUTORIZADO);
+				loginResponse.setMessage("Usuário não autorizado.");
+				loginResponse.setSucesso(false);
+				return "/home";
+			}
+		} catch (Exception e) {
+			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
+			loginResponse = new LoginResponse();
+			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
+			loginResponse.setMessage("Erro ao autenticar o usuário");
+			loginResponse.setUsuario(new Usuario());
+			loginResponse.setSucesso(false);
+			return "/home";
+			
+		}
+	       
+	 }
+	 
 	 @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
 	 public @ResponseBody LoginResponse autenticar(
 			 @RequestParam(value = "login") String login,
 	         @RequestParam(value = "pwd") String pwd){
 		 
-		 LoginResponse loginResponse = null;
+		 login = "wellington";
+		 pwd = "12345";
+		 LoginResponse loginResponse = new LoginResponse();
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);
 			
-			if (usuario != null && usuario.getNodeId() != null){
-						
-				loginResponse.setUsuario(usuarioResponse);
+			if (usuario != null && usuario.getNodeId() != null){						
+				loginResponse.setUsuario(usuario);
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
 				loginResponse.setCode(Response.SUCESSO);
 				loginResponse.setMessage("Usuário autorizado");
+				loginResponse.setSucesso(true);
+				return loginResponse;
+			}else{
+				
+				loginResponse.setUsuario(new Usuario());
+				loginResponse.setCode(Response.USUARIO_NAO_AUTORIZADO);
+				loginResponse.setMessage("Usuário não autorizado.");
+				loginResponse.setSucesso(false);
+				return loginResponse;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
+			loginResponse = new LoginResponse();
+			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
+			loginResponse.setMessage("Erro ao autenticar o usuário");
+			loginResponse.setUsuario(new Usuario());
+			loginResponse.setSucesso(false);
+			return loginResponse;
+			
 		}
 		 
 	 }
