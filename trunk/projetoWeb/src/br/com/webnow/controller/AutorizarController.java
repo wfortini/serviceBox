@@ -21,7 +21,7 @@ import br.com.webnow.exception.UsuarioException;
 import br.com.webnow.net.LoginResponse;
 import br.com.webnow.repository.AutorizarRepository;
 import br.com.webnow.repository.UsuarioRepository;
-import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.servico.repository.ServicoRepository;
 import br.com.webnow.util.FileUtil;
 
 @Controller
