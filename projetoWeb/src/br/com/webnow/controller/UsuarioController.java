@@ -18,7 +18,7 @@ import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
-import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.servico.repository.ServicoRepository;
 
 
 @Controller
