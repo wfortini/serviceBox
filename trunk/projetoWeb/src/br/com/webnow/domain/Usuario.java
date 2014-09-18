@@ -1,17 +1,24 @@
 package br.com.webnow.domain;
 
+import static org.neo4j.graphdb.Direction.INCOMING;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.neo4j.helpers.collection.IteratorUtil;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.RelatedToVia;
 import org.springframework.data.neo4j.support.index.IndexType;
+import org.springframework.data.neo4j.template.Neo4jOperations;
 
-import static org.neo4j.graphdb.Direction.INCOMING;
+import br.com.servicebox.common.domain.Localizacao;
 
 @NodeEntity
 public class Usuario implements Serializable{
@@ -38,23 +45,41 @@ public class Usuario implements Serializable{
 	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
 	private Set<Usuario> amigos;
 	
-	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)
-	private Set<Servico> servicosPrestados;
+	@RelatedTo(type = "SERVICO_DISPONIVEL", direction = INCOMING)
+	@Fetch
+	private Set<Servico> servicosDisponiveis;
+	
+	@RelatedToVia(type = "PRESTA_SERVICO")	
+	private Iterable<PrestarServico> prestarServicos;
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
 	}
 
-    public void addServico(Servico servico){
-    	this.servicosPrestados.add(servico);
+    public boolean addServico(Servico servico){
+    	return this.servicosDisponiveis.add(servico);
     }
     
     public boolean isPrestaServico(Servico servico){
-    	return servico != null && getServicosPrestados().contains(servico);
+    	return servico != null && getServicosDisponiveis().contains(servico);
     }
     
-	public void addAmigos(Usuario amigo) {
-		this.amigos.add(amigo);
+    public PrestarServico iniciarPrestacao(Neo4jOperations template, Servico servico, Localizacao inicio, Localizacao destino) {
+        PrestarServico prestar = template.createRelationshipBetween(this, servico, PrestarServico.class, "PRESTA_SERVICO", false);
+        prestar.setAtiva(true);
+        prestar.setData(new Date());
+        prestar.setLocalizacaoFinal(destino);
+        prestar.setLocalizacaoInicial(inicio);
+        return template.save(prestar);
+    }
+
+    public Collection<PrestarServico> getPrestarServicos() {
+        return IteratorUtil.asCollection(this.prestarServicos);
+    }
+
+    
+	public boolean addAmigos(Usuario amigo) {
+		return this.amigos.add(amigo);
 	}
 	
 	public boolean isAmigo(Usuario other) {
@@ -135,8 +160,8 @@ public class Usuario implements Serializable{
 	}
 	
 	
-	public Set<Servico> getServicosPrestados() {
-		return servicosPrestados;
+	public Set<Servico> getServicosDisponiveis() {
+		return servicosDisponiveis;
 	}
 
 	@Override

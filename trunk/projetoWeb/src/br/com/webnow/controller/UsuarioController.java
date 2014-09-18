@@ -18,7 +18,8 @@ import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
-import br.com.webnow.servico.repository.ServicoRepository;
+import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.service.prestarservico.PrestarServicoService;
 
 
 @Controller
@@ -31,6 +32,9 @@ public class UsuarioController {
 	 
 	 @Autowired
 	 private ServicoRepository servicoRepository;
+	 
+	 @Autowired
+	 private PrestarServicoService prestarServicoService;
 
 	    @RequestMapping(value = "/usuario", method = RequestMethod.GET)
 	    public String profile(Model model) {
@@ -55,7 +59,7 @@ public class UsuarioController {
 	        	Usuario u = usuarioRepository.findByLogin("wellington");
 	        	System.out.println(u);
 	        	
-	        	for(Servico s : u.getServicosPrestados()){
+	        	for(Servico s : u.getServicosDisponiveis()){
 					
 					System.out.println("=================" + s);
 					
@@ -68,7 +72,7 @@ public class UsuarioController {
 	        	c.setTipoServico(TipoServico.CARONA.getCodigo());
 	        	
 	        	c = servicoRepository.save(c);
-	        	u.addServico(c);
+	        	
 	        	
 	        	Reboque r = new Reboque();
 	        	r.setDataInicialPrestacao(new Date());
@@ -76,16 +80,31 @@ public class UsuarioController {
 	        	r.setTipoServico(TipoServico.REBOQUE.getCodigo());
 	        	
 	        	servicoRepository.save(r);
-	        	u.addServico(r);
+	        	
 	        	Estacionamento e = new Estacionamento();
 	        	e.setDataInicialPrestacao(new Date());
 	        	e.setServicoDisponivel(true);
-	        	e.setTipoServico(TipoServico.CARONA.getCodigo());
-	        	u.addServico(e);
-	        	usuarioRepository.save(u);
+	        	e.setTipoServico(TipoServico.ESTACIONAMENTO.getCodigo());
+	        	servicoRepository.save(e);
+	        	
+	        	Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
+	        	Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
+	        	Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
+	        	
+	        	prestarServicoService.addServico(u, servicoc);
+	        	prestarServicoService.addServico(u, servicor);
+	        	prestarServicoService.addServico(u, servicoe);
+	        	
+                for(Servico s : u.getServicosDisponiveis()){
+					
+					System.out.println("=================" + s);
+					
+				}
+	        	
 	        	
 	        	return  "/home";
 	        } catch(Exception e) {
+	        	e.printStackTrace();
 	            model.addAttribute("login",login);
 	            model.addAttribute("nome",nome);
 	            model.addAttribute("error",e.getMessage());
