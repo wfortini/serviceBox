@@ -9,6 +9,7 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
 
 import br.com.servicebox.common.domain.TipoServico;
 
+
 @NodeEntity
 public abstract class Servico implements Serializable{
 	

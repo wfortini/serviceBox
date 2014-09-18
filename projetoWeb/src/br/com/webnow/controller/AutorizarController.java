@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.servicebox.common.domain.Credenciais;
 import br.com.servicebox.common.net.Response;
+import br.com.webnow.domain.Credenciais;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
 import br.com.webnow.net.LoginResponse;
 import br.com.webnow.repository.AutorizarRepository;
 import br.com.webnow.repository.UsuarioRepository;
-import br.com.webnow.servico.repository.ServicoRepository;
+import br.com.webnow.repository.servico.ServicoRepository;
 import br.com.webnow.util.FileUtil;
 
 @Controller
@@ -47,14 +47,14 @@ public class AutorizarController {
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);
 			
-			for(Servico s : usuario.getServicosPrestados()){
+			for(Servico s : usuario.getServicosDisponiveis()){
 				
 				System.out.println("=================" + s);
 				
 			}
 			
 			if (usuario != null && usuario.getNodeId() != null){						
-				loginResponse.setUsuario(usuario);
+				
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
 				loginResponse.setCode(Response.SUCESSO);
 				loginResponse.setMessage("Usuário autorizado");
@@ -62,7 +62,7 @@ public class AutorizarController {
 				return "/home";
 			}else{
 				
-				loginResponse.setUsuario(new Usuario());
+				
 				loginResponse.setCode(Response.USUARIO_NAO_AUTORIZADO);
 				loginResponse.setMessage("Usuário não autorizado.");
 				loginResponse.setSucesso(false);
@@ -72,8 +72,7 @@ public class AutorizarController {
 			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
 			loginResponse = new LoginResponse();
 			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
-			loginResponse.setMessage("Erro ao autenticar o usuário");
-			loginResponse.setUsuario(new Usuario());
+			loginResponse.setMessage("Erro ao autenticar o usuário");			
 			loginResponse.setSucesso(false);
 			return "/home";
 			
@@ -85,23 +84,21 @@ public class AutorizarController {
 	 public @ResponseBody LoginResponse autenticar(
 			 @RequestParam(value = "login") String login,
 	         @RequestParam(value = "pwd") String pwd){
-		 
-		 login = "wellington";
-		 pwd = "12345";
+		
 		 LoginResponse loginResponse = new LoginResponse();
 		 try {
-			Usuario usuario = autenticarRepository.autenticar(login, pwd);
+			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
 			
 			if (usuario != null && usuario.getNodeId() != null){						
-				loginResponse.setUsuario(usuario);
+				
+				loginResponse = new LoginResponse(usuario);
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
 				loginResponse.setCode(Response.SUCESSO);
-				loginResponse.setMessage("Usuário autorizado");
+				loginResponse.setMessage("Usuário autorizado");				
 				loginResponse.setSucesso(true);
 				return loginResponse;
-			}else{
+			}else{				
 				
-				loginResponse.setUsuario(new Usuario());
 				loginResponse.setCode(Response.USUARIO_NAO_AUTORIZADO);
 				loginResponse.setMessage("Usuário não autorizado.");
 				loginResponse.setSucesso(false);
@@ -111,8 +108,7 @@ public class AutorizarController {
 			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
 			loginResponse = new LoginResponse();
 			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
-			loginResponse.setMessage("Erro ao autenticar o usuário");
-			loginResponse.setUsuario(new Usuario());
+			loginResponse.setMessage("Erro ao autenticar o usuário");			
 			loginResponse.setSucesso(false);
 			return loginResponse;
 			

@@ -1,4 +1,4 @@
-package br.com.webnow.servico.repository;
+package br.com.webnow.repository.servico;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.neo4j.repository.NamedIndexRepository;
