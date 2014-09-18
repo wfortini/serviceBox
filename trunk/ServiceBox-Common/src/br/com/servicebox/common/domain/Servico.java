@@ -3,7 +3,22 @@ package br.com.servicebox.common.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonSubTypes.Type;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
+
+
+@JsonTypeInfo(  
+	    use = JsonTypeInfo.Id.NAME,  
+	    include = JsonTypeInfo.As.PROPERTY,  
+	    property = "type")  
+	@JsonSubTypes({  
+	    @Type(value = br.com.servicebox.common.domain.Carona.class, name = "carona"),  
+	    @Type(value = br.com.servicebox.common.domain.Reboque.class, name = "reboque"), 
+	    @Type(value = br.com.servicebox.common.domain.Estacionamento.class, name = "estacionamento") 
+	    
+	}) 
 public abstract class Servico implements Serializable{
 	
 	private static final long serialVersionUID = 7403125160671707264L;

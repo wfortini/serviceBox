@@ -2,8 +2,14 @@ package br.com.servicebox.common.domain;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Classe Usuario Modulo Commons
+ * @author wpn0510
+ *
+ */
 public class Usuario {	
 	
 	private Long nodeId;
@@ -25,12 +31,24 @@ public class Usuario {
 		// TODO Auto-generated constructor stub
 	}	
 	
-	public void addServico(Servico servico){
-    	this.servicosPrestados.add(servico);
+	public boolean addServico(Servico servico){
+		if(this.servicosPrestados != null){
+			return this.servicosPrestados.add(servico);
+		}else{
+			this.servicosPrestados = new HashSet<Servico>();
+			return this.servicosPrestados.add(servico);	
+		}
+    	
     }
 	
-	public void addAllServico(Collection<? extends Servico> servicos){
-    	this.servicosPrestados.addAll(servicos);
+	public boolean addAllServico(Collection<? extends Servico> servicos){
+    	
+    	if(this.servicosPrestados != null){
+    		return this.servicosPrestados.addAll(servicos);
+		}else{
+			this.servicosPrestados = new HashSet<Servico>();
+			return this.servicosPrestados.addAll(servicos);
+		}
     }
     
     public boolean isPrestaServico(Servico servico){
