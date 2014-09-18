@@ -9,6 +9,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
+    <style name="SimNaoSwitch" parent="Holo.Switch.Light">
+        <item name="textOn">@string/sim</item>
+        <item name="textOff">@string/nao</item>
+    </style>
+    
     
     <style name="Theme.ServiceBox.Light_Base" parent="Holo.Theme.Light.DarkActionBar">
         <!-- item name="android:windowBackground">@drawable/wnd_bg_trovebox</item -->

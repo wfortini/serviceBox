@@ -4,6 +4,8 @@
     <string name="naoInternetAcesso">Conexão com a Internet não está disponível</string>
     <string name="favorEspecifiquePrimeiro"> Por favor, especifique %1$s primeiro!</string>
     <string name="favorEntrer">Por favor, entre %1$s.</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
     
     
     <!-- Erros -->
