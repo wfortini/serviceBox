@@ -34,4 +34,12 @@ public class PrestarServicoService {
 		return usuario.addServico(servico);
 		
 	}
+	
+	@Transactional
+	public boolean removeServico(Usuario usuario, Integer idServico){
+		
+		Servico servico = servicoRepository.findByPropertyValue("tipoServico", "idServico", idServico);
+		return usuario.removeServico(servico);
+		
+	}
 }

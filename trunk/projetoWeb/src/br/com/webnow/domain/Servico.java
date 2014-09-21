@@ -69,14 +69,14 @@ public abstract class Servico implements Serializable{
         if (o == null || getClass() != o.getClass()) return false;
 
         Servico person = (Servico) o;
-        if (nodeId == null) return super.equals(o);
-        return nodeId.equals(person.nodeId);
+        if (tipoServico == null) return super.equals(o);
+        return tipoServico.equals(person.tipoServico);
 
     }
 	
 	@Override
     public int hashCode() {
-        return nodeId != null ? nodeId.hashCode() : super.hashCode();
+        return tipoServico != null ? tipoServico.hashCode() : super.hashCode();
     }
 	
 	@Override
