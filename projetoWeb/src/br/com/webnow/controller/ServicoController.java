@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.servicebox.common.net.Response;
-import br.com.webnow.exception.UsuarioException;
+import br.com.servicebox.common.net.ServicoResponse;
+import br.com.webnow.domain.Servico;
+import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.service.prestarservico.PrestarServicoService;
 
 @Controller
 public class ServicoController {
@@ -24,25 +27,50 @@ public class ServicoController {
 	 
 	 @Autowired
 	 private ServicoRepository servicoRepository;
+	 
+	 @Autowired
+	 private PrestarServicoService prestarServicoService;
 	
 	
-	@RequestMapping(value = "/prestarServico", method = RequestMethod.POST)
-    public @ResponseBody Response prestarServico(            
+	@RequestMapping(value = "/adicionarServico", method = RequestMethod.POST)
+    public @ResponseBody ServicoResponse adicionarServico(            
             @RequestParam(value = "login") String login, 
-            @RequestParam(value = "nodeId") String nodeId, 
+            @RequestParam(value = "disponibilizarServico") String disponibilizarServico, 
             @RequestParam(value = "tipoServico") String tipoServico
             ) 
     
     {
-    	
+    	ServicoResponse response = null;
     	try {
+    		
+    		Usuario usuario = usuarioRepository.findByLogin(login);
+    		if(Boolean.valueOf(disponibilizarServico)){
+    			if (prestarServicoService.addServico(usuario, Integer.valueOf(tipoServico))){
+        			Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
+                    response = new ServicoResponse(true,"SUCESSO",servico.getNodeId(),Response.SUCESSO);
+                    response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
+                    response.setServicoDisponivel(servico.getServicoDisponivel());
+                    response.setTipoServico(servico.getTipoServico());
+                    return response;
+        		}
+    		}else{
+    			if (prestarServicoService.removeServico(usuario, Integer.valueOf(tipoServico))){
+        			Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
+                    response = new ServicoResponse(true,"SUCESSO",servico.getNodeId(),Response.SUCESSO);
+                    response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
+                    response.setServicoDisponivel(servico.getServicoDisponivel());
+                    response.setTipoServico(servico.getTipoServico());
+                    return response;
+        		}
+    		}
+    		
+    		
     				    	
-	    	return null;
-    	}catch(UsuarioException ux){
-    		return new Response(false, ux.getMessage(), null, ux.getCode());
+	    	return new ServicoResponse(false, "Fallha em habilitar a prestação do serviço", null, Response.SERVICO_NAO_INCLUSO);
+    	
 		} catch (Exception e) {
 			logger.error("Erro ao prestar servico: ", e.getMessage());
-			return new Response(false, "Fallha em habilitar a prestação do serviço", null, Response.ERRO_DESCONHECIDO);
+			return new ServicoResponse(false, "Fallha em habilitar a prestação do serviço", null, Response.ERRO_DESCONHECIDO);
 		}
     }
 

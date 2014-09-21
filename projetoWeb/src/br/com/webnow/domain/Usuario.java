@@ -60,6 +60,10 @@ public class Usuario implements Serializable{
     	return this.servicosDisponiveis.add(servico);
     }
     
+    public boolean removeServico(Servico servico){
+    	return this.servicosDisponiveis.remove(servico);
+    }
+    
     public boolean isPrestaServico(Servico servico){
     	return servico != null && getServicosDisponiveis().contains(servico);
     }
