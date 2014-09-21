@@ -26,9 +26,7 @@ public abstract class Servico implements Serializable{
 	
 	private Long nodeId;
 	private Boolean servicoDisponivel;
-	private Date dataInicialPrestacao;
-	
-	
+	private Date dataInicialPrestacao;	
 	private Integer tipoServico;	
 	
 	public Servico() {
