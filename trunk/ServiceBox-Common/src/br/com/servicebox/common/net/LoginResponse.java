@@ -53,7 +53,7 @@ public class LoginResponse extends Response{
 
    private void preencherServicoJSON(Usuario usuario) {
 	   
-	Set<Servico> lista = usuario.getServicosPrestados();
+	Set<Servico> lista = usuario.getServicosDisponiveis();
 	if(lista != null && lista.size() > 0){
 		//this.servicos = lista.toArray(new Servico[lista.size()]);  
 		
@@ -80,36 +80,41 @@ public class LoginResponse extends Response{
     	 Usuario usuario = new Usuario(this.login, this.password,this.nome,this.sobreNome,this.sexo,this.apelido);
     	 usuario.setNodeId(this.nodeId);
     	 
-    	 for(ServicoJSON s : this.servicoJSONs){
-    		 
-    		 if(s.getTipoServico().equals(TipoServico.CARONA.getCodigo())){
-    			 
-    			 Carona c = new Carona();
-    			 c.setNodeId(s.getNodeId());
-    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-    			 c.setServicoDisponivel(s.getServicoDisponivel());
-    			 c.setTipoServico(s.getTipoServico());
-    			 usuario.addServico(c);
-    			 
-    		 } else if(s.getTipoServico().equals(TipoServico.ESTACIONAMENTO.getCodigo())){
-    			 
-    			 Estacionamento c = new Estacionamento();
-    			 c.setNodeId(s.getNodeId());
-    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-    			 c.setServicoDisponivel(s.getServicoDisponivel());
-    			 c.setTipoServico(s.getTipoServico());
-    			 usuario.addServico(c);
-    			 
-    		 } else if(s.getTipoServico().equals(TipoServico.REBOQUE.getCodigo())){
-    			
-    			 Reboque c = new Reboque();
-    			 c.setNodeId(s.getNodeId());
-    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-    			 c.setServicoDisponivel(s.getServicoDisponivel());
-    			 c.setTipoServico(s.getTipoServico());
-    			 usuario.addServico(c);
-    		 }
-    		 
+    	 if (this.servicoJSONs != null){
+                 
+    		 for(ServicoJSON s : this.servicoJSONs){
+        		 
+        		 if(s.getTipoServico().equals(TipoServico.CARONA.getCodigo())){
+        			 
+        			 Carona c = new Carona();
+        			 c.setNodeId(s.getNodeId());
+        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+        			 c.setServicoDisponivel(s.getServicoDisponivel());
+        			 c.setTipoServico(s.getTipoServico());
+        			 usuario.addServico(c);
+        			 
+        		 } else if(s.getTipoServico().equals(TipoServico.ESTACIONAMENTO.getCodigo())){
+        			 
+        			 Estacionamento c = new Estacionamento();
+        			 c.setNodeId(s.getNodeId());
+        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+        			 c.setServicoDisponivel(s.getServicoDisponivel());
+        			 c.setTipoServico(s.getTipoServico());
+        			 usuario.addServico(c);
+        			 
+        		 } else if(s.getTipoServico().equals(TipoServico.REBOQUE.getCodigo())){
+        			
+        			 Reboque c = new Reboque();
+        			 c.setNodeId(s.getNodeId());
+        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+        			 c.setServicoDisponivel(s.getServicoDisponivel());
+        			 c.setTipoServico(s.getTipoServico());
+        			 usuario.addServico(c);
+        		 }
+        		 
+        	 }
+        	 
+        
     	 }
     	 
     	 return usuario;
