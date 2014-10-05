@@ -24,40 +24,49 @@ public class Usuario {
 	private String apelido;
 	private String fotoPerfil;
 	private Date dataCadastro;	
-	private Set<Usuario> amigos;
-	private Set<Servico> servicosPrestados;
+	private Set<Usuario> amigos;	
+	private Set<Servico> servicosDisponiveis;	
+	private Iterable<PrestarServico> prestarServicos;
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
-	}	
+	}
+	
+	public Iterable<PrestarServico> getPrestarServicos() {
+		return prestarServicos;
+	}
+	
+	public void setPrestarServicos(Iterable<PrestarServico> prestarServicos) {
+		this.prestarServicos = prestarServicos;
+	}
 	
 	public boolean addServico(Servico servico){
-		if(this.servicosPrestados != null){
-			return this.servicosPrestados.add(servico);
+		if(this.servicosDisponiveis != null){
+			return this.servicosDisponiveis.add(servico);
 		}else{
-			this.servicosPrestados = new HashSet<Servico>();
-			return this.servicosPrestados.add(servico);	
+			this.servicosDisponiveis = new HashSet<Servico>();
+			return this.servicosDisponiveis.add(servico);	
 		}
     	
     }
 	
 	public boolean addAllServico(Collection<? extends Servico> servicos){
     	
-    	if(this.servicosPrestados != null){
-    		return this.servicosPrestados.addAll(servicos);
+    	if(this.servicosDisponiveis != null){
+    		return this.servicosDisponiveis.addAll(servicos);
 		}else{
-			this.servicosPrestados = new HashSet<Servico>();
-			return this.servicosPrestados.addAll(servicos);
+			this.servicosDisponiveis = new HashSet<Servico>();
+			return this.servicosDisponiveis.addAll(servicos);
 		}
     }
     
     public boolean isPrestaServico(Servico servico){
-    	return servico != null && getServicosPrestados().contains(servico);
+    	return servico != null && getServicosDisponiveis().contains(servico);
     }
     
 
-	public Set<Servico> getServicosPrestados() {
-		return servicosPrestados;
+	public Set<Servico> getServicosDisponiveis() {
+		return servicosDisponiveis;
 	}
 	
 	public Long getNodeId() {
