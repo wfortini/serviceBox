@@ -27,7 +27,9 @@
         <!-- item name="android:actionBarStyle">@style/solid_ActionBar</item -->
         <!-- item name="actionBarTabTextStyle">@style/ActionBar_TabTextStyle</item -->
         <!-- item name="android:actionBarTabTextStyle">@style/ActionBar_TabTextStyle</item -->
-        <item name="android:buttonStyle">@style/Trovebox.BeigeButton</item>
+        <item name="android:buttonStyle">@style/ServiceBox.BeigeButton</item>
+        <item name="android:popupMenuStyle">@android:style/Widget.Holo.Light.PopupMenu</item>
+        <item name="dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
       <!-- <item name="actionBarTabStyle">@style/trovebox_ActionBarTabStyle</item>
         <item name="android:actionBarTabStyle">@style/trovebox_ActionBarTabStyle</item>
         <item name="actionBarItemBackground">@drawable/item_bg_selectable_trovebox</item>
@@ -36,9 +38,9 @@
         <item name="actionDropDownStyle">@style/trovebox_DropDownNav</item>
         <item name="android:actionDropDownStyle">@style/trovebox_DropDownNav</item>
         <item name="popupMenuStyle">@style/trovebox_PopupMenu</item>
-        <item name="android:popupMenuStyle">@style/trovebox_PopupMenu</item>
+        
         <item name="listPopupWindowStyle">@style/trovebox_PopupMenu</item>
-        <item name="dropDownListViewStyle">@style/trovebox_DropDownListView</item>
+        
         <item name="android:dropDownListViewStyle">@style/trovebox_DropDownListView</item>
         <item name="spinnerDropDownItemStyle">@style/trovebox_DropDownItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/trovebox_DropDownItem</item>
@@ -59,13 +61,13 @@
         <!-- <item name="android:windowBackground">@drawable/wnd_bg_login_trovebox</item> -->
     </style>
     
-    <style name="Trovebox.BeigeButton" parent="Holo.Button">
+    <style name="ServiceBox.BeigeButton" parent="Holo.Button">
         <item name="android:background">@drawable/btn_bg_beige_trovebox</item>
         <item name="android:textColor">@color/ab_fg_black</item>
     </style>
     
     <style name="Theme.ServiceBox.Dialog.Light" parent="Holo.Theme.Dialog.Alert.Light">
-        <item name="android:buttonStyle">@style/Trovebox.BeigeButton</item>
+        <item name="android:buttonStyle">@style/ServiceBox.BeigeButton</item>
     </style>
 
 </resources>
