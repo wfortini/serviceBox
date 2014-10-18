@@ -1,6 +1,7 @@
 package br.com.webnow.service.prestarservico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +18,18 @@ public class PrestarServicoService {
 	
 	@Autowired
 	private ServicoRepository servicoRepository;
+	
+	@Autowired
+    private Neo4jOperations template;
 
 	
 	
 	@Transactional
 	public boolean addServico(Usuario usuario, Servico servico){
 		
-		return usuario.addServico(servico);
+		boolean result = usuario.addServico(servico); 
+		template.save(usuario);
+		return result;
 		
 	}
 	
@@ -31,7 +37,9 @@ public class PrestarServicoService {
 	public boolean addServico(Usuario usuario, Integer idServico){
 		
 		Servico servico = servicoRepository.findByPropertyValue("tipoServico", "idServico", idServico);
-		return usuario.addServico(servico);
+		boolean result = usuario.addServico(servico); 
+		template.save(usuario);
+		return result;
 		
 	}
 	
@@ -39,7 +47,9 @@ public class PrestarServicoService {
 	public boolean removeServico(Usuario usuario, Integer idServico){
 		
 		Servico servico = servicoRepository.findByPropertyValue("tipoServico", "idServico", idServico);
-		return usuario.removeServico(servico);
+		boolean result = usuario.removeServico(servico); 
+		template.save(usuario);
+		return result;		
 		
 	}
 }
