@@ -87,7 +87,15 @@ public class AutorizarController {
 		
 		 LoginResponse loginResponse = new LoginResponse();
 		 try {
-			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
+			Usuario usuario = autenticarRepository.autenticar(login, pwd);	
+			
+			System.out.println(usuario);
+        	
+        	for(Servico s : usuario.getServicosDisponiveis()){
+				
+				System.out.println("=================" + s);
+				
+			}
 			
 			if (usuario != null && usuario.getNodeId() != null){						
 				

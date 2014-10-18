@@ -44,6 +44,11 @@ public class ServicoController {
     	try {
     		
     		Usuario usuario = usuarioRepository.findByLogin(login);
+    		for(Servico s : usuario.getServicosDisponiveis()){
+				
+				System.out.println("=================" + s);
+				
+			}
     		if(Boolean.valueOf(disponibilizarServico)){
     			if (prestarServicoService.addServico(usuario, Integer.valueOf(tipoServico))){
         			Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
