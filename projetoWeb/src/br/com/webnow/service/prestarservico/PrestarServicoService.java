@@ -52,4 +52,13 @@ public class PrestarServicoService {
 		return result;		
 		
 	}
+	
+	@Transactional
+	public boolean removeServico(Usuario usuario, Servico servico){
+				
+		boolean result = usuario.removeServico(servico); 
+		template.save(usuario);
+		return result;		
+		
+	}
 }

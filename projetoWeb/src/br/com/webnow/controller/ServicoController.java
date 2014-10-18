@@ -44,34 +44,29 @@ public class ServicoController {
     	try {
     		
     		Usuario usuario = usuarioRepository.findByLogin(login);
-    		for(Servico s : usuario.getServicosDisponiveis()){
-				
-				System.out.println("=================" + s);
-				
-			}
+    		Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
+    		
     		if(Boolean.valueOf(disponibilizarServico)){
-    			if (prestarServicoService.addServico(usuario, Integer.valueOf(tipoServico))){
-        			Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
-                    response = new ServicoResponse(true,"SUCESSO",servico.getNodeId(),Response.SUCESSO);
+    			if (prestarServicoService.addServico(usuario, servico)){
+        			
+                    response = new ServicoResponse(true,"Serviço adicionado com sucesso.",servico.getNodeId(),Response.SUCESSO);
                     response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
                     response.setServicoDisponivel(servico.getServicoDisponivel());
                     response.setTipoServico(servico.getTipoServico());
                     return response;
         		}
     		}else{
-    			if (prestarServicoService.removeServico(usuario, Integer.valueOf(tipoServico))){
-        			Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
-                    response = new ServicoResponse(true,"SUCESSO",servico.getNodeId(),Response.SUCESSO);
+    			if (prestarServicoService.removeServico(usuario, servico)){
+        			
+                    response = new ServicoResponse(true,"Serviço removido com sucesso.",servico.getNodeId(),Response.SUCESSO);
                     response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
                     response.setServicoDisponivel(servico.getServicoDisponivel());
                     response.setTipoServico(servico.getTipoServico());
                     return response;
         		}
-    		}
-    		
-    		
+    		}  		
     				    	
-	    	return new ServicoResponse(false, "Fallha em habilitar a prestação do serviço", null, Response.SERVICO_NAO_INCLUSO);
+	    	return new ServicoResponse(false, "Fallha ao habilitar / desabilitar a prestação do serviço", null, Response.SERVICO_NAO_INCLUSO);
     	
 		} catch (Exception e) {
 			logger.error("Erro ao prestar servico: ", e.getMessage());
