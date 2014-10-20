@@ -1,15 +1,28 @@
 package br.com.mobilenow;
 
 import java.lang.ref.WeakReference;
+import java.net.ConnectException;
+import java.nio.charset.Charset;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.TextView;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import br.com.mobilenow.util.LoginUtils;
 import br.com.mobilenow.util.LoginUtils.LoginActionHandler;
+import br.com.mobilenow.util.ServiceBoxUtil;
 import br.com.servicebox.common.activity.CommonActivity;
 import br.com.servicebox.common.domain.Credenciais;
 import br.com.servicebox.common.fragment.CommonFragmentUtils;
@@ -27,7 +40,14 @@ public class LoginActivity extends CommonActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_acesso_login);
+		init();
 	}
+	
+	void init() {
+        getLoginFragment();        
+        TextView signInInstructions = (TextView) findViewById(R.id.sign_in_instructions);
+        signInInstructions.setText(Html.fromHtml(getString(R.string.sign_in_instructions)));
+    }
 
 	public void loginButtonAction(View view) {
         CommonUtils.debug(TAG, "Login do usuario");
@@ -45,10 +65,7 @@ public class LoginActivity extends CommonActivity {
                 R.string.campo_email, R.string.campo_password
         })) {
             return;
-        }
-        
-        Intent intent = new Intent(this, TabbedActivity.class);
-        startActivity(intent);
+        }      
         
          // clean up login information
         //Preferences.logout(this);
@@ -114,15 +131,18 @@ public class LoginActivity extends CommonActivity {
 		    startRetainedTask(new LogInUsuarioTask(new Credencial(user, pwd)));
 		}
 		
-		@Override
-		public void processLoginCredentials(Credenciais credentials) {
+		/**
+		 * Implementação da Interface LoginActionHandler presente na classe LoginUtil
+		 */
+		@Override  
+		public void processLoginCredentials(Credenciais credentials, LoginResponse response) {
 		    Activity activity = getSupportActivity();
 		    //CredentialsUtils.saveCredentials(activity, credentials);
-		    LoginUtils.onLoggedIn(activity, false);
+		    LoginUtils.onLoggedIn(activity, false,response);
 		}
 		
 		void processLoginResonse(Activity activity) {
-		    LoginUtils.processSuccessfulLoginResult(mLastResponse, sCurrentInstanceAccessor,
+		    LoginUtils.processarSucessoLoginResultado(mLastResponse, sCurrentInstanceAccessor,
 		            activity);
 		}
 		
@@ -136,7 +156,7 @@ public class LoginActivity extends CommonActivity {
 		}
 		class LogInUsuarioTask extends RetainedTask {
 		    private Credencial credencial;
-		    LoginResponse result;
+		    LoginResponse responseResult = null;
 		
 		    public LogInUsuarioTask(Credencial credencial) {
 		        this.credencial = credencial;
@@ -144,15 +164,39 @@ public class LoginActivity extends CommonActivity {
 		
 		    @Override
 		    protected Boolean doInBackground(Void... params) {
+		    	
+		    	 FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+                 formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
+
 		        try {
-		            if (GuiUtils.checkOnline())
-		            {
-		                //result = IAccountTroveboxApiFactory.getApi()
-		                //        .signIn(credentials.getUser(), credentials.getPwd());
-		                return null; //TroveboxResponseUtils.checkResponseValid(result);
-		            }
+		        	
+                     final String url = "http://192.168.0.133:8080/projetoWeb/autenticar.json";
+					
+					RestTemplate restTemplate = new RestTemplate();
+					restTemplate.getMessageConverters().add( formHttpMessageConverter );
+					restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+					
+					 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+                     
+					 map.add("login", credencial.getLogin());
+					 map.add("pwd", credencial.getPwd());				
+		             
+		             HttpHeaders imageHeaders = new HttpHeaders();
+		             imageHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+		             HttpEntity<MultiValueMap<String, Object>> imageEntity = new HttpEntity<MultiValueMap<String, Object>>(map, imageHeaders);
+
+	                
+		            if (GuiUtils.checkOnline()){
+		               
+		            	responseResult = restTemplate.postForObject(url, imageEntity, LoginResponse.class);		            	
+		                return  ServiceBoxUtil.checkResponseValido(responseResult);
+		            }		         
+		        
 		        } catch (Exception e) {
 		            GuiUtils.error(TAG, R.string.errorCouldNotLogin, e);
+		            
 		        }
 		        return false;
 		    }
@@ -161,7 +205,7 @@ public class LoginActivity extends CommonActivity {
 		    protected void onSuccessPostExecuteAdditional() {
 		        try
 		        {
-		            mLastResponse = result;
+		            mLastResponse = responseResult;
 		            Activity activity = getSupportActivity();
 		            if (activity != null) {
 		                processLoginResonse(activity);

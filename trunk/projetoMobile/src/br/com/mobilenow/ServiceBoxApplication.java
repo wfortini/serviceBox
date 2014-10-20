@@ -4,6 +4,7 @@ package br.com.mobilenow;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
+import br.com.servicebox.common.domain.Usuario;
 import br.com.servicebox.common.util.CommonConfigurationUtils;
 import br.com.servicebox.common.util.CommonConfigurationUtils.CommonConfiguration;
 import br.com.servicebox.common.util.GuiUtils;
@@ -11,6 +12,8 @@ import br.com.servicebox.common.util.GuiUtils;
 public class ServiceBoxApplication extends Application{
 	
 	static final String TAG = ServiceBoxApplication.class.getSimpleName();
+	
+	private static Usuario usuario;
 
     public ServiceBoxApplication()
     {
@@ -27,10 +30,20 @@ public class ServiceBoxApplication extends Application{
     {
         super.onCreate();        
         GuiUtils.setup();
-    }
+    }   
     
-    
-    public static class ServiceBoxConfiguration implements CommonConfiguration {
+    public static Usuario getUsuario() {
+		return usuario;
+	}
+
+	public static void setUsuario(Usuario usuario) {
+		ServiceBoxApplication.usuario = usuario;
+	}
+
+
+
+
+	public static class ServiceBoxConfiguration implements CommonConfiguration {
 
         @Override
         public boolean isLoggedIn() {

@@ -204,7 +204,7 @@ public class UsuarioActivity extends CommonActivity{
 		    boolean showOptions = true;
 		    if (intent != null)
 		    {
-		       
+		       // usado se estivemos editando o profile
 		    }
 		    /**
 		    if (mUploadImageFile != null)
@@ -670,7 +670,7 @@ public class UsuarioActivity extends CommonActivity{
 				this.retornoRegistro(result);
 			}
 			
-		}
+		} 
 
 		
 		

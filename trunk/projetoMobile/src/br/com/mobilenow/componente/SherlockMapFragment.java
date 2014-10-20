@@ -3,7 +3,7 @@ import android.app.Activity;
 import android.support.v4.app.Watson.OnCreateOptionsMenuListener;
 import android.support.v4.app.Watson.OnOptionsItemSelectedListener;
 import android.support.v4.app.Watson.OnPrepareOptionsMenuListener;
- 
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.view.menu.MenuItemWrapper;
 import com.actionbarsherlock.internal.view.menu.MenuWrapper;
@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.SupportMapFragment;
+
  
 public class SherlockMapFragment extends SupportMapFragment implements OnCreateOptionsMenuListener, OnPrepareOptionsMenuListener, OnOptionsItemSelectedListener {
     private SherlockFragmentActivity mActivity;
@@ -24,9 +25,7 @@ public class SherlockMapFragment extends SupportMapFragment implements OnCreateO
         if (!(activity instanceof SherlockFragmentActivity)) {
             throw new IllegalStateException(getClass().getSimpleName() + " must be attached to a SherlockFragmentActivity.");
         }
-        mActivity = (SherlockFragmentActivity)activity;
-        mActivity.setProgressBarIndeterminate(false);
-        mActivity.setProgressBarIndeterminateVisibility(false);
+        mActivity = (SherlockFragmentActivity)activity;        
         super.onAttach(activity);
     }
  
