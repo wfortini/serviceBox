@@ -69,5 +69,9 @@
     <style name="Theme.ServiceBox.Dialog.Light" parent="Holo.Theme.Dialog.Alert.Light">
         <item name="android:buttonStyle">@style/ServiceBox.BeigeButton</item>
     </style>
+    
+    <style name="Theme.ServiceBox.DialogActivity.Light" parent="Holo.Theme.Dialog.Light">
+        <item name="android:buttonStyle">@style/ServiceBox.BeigeButton</item>
+    </style>
 
 </resources>
