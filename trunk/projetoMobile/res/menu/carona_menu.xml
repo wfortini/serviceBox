@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     
-        <item android:id="@+id/action_bar_cadastro"
-        android:showAsAction="ifRoom"
-        android:title="@string/item_menu_cadastro"/>	
+    <item
+        android:id="@+id/menu_selecione_carona"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_dark"
+        android:menuCategory="container"
+        android:orderInCategory="15"
+        android:showAsAction="always"
+        android:title="@string/menu_selecione_carona">
+       <menu> 
         
-		<item android:id="@+id/action_bar_start_animation"
-        android:showAsAction="ifRoom"
-        android:title="@string/item_menu_outro"/>	
+		        <item android:id="@+id/item_menu_pegar_carona"		        
+		        android:title="@string/item_menu_pegar_carona"/>	
+		        
+				<item android:id="@+id/item_menu_oferecr_carona"		        
+		        android:title="@string/item_menu_oferecr_carona"/>	
+		        
+				<item android:id="@+id/item_menu_motorista_rodada_carona"		        
+		        android:title="@string/item_menu_motorista_rodada_carona"/>	
+		        
+				<item android:id="@+id/item_menu_prestar_carona"		        
+		        android:title="@string/item_menu_prestar"/>	
+       	
+		</menu>
 				
-    
+    </item>
 </menu>
