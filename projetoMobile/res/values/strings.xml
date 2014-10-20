@@ -25,7 +25,6 @@
     <string name="hint_senha">Entre com sua senha</string>
     <string name="hint_confirma">Repita sua senha</string>
     <string name="bt_registra">Registrar</string>
-    <string name="item_menu_cadastro">Cadastro</string>
     <string name="item_menu_outro">Outros</string>
     <string name="escolha_foto_primeiro">Por favor, escolha uma foto em primeiro lugar</string>
     <string name="upload_opcao_camera">Camera</string>
@@ -33,20 +32,38 @@
     <string name="titulo_dialog">Obter imagem de:</string>
     <string name="aguarde_por_favor">"Aguarde por favor"</string>
     <string name="processando">"Processando..."</string>
+
+    <!-- Generico -->
+    <string name="item_menu_prestar">Prestar Serviço</string>
+
+    <!-- carona -->
+    <string name="item_menu_pegar_carona">Pegar Carona.</string>
+    <string name="item_menu_oferecr_carona">Oferecer Carona.</string>
+    <string name="item_menu_motorista_rodada_carona">Motorista da Rodada</string>
+    <string name="item_dialog_amigo">Amigos</string>
+    <string name="item_dialog_regiao">Por região</string>
+    <string name="item_dialog_rota">Por rota</string>
+    <string name="menu_selecione_carona">Selecione tipo de Carona</string>
+
+    <!-- Prestar servco -->
+    <string name="prestar_servico_confirmar">Confirmar</string>
+    <string name="prestar_servico_simNao">Prestar Serviço</string>
     
+    <!-- Activity Itinerario -->
+    <string name="itinerario_partida">Partida</string>
+    <string name="itinerario_destino">Destino</string>
+    
+
     <!-- errors -->
     <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>
     <string name="errorCanNotFindExternalStorageForTakingPicture">Não é possível encontrar de armazenamento externo para tirar uma foto</string>
     <string name="erroNaoConhecido">Não foi possivél identificar o erro ocorrido</string>
     <string name="errorCouldNotLogin">Could not login</string>
-    
     <string name="title_activity_activity_acesso">ActivityAcesso</string>
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
     <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
-    
     <string name="conta_login_button">Acessar minha conta.</string>
     <string name="conta_cadastro_button">Cadastra-se agora!</string>
-    
     <string name="title_activity_login">Login</string>
     <string name="sign_in_instructions"><![CDATA[<b>Enter</b> an email, password and hit <b>Login</b>]]></string>
     <string name="hint_email">email</string>
@@ -56,9 +73,10 @@
     <string name="password_recovery_instructions">Digite seu e-mail para recuperar sua senha</string>
     <string name="account_own_server_button">Using your own domain?</string>
     <string name="logging_in_message">Please wait. Logging you in…</string>
-    
     <string name="campo_email">email</string>
     <string name="campo_password">password</string>
     <string name="campo_username">username</string>
+    <string name="title_activity_prestar_servico">Prestar Serviço</string>
+    <string name="title_activity_itinerario">Itinerário</string>
 
 </resources>
