@@ -9,7 +9,7 @@ public class ServiceBoxUtil {
 	
 	private static final String TAG = ServiceBoxUtil.class.getSimpleName();
 	
-	public static boolean checkResponseValid(Response response)
+	public static boolean checkResponseValido(Response response)
     {
         boolean result = response.isSucesso();
         if (!result)

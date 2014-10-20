@@ -1,13 +1,13 @@
 package br.com.mobilenow;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import br.com.mobilenow.fragment.UsuarioActivity;
+import br.com.servicebox.common.activity.CommonActivity;
 import br.com.servicebox.common.util.CommonUtils;
 
-public class AcessoActivity extends Activity {
+public class AcessoActivity extends CommonActivity {
 	
 	private static final String TAG = AcessoActivity.class.getSimpleName();
 
