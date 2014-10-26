@@ -46,4 +46,13 @@
         android:text="@string/itinerario_destino"
         android:textColor="?android:textColorSecondary" />
 
+    <Button
+        android:id="@+id/confirmar_itinerario"
+        style="@style/ServiceBox.YellowButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/itinerario_confirmar" />
+
 </RelativeLayout>

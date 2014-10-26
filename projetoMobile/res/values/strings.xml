@@ -52,6 +52,7 @@
     <!-- Activity Itinerario -->
     <string name="itinerario_partida">Partida</string>
     <string name="itinerario_destino">Destino</string>
+    <string name="itinerario_confirmar">Confirmar</string>
     
 
     <!-- errors -->
