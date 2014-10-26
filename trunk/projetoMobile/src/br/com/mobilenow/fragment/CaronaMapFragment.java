@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import br.com.mobilenow.ItinerarioActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.componente.SherlockMapFragment;
@@ -68,7 +69,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			  if (item.getItemId() == R.id.item_menu_oferecr_carona) {
 				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
 			  } else if (item.getItemId() == R.id.item_menu_pegar_carona) {
-				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
+				  startActivityForResult(new Intent(getActivity(), ItinerarioActivity.class), ItinerarioActivity.RESULT_CODE);
 			  } else if (item.getItemId() == R.id.item_menu_motorista_rodada_carona) {
 				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
 			  } else  if (item.getItemId() == R.id.item_menu_prestar_carona) {
