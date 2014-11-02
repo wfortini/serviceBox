@@ -54,7 +54,7 @@ public class ItinerarioActivity extends CommonActivity {
     
     public static class ItinerarioUiFragment extends CommonFragment{
     	
-    	private static final String PLACES_API_KEY = "AIzaSyB1k1X5cGfk1Wma3ewD2Xg-FmFSOOnK_J4";
+    	private static final String PLACES_API_KEY = "AIzaSyDD6G16yl7-TTfJPtNejEox8RfoUzEAXt8";
     	
     	
     	private static final HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
