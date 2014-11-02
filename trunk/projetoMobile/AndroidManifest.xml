@@ -80,7 +80,8 @@
         </activity>
         <activity
             android:name=".ItinerarioActivity"
-            android:label="@string/title_activity_itinerario" >
+            android:label="@string/title_activity_itinerario" 
+            android:theme="@style/Theme.ServiceBox.DialogActivity.Light" >
         </activity>
     </application>
 
