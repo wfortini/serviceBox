@@ -15,6 +15,7 @@ import br.com.mobilenow.ItinerarioActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.componente.SherlockMapFragment;
+import br.com.servicebox.common.net.Itinerario;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -25,6 +26,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 	 private static final int REQUEST_PRESTA_SERVICO = 1;
 	
 	private Handler handler = new Handler();
+	private Itinerario itinerario;
 	private Random random = new Random();
 	private Runnable runner = new Runnable() {
         @Override
@@ -64,6 +66,15 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			
 		}
 		
+		  @Override
+			public void onActivityResult(int requestCode, int resultCode, Intent data) {
+				super.onActivityResult(requestCode, resultCode, data);
+				if (resultCode==ItinerarioActivity.RESULT_CODE && data.getExtras() != null) {
+					itinerario = data.getExtras().getParcelable(ItinerarioActivity.ITINERARIO);
+					
+				}
+			}
+		
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
 			  if (item.getItemId() == R.id.item_menu_oferecr_carona) {
@@ -81,39 +92,6 @@ public class CaronaMapFragment extends SherlockMapFragment{
 		      return true;
 		}
 		
-		private void abrirDialog(Integer operacao){
-			
-			final CharSequence[] items = {
-	                getString(R.string.upload_opcao_camera),
-	                getString(R.string.upload_opcao_galeria)
-	        };
-	
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
-	                R.style.Theme_ServiceBox_Dialog_Light);
-	        builder.setTitle(R.string.titulo_dialog);
-	        builder.setItems(items, new DialogInterface.OnClickListener() {
-	            @Override
-	            public void onClick(DialogInterface dialog, int item) {
-	                if (handler == null)
-	                {
-	                    return;
-	                }
-	                switch (item) {
-	                    case 0:
-	                        //TrackerUtils.trackContextMenuClickEvent("menu_camera",
-	                        //        SelectImageDialogFragment.this);
-	                        
-	                        return;
-	                    case 1:
-	                       // TrackerUtils.trackContextMenuClickEvent("menu_gallery",
-	                       //         SelectImageDialogFragment.this);
-	                        
-	                        return;
-	                }
-	            }
-	        });
-	        builder.create();
-	    }
 		
 
 }
