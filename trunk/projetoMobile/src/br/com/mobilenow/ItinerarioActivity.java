@@ -20,6 +20,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import br.com.servicebox.common.activity.CommonActivity;
 import br.com.servicebox.common.fragment.CommonFragment;
+import br.com.servicebox.common.net.Destino;
+import br.com.servicebox.common.net.Itinerario;
+import br.com.servicebox.common.net.Partida;
 import br.com.servicebox.common.util.CommonUtils;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -63,6 +66,9 @@ public class ItinerarioActivity extends CommonActivity {
     	protected static final int RESULT_CODE = 123;
     	private AutoCompleteTextView partida;
     	private AutoCompleteTextView destino;
+    	private Destino enderecoDestino;
+    	private Partida enderecoPartida;
+    	private Itinerario itinerario;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -89,7 +95,14 @@ public class ItinerarioActivity extends CommonActivity {
              uploadBtn.setOnClickListener(new OnClickListener() {
 
                  @Override
-                 public void onClick(View v) {                     
+                 public void onClick(View v) {
+                	 itinerario = new Itinerario();
+                	 enderecoDestino = new Destino();
+                	 enderecoPartida = new Partida();
+                	 enderecoDestino.setEnderecoDestino(destino.getText().toString());
+                	 enderecoPartida.setEnderecoPartida(partida.getText().toString());
+                	 itinerario.setDestino(enderecoDestino);
+                	 itinerario.setPartida(enderecoPartida);                	 
                      finishedClicked(v);
                  }
              }); // fim classe interna 
@@ -103,10 +116,9 @@ public class ItinerarioActivity extends CommonActivity {
     	 
     	 public void finishedClicked(View v) {
 
-             Intent data = new Intent();             
-
-             data.putExtra(ITINERARIO, "");
-             getActivity().setResult(RESULT_OK, data);
+             Intent data = new Intent();
+             data.putExtra(ITINERARIO, itinerario);
+             getActivity().setResult(RESULT_CODE, data);
              getActivity().finish();
 
          }
