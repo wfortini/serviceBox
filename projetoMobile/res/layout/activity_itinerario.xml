@@ -55,4 +55,40 @@
         android:layout_alignParentLeft="true"
         android:text="@string/itinerario_confirmar" />
 
+    <org.holoeverywhere.widget.Switch
+        android:id="@+id/todos_switch"
+        style="@style/SimNaoSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/confirmar_itinerario"
+        android:layout_alignLeft="@+id/soAmigosDoAmigos_switch"
+        android:layout_marginBottom="31dp"
+        android:checked="true"
+        android:text="@string/prestar_servico_todos"
+        android:visibility="visible" />
+
+    <org.holoeverywhere.widget.Switch
+        android:id="@+id/soAmigosDoAmigos_switch"
+        style="@style/SimNaoSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/todos_switch"
+        android:layout_alignLeft="@+id/destino_label"
+        android:layout_marginBottom="14dp"
+        android:checked="true"
+        android:text="@string/prestar_servico_so_amigos_do_amigos"
+        android:visibility="visible" />
+
+    <org.holoeverywhere.widget.Switch
+        android:id="@+id/soAmigos_switch"
+        style="@style/SimNaoSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/soAmigosDoAmigos_switch"
+        android:layout_alignLeft="@+id/partida_label"
+        android:layout_marginBottom="18dp"
+        android:checked="true"
+        android:text="@string/prestar_servico_so_amigo"
+        android:visibility="visible" />
+
 </RelativeLayout>

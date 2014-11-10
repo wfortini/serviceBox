@@ -48,13 +48,26 @@
     <!-- Prestar servco -->
     <string name="prestar_servico_confirmar">Confirmar</string>
     <string name="prestar_servico_simNao">Prestar Serviço</string>
-    
+
     <!-- Activity Itinerario -->
     <string name="itinerario_partida">Partida</string>
     <string name="itinerario_destino">Destino</string>
     <string name="itinerario_confirmar">Confirmar</string>
+    <string name="prestar_servico_so_amigo">só Amigos</string>
+    <string name="prestar_servico_so_amigos_do_amigos">só Amigos dos Amigos</string>
+    <string name="prestar_servico_todos">Todos</string>
     
-
+    <!-- Activity Planejamento -->
+    <string name="domingo">Domingo</string>
+    <string name="segunda">Segunda</string>
+    <string name="terca">Terça</string>
+    <string name="quarta">Quarta</string>
+    <string name="quinta">Quinta</string>
+    <string name="sexta">Sexta</string>
+    <string name="sabado">Sábado</string>
+    
+    
+    
     <!-- errors -->
     <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>
     <string name="errorCanNotFindExternalStorageForTakingPicture">Não é possível encontrar de armazenamento externo para tirar uma foto</string>
@@ -79,5 +92,6 @@
     <string name="campo_username">username</string>
     <string name="title_activity_prestar_servico">Prestar Serviço</string>
     <string name="title_activity_itinerario">Itinerário</string>
+    <string name="title_activity_planejamento">Planejamento</string>
 
 </resources>
