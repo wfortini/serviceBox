@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import br.com.mobilenow.ItinerarioActivity;
+import br.com.mobilenow.PlanejamentoActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.componente.SherlockMapFragment;
@@ -71,7 +72,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 				super.onActivityResult(requestCode, resultCode, data);
 				if (resultCode==ItinerarioActivity.RESULT_CODE && data.getExtras() != null) {
 					itinerario = data.getExtras().getParcelable(ItinerarioActivity.ITINERARIO);
-					
+					startActivityForResult(new Intent(getActivity(), PlanejamentoActivity.class), PlanejamentoActivity.RESULT_CODE);
 				}
 			}
 		
