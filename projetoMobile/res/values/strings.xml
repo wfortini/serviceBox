@@ -65,6 +65,14 @@
     <string name="quinta">Quinta</string>
     <string name="sexta">Sexta</string>
     <string name="sabado">Sábado</string>
+    <string name="horario">Horário da partida</string>
+    <string name="hora_fixa">Hora fixa</string>
+    <string name="faixa_de_horario">Faixa de horário</string>
+    <string name="zero_hora">00:00</string>
+    <string name="entre_faixa">entre</string>
+    <string name="e_faixa">e</string>
+    <string name="planejamento_confirmar">Confirmar</string>
+    
     
     
     

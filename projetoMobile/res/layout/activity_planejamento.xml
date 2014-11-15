@@ -89,5 +89,100 @@
         android:checked="true"
         android:text="@string/quinta"
         android:visibility="visible" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/segunda_switch"
+        android:layout_below="@+id/sabado_switch"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/line_separator" />
+
+    <TextView
+        android:id="@+id/tv_faixaHorarioEntre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/label_entre"
+        android:layout_alignBottom="@+id/label_entre"
+        android:layout_alignRight="@+id/sabado_switch"  
+        android:clickable="true" 
+        android:enabled="true"     
+        android:text="@string/zero_hora" />
+
+    <TextView
+        android:id="@+id/labelE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_faixaHorarioEntre"
+        android:layout_alignBottom="@+id/tv_faixaHorarioEntre"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/tv_faixaHorarioEntre"        
+        android:text="@string/e_faixa" />
+
+    <TextView
+        android:id="@+id/tv_horaFixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rb_horaFixa"
+        android:layout_toRightOf="@+id/rb_horaFixa"
+        android:clickable="true"
+        android:enabled="true"
+        android:text="@string/zero_hora" />
     
+    <Button
+        android:id="@+id/confirmar_planejamento"
+        style="@style/ServiceBox.YellowButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/planejamento_confirmar" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/segunda_switch"
+        android:layout_centerVertical="true"
+        android:text="@string/horario" />
+
+    <RadioButton
+        android:id="@+id/rb_horaFixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/segunda_switch"
+        android:layout_below="@+id/textView1"
+        android:checked="true"
+        android:text="@string/hora_fixa" />
+
+    <RadioButton
+        android:id="@+id/rb_faixaHorario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/segunda_switch"
+        android:layout_below="@+id/tv_horaFixa"
+        android:layout_marginTop="14dp"
+        android:text="@string/faixa_de_horario" />
+
+    <TextView
+        android:id="@+id/label_entre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/rb_faixaHorario"        
+        android:text="@string/entre_faixa" />
+
+    <TextView
+        android:id="@+id/tvFaixaHoraE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelE"
+        android:layout_alignBottom="@+id/labelE"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/labelE"
+        android:clickable="true"
+        android:enabled="true"        
+        android:text="@string/zero_hora" />
+
 </RelativeLayout>
