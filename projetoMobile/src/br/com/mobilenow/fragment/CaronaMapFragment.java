@@ -2,9 +2,6 @@ package br.com.mobilenow.fragment;
 
 import java.util.Random;
 
-import org.holoeverywhere.app.AlertDialog;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +14,7 @@ import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.componente.SherlockMapFragment;
 import br.com.servicebox.common.net.Itinerario;
+import br.com.servicebox.common.net.Planejamento;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -28,6 +26,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 	
 	private Handler handler = new Handler();
 	private Itinerario itinerario;
+	private Planejamento planejamento;
 	private Random random = new Random();
 	private Runnable runner = new Runnable() {
         @Override
@@ -72,7 +71,10 @@ public class CaronaMapFragment extends SherlockMapFragment{
 				super.onActivityResult(requestCode, resultCode, data);
 				if (resultCode==ItinerarioActivity.RESULT_CODE && data.getExtras() != null) {
 					itinerario = data.getExtras().getParcelable(ItinerarioActivity.ITINERARIO);
+					// essa chamada deve seguir um parametro
 					startActivityForResult(new Intent(getActivity(), PlanejamentoActivity.class), PlanejamentoActivity.RESULT_CODE);
+				}else if(resultCode==PlanejamentoActivity.RESULT_CODE && data.getExtras() != null){
+					planejamento = data.getExtras().getParcelable(PlanejamentoActivity.PLANEJAMENTO);
 				}
 			}
 		
