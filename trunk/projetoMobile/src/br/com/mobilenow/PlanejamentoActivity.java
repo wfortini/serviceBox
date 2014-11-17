@@ -9,6 +9,7 @@ import org.holoeverywhere.widget.Switch;
 import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.TimePicker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,13 +19,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import br.com.servicebox.common.activity.CommonActivity;
 import br.com.servicebox.common.fragment.CommonFragment;
-import br.com.servicebox.common.util.GuiUtils;
+import br.com.servicebox.common.net.Planejamento;
 
 public class PlanejamentoActivity extends CommonActivity {
 
 	public static final String TAG = PlanejamentoActivity.class.getSimpleName();
     public static final String PLANEJAMENTO = "PLANEJAMENTO"; 
-    public static final int RESULT_CODE = 123;   
+    public static final int RESULT_CODE = 456;   
 	
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,8 @@ public class PlanejamentoActivity extends CommonActivity {
 	    }
 	}
  
-    public static class PlanejamentoUiFragment extends CommonFragment implements OnClickListener{
-    	
-    	
+    public static class PlanejamentoUiFragment extends CommonFragment{
+    	    	
     	private Switch segunda;
     	private Switch terca;
     	private Switch quarta;
@@ -61,9 +61,7 @@ public class PlanejamentoActivity extends CommonActivity {
     	
     	OnCheckedChangeListener listenerRBHoraFixa = null ; 
     	OnCheckedChangeListener listenerRBFaixaHorario = null ;     	
-    	private int mYear, mMonth, mDay, mHour, mMinute;
-    	private String retornoTime;
-    	
+    	private int mYear, mMonth, mDay, mHour, mMinute;    	 	
     	
     	private Button btConfirma;
     	
@@ -102,14 +100,89 @@ public class PlanejamentoActivity extends CommonActivity {
     		 labelFaixaE = (TextView) v.findViewById(R.id.labelE);
     		 
     		 btConfirma = (Button) v.findViewById(R.id.confirmar_planejamento);
-    		 btConfirma.setOnClickListener(this);
+    		 btConfirma.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					confirmar();
+					
+				}
+			});
     		 
     		 rbFaixaHorario.setOnCheckedChangeListener(listenerRBFaixaHorario);
     		 rbHoraFixa.setOnCheckedChangeListener(listenerRBHoraFixa);
     		 
-    		 tvFaixaHorarioE.setOnClickListener(this);
-    		 tvFaixaHorarioEntre.setOnClickListener(this);
-    		 tvHoraFixa.setOnClickListener(this);   		
+    		 tvFaixaHorarioE.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+					final Calendar c = Calendar.getInstance();
+		             mHour = c.get(Calendar.HOUR_OF_DAY);
+		             mMinute = c.get(Calendar.MINUTE);            
+		             
+		             TimePickerDialog tpd = new TimePickerDialog(getActivity(),
+		                     new TimePickerDialog.OnTimeSetListener() {
+		  
+		                         @Override
+		                         public void onTimeSet(TimePicker view, int hourOfDay,
+		                                 int minute) {                             
+		                        	 tvFaixaHorarioE.setText(hourOfDay + ":" + minute);
+		                         }
+		                     }, mHour, mMinute, false);
+		             tpd.show();
+					
+				}
+			});
+    		 
+    		 // inicia timeDialog
+    		 tvFaixaHorarioEntre.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+					final Calendar c = Calendar.getInstance();
+		             mHour = c.get(Calendar.HOUR_OF_DAY);
+		             mMinute = c.get(Calendar.MINUTE);            
+		             
+		             TimePickerDialog tpd = new TimePickerDialog(getActivity(),
+		                     new TimePickerDialog.OnTimeSetListener() {
+		  
+		                         @Override
+		                         public void onTimeSet(TimePicker view, int hourOfDay,
+		                                 int minute) {                             
+		                        	 tvFaixaHorarioEntre.setText(hourOfDay + ":" + minute);
+		                         }
+		                     }, mHour, mMinute, false);
+		             tpd.show();
+					
+					
+				}
+			});
+    		 
+    	  // inicia TimeDialog	 
+    	  tvHoraFixa.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+					final Calendar c = Calendar.getInstance();
+		             mHour = c.get(Calendar.HOUR_OF_DAY);
+		             mMinute = c.get(Calendar.MINUTE);            
+		             
+		             TimePickerDialog tpd = new TimePickerDialog(getActivity(),
+		                     new TimePickerDialog.OnTimeSetListener() {
+		  
+		                         @Override
+		                         public void onTimeSet(TimePicker view, int hourOfDay,
+		                                 int minute) {                             
+		                        	 tvHoraFixa.setText(hourOfDay + ":" + minute);
+		                         }
+		                     }, mHour, mMinute, false);
+		             tpd.show();
+					
+				}
+			});   		
     		 
     		 listenerRBFaixaHorario = new OnCheckedChangeListener() {
 				
@@ -141,52 +214,7 @@ public class PlanejamentoActivity extends CommonActivity {
 				}
 			};
     		 
-    	 }
-    	 
-    	@Override 
-    	public void onClick(View v) {
-				
-				switch (v.getId()) {
-				
-				case R.id.tv_horaFixa:
-					tvHoraFixa.setText(timeDialog());
-					break;
-					
-				case R.id.tv_faixaHorarioEntre:
-					tvFaixaHorarioEntre.setText(timeDialog());
-					break;
-					
-				case R.id.tvFaixaHoraE:
-					tvFaixaHorarioE.setText(timeDialog());
-					break;	
-					
-				case R.id.confirmar_planejamento:
-					confirmar();
-					break;
-				}
-				
-		}
-    	 
-    	private String timeDialog(){
-    		 
-    		 final Calendar c = Calendar.getInstance();
-             mHour = c.get(Calendar.HOUR_OF_DAY);
-             mMinute = c.get(Calendar.MINUTE);            
-             
-             TimePickerDialog tpd = new TimePickerDialog(getActivity(),
-                     new TimePickerDialog.OnTimeSetListener() {
-  
-                         @Override
-                         public void onTimeSet(TimePicker view, int hourOfDay,
-                                 int minute) {                             
-                              retornoTime =  hourOfDay + ":" + minute;
-                         }
-                     }, mHour, mMinute, false);
-             tpd.show();
-             
-             return retornoTime;
-    	 }
-    	 
+    	 }   	 
     	 
     	 /**
           * Confirma que prestar o serviço
@@ -194,7 +222,24 @@ public class PlanejamentoActivity extends CommonActivity {
           */
          public void confirmar() {
 
-        	 GuiUtils.alert("OK");
+        	 Planejamento plj = new Planejamento();
+        	 plj.setSegunda(segunda.isChecked());
+        	 plj.setTerca(segunda.isChecked());
+        	 plj.setQuarta(segunda.isChecked());
+        	 plj.setQuinta(segunda.isChecked());
+        	 plj.setSexta(segunda.isChecked());
+        	 plj.setSabado(segunda.isChecked());
+        	 plj.setDomingo(segunda.isChecked());
+        	 plj.setHoraFixa(tvHoraFixa.getText().toString());
+        	 plj.setHoraEntre(tvFaixaHorarioEntre.getText().toString());
+        	 plj.setHoraE(tvFaixaHorarioE.getText().toString());
+        	 
+        	 Intent data = new Intent();
+             data.putExtra(PLANEJAMENTO, plj);
+             getActivity().setResult(RESULT_CODE, data);
+             getActivity().finish();
+        	 
+        	 
          	
          }
 	 
