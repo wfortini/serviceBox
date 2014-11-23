@@ -1,14 +1,31 @@
 package br.com.servicebox.common.net;
 
+import br.com.servicebox.common.net.interfaces.IPartida;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Partida implements Parcelable{
+public class Partida implements Parcelable, IPartida{
 	
 	private String enderecoPartida;
+	private Double latitude;
+	private Double longitude;
 	
-	
-	
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
 	public String getEnderecoPartida() {
 		return enderecoPartida;
 	}
@@ -23,6 +40,8 @@ public class Partida implements Parcelable{
 	
      private Partida(Parcel in) {
         this.enderecoPartida = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
     }
 	
 	 public static final Parcelable.Creator<Partida> CREATOR = new Parcelable.Creator<Partida>() {
@@ -46,6 +65,8 @@ public class Partida implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(enderecoPartida);
+		dest.writeDouble(latitude);
+		dest.writeDouble(longitude);
 		
 	}
 	
