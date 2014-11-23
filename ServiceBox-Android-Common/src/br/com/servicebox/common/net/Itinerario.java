@@ -2,8 +2,11 @@ package br.com.servicebox.common.net;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import br.com.servicebox.common.net.interfaces.IDestino;
+import br.com.servicebox.common.net.interfaces.IItinerario;
+import br.com.servicebox.common.net.interfaces.IPartida;
 
-public class Itinerario implements Parcelable{	
+public class Itinerario implements Parcelable, IItinerario{	
 	
 	private Partida partida;
 	private Destino destino;
@@ -15,20 +18,22 @@ public class Itinerario implements Parcelable{
 		// TODO Auto-generated constructor stub
 	}
     
-	public Partida getPartida() {
+	public IPartida getPartida() {
 		return partida;
 	}
 
-	public void setPartida(Partida partida) {
-		this.partida = partida;
+	public void setPartida(IPartida partida) {
+		if(partida != null)
+		   this.partida = (Partida) partida;
 	}
 
-	public Destino getDestino() {
+	public IDestino getDestino() {
 		return destino;
 	}
 
-	public void setDestino(Destino destino) {
-		this.destino = destino;
+	public void setDestino(IDestino destino) {
+		if (destino != null)
+		    this.destino = (Destino) destino;
 	}
 
 	public boolean isSoAmigos() {
