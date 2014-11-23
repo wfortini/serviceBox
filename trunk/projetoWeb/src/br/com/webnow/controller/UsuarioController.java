@@ -19,7 +19,7 @@ import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
-import br.com.webnow.service.prestarservico.PrestarServicoService;
+import br.com.webnow.service.prestarservico.ServicoService;
 
 
 @Controller
@@ -34,7 +34,7 @@ public class UsuarioController {
 	 private ServicoRepository servicoRepository;
 	 
 	 @Autowired
-	 private PrestarServicoService prestarServicoService;
+	 private ServicoService prestarServicoService;
 
 	    @RequestMapping(value = "/usuario", method = RequestMethod.GET)
 	    public String profile(Model model) {

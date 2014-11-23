@@ -1,6 +1,8 @@
 package br.com.webnow.service.prestarservico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +12,14 @@ import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 
+/**
+ * Classe responsavel pelo gerenciamento da manutenção dos serviços prestados por usuario
+ * @author wpn0510
+ *
+ */
+
 @Service
-public class PrestarServicoService {
+public class ServicoService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
