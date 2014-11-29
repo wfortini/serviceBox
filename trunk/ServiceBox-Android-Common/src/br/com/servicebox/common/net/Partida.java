@@ -1,10 +1,9 @@
 package br.com.servicebox.common.net;
 
-import br.com.servicebox.common.net.interfaces.IPartida;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Partida implements Parcelable, IPartida{
+public class Partida implements Parcelable{
 	
 	private String enderecoPartida;
 	private Double latitude;

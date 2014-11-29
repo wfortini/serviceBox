@@ -1,10 +1,9 @@
 package br.com.servicebox.common.net;
 
-import br.com.servicebox.common.net.interfaces.IDestino;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Destino implements Parcelable, IDestino{
+public class Destino implements Parcelable{
 
 	
 	private String enderecoDestino;
