@@ -1,10 +1,20 @@
 package br.com.mobilenow.fragment;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 
+import org.holoeverywhere.app.ProgressDialog;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
+
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +22,15 @@ import br.com.mobilenow.ItinerarioActivity;
 import br.com.mobilenow.PlanejamentoActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
+import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.componente.SherlockMapFragment;
+import br.com.servicebox.common.domain.TipoServico;
 import br.com.servicebox.common.net.Itinerario;
 import br.com.servicebox.common.net.Planejamento;
+import br.com.servicebox.common.net.PrestarServicoRequest;
+import br.com.servicebox.common.net.Response;
+import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.common.util.GuiUtils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -23,9 +39,11 @@ import com.actionbarsherlock.view.MenuItem;
 public class CaronaMapFragment extends SherlockMapFragment{
 	
 	 private static final int REQUEST_PRESTA_SERVICO = 1;
+	 static final String TAG = CaronaMapFragment.class.getSimpleName();
 	
 	private Handler handler = new Handler();
 	private Itinerario itinerario;
+	private ProgressDialog progressDialog;
 	private Planejamento planejamento;
 	private Random random = new Random();
 	private Runnable runner = new Runnable() {
@@ -76,7 +94,93 @@ public class CaronaMapFragment extends SherlockMapFragment{
 				}else if(resultCode==PlanejamentoActivity.RESULT_CODE && data.getExtras() != null){
 					planejamento = data.getExtras().getParcelable(PlanejamentoActivity.PLANEJAMENTO);
 				}
+				
+				new RequisicaoTask().execute();
 			}
+		  
+		  
+		/** processamento assincrono **/	
+		private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
+					
+					Response response = null;
+					
+					@Override
+			        protected void onPreExecute() {
+						super.onPreExecute();
+						progressDialog = new ProgressDialog(getActivity());
+						progressDialog.setTitle(R.string.aguarde_por_favor);
+						progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+						progressDialog.setCancelable(false);
+						progressDialog.show();
+					}
+
+					@Override
+					protected Response doInBackground(Void... params) {
+						
+						  FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+			              formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
+
+						
+						try {
+							final String url = "http://192.168.0.133:8080/projetoWeb/prestarServico.json";
+							
+							RestTemplate restTemplate = new RestTemplate();
+							restTemplate.getMessageConverters().add( formHttpMessageConverter );
+							restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+							
+							restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+							
+							PrestarServicoRequest request = new PrestarServicoRequest();    
+							request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());
+							request.setLogin(ServiceBoxApplication.getUsuario().getLogin());
+							request.setServicoPrestado(TipoServico.CARONA.getCodigo());
+							
+				             Response response = null;
+				             if (GuiUtils.checkOnline()){
+							         response = restTemplate.postForObject(url, request, Response.class);
+				             }
+				             
+				             return response;
+							
+						}catch(ResourceAccessException rae){
+							CommonUtils.error(TAG, rae.getMessage());
+							response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+						} catch (Exception e) {
+							Log.e(TAG, e.getMessage());
+							response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+						}
+						
+						return response;
+					}
+					
+					public void retornoRegistro(Response response){						
+							
+						if(Response.SUCESSO == response.getCode() && response.isSucesso()){
+							GuiUtils.alert(response.getMessage());
+							// getActivity().finish();					
+						}else{
+							GuiUtils.alert(response.getMessage());
+						}	
+										
+					}
+					
+					
+					
+					@Override
+					protected void onCancelled() {
+						super.onCancelled();
+					}
+					
+					@Override
+					protected void onPostExecute(Response result) {				
+						super.onPostExecute(result);
+						progressDialog.dismiss();
+						this.retornoRegistro(result);
+					}
+					
+				} 
+
+				  
 		
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
