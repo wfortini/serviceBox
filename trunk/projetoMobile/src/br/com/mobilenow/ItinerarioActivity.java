@@ -100,7 +100,11 @@ public class ItinerarioActivity extends CommonActivity {
                 	 enderecoDestino = new Destino();
                 	 enderecoPartida = new Partida();
                 	 enderecoDestino.setEnderecoDestino(destino.getText().toString());
+                	 enderecoDestino.setLatitude(0d);
+                	 enderecoDestino.setLongitude(0d);
                 	 enderecoPartida.setEnderecoPartida(partida.getText().toString());
+                	 enderecoPartida.setLatitude(0d);
+                	 enderecoPartida.setLongitude(0d);
                 	 itinerario.setDestino(enderecoDestino);
                 	 itinerario.setPartida(enderecoPartida);                	 
                      finishedClicked(v);
