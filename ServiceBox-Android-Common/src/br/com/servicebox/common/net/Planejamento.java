@@ -1,10 +1,9 @@
 package br.com.servicebox.common.net;
 
-import br.com.servicebox.common.net.interfaces.IPlanejamento;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Planejamento implements Parcelable, IPlanejamento{
+public class Planejamento implements Parcelable{
 	
 	private boolean segunda;
 	private boolean terca;
