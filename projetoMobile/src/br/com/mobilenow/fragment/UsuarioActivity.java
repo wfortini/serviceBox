@@ -7,7 +7,6 @@ import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.util.Date;
 
-import org.apache.http.client.protocol.RequestTargetAuthentication;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Dialog;
@@ -42,18 +41,17 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
-import br.com.mobilenow.util.ServiceBoxUtil;
-import br.com.servicebox.common.activity.CommonActivity;
+import br.com.servicebox.android.common.activity.CommonActivity;
+import br.com.servicebox.android.common.fragment.CommonClosableOnRestoreDialogFragment;
+import br.com.servicebox.android.common.fragment.CommonFragment;
+import br.com.servicebox.android.common.image.ImageFileSystemFetcher;
+import br.com.servicebox.android.common.image.ImageResizer;
+import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.FileUtils;
+import br.com.servicebox.android.common.util.GuiUtils;
+import br.com.servicebox.android.common.util.ImageUtils;
 import br.com.servicebox.common.domain.Usuario;
-import br.com.servicebox.common.fragment.CommonClosableOnRestoreDialogFragment;
-import br.com.servicebox.common.fragment.CommonFragment;
-import br.com.servicebox.common.image.ImageFileSystemFetcher;
-import br.com.servicebox.common.image.ImageResizer;
 import br.com.servicebox.common.net.Response;
-import br.com.servicebox.common.util.CommonUtils;
-import br.com.servicebox.common.util.FileUtils;
-import br.com.servicebox.common.util.GuiUtils;
-import br.com.servicebox.common.util.ImageUtils;
 
 public class UsuarioActivity extends CommonActivity{
 	

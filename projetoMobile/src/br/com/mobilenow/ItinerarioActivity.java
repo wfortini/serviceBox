@@ -18,12 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import br.com.servicebox.common.activity.CommonActivity;
-import br.com.servicebox.common.fragment.CommonFragment;
-import br.com.servicebox.common.net.Destino;
-import br.com.servicebox.common.net.Itinerario;
-import br.com.servicebox.common.net.Partida;
-import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.android.common.activity.CommonActivity;
+import br.com.servicebox.android.common.fragment.CommonFragment;
+import br.com.servicebox.android.common.net.Destino;
+import br.com.servicebox.android.common.net.Itinerario;
+import br.com.servicebox.android.common.net.Partida;
+import br.com.servicebox.android.common.util.CommonUtils;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.http.GenericUrl;

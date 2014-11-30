@@ -10,10 +10,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.TabbedActivity;
+import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.ObjectAccessor;
 import br.com.servicebox.common.domain.Credenciais;
 import br.com.servicebox.common.net.LoginResponse;
-import br.com.servicebox.common.util.CommonUtils;
-import br.com.servicebox.common.util.ObjectAccessor;
 
 public class LoginUtils
 {

@@ -23,13 +23,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import br.com.servicebox.common.activity.CommonActivity;
+import br.com.servicebox.android.common.activity.CommonActivity;
+import br.com.servicebox.android.common.fragment.CommonFragment;
+import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.TipoServico;
-import br.com.servicebox.common.fragment.CommonFragment;
 import br.com.servicebox.common.net.Response;
 import br.com.servicebox.common.net.ServicoResponse;
-import br.com.servicebox.common.util.CommonUtils;
-import br.com.servicebox.common.util.GuiUtils;
 
 public class PrestarServicoActivity extends CommonActivity {
 
