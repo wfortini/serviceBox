@@ -1,5 +1,5 @@
 
-package br.com.servicebox.common.activity;
+package br.com.servicebox.android.common.activity;
 
 import java.util.ArrayList;
 import java.util.List;
