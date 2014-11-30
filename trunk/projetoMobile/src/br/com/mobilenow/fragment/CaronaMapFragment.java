@@ -24,13 +24,14 @@ import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.componente.SherlockMapFragment;
+import br.com.mobilenow.util.ServiceBoxMobileUtil;
+import br.com.servicebox.android.common.net.Itinerario;
+import br.com.servicebox.android.common.net.Planejamento;
+import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.TipoServico;
-import br.com.servicebox.common.net.Itinerario;
-import br.com.servicebox.common.net.Planejamento;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
-import br.com.servicebox.common.util.CommonUtils;
-import br.com.servicebox.common.util.GuiUtils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -94,8 +95,11 @@ public class CaronaMapFragment extends SherlockMapFragment{
 				}else if(resultCode==PlanejamentoActivity.RESULT_CODE && data.getExtras() != null){
 					planejamento = data.getExtras().getParcelable(PlanejamentoActivity.PLANEJAMENTO);
 				}
+				if(itinerario != null && planejamento != null){
+					new RequisicaoTask().execute();
+				}
 				
-				new RequisicaoTask().execute();
+				
 			}
 		  
 		  
@@ -130,7 +134,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 							
 							restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 							
-							PrestarServicoRequest request = new PrestarServicoRequest();    
+							PrestarServicoRequest request = ServiceBoxMobileUtil.preencheObjetoPrestarServicoRequest(itinerario, planejamento);    
 							request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());
 							request.setLogin(ServiceBoxApplication.getUsuario().getLogin());
 							request.setServicoPrestado(TipoServico.CARONA.getCodigo());

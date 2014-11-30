@@ -1,7 +1,6 @@
 package br.com.mobilenow;
 
 import java.lang.ref.WeakReference;
-import java.net.ConnectException;
 import java.nio.charset.Charset;
 
 import org.holoeverywhere.app.Activity;
@@ -22,15 +21,16 @@ import android.view.View;
 import android.widget.EditText;
 import br.com.mobilenow.util.LoginUtils;
 import br.com.mobilenow.util.LoginUtils.LoginActionHandler;
-import br.com.mobilenow.util.ServiceBoxUtil;
-import br.com.servicebox.common.activity.CommonActivity;
+import br.com.mobilenow.util.ServiceBoxMobileUtil;
+import br.com.servicebox.android.common.activity.CommonActivity;
+import br.com.servicebox.android.common.fragment.CommonFragmentUtils;
+import br.com.servicebox.android.common.fragment.CommonRetainedFragmentWithTaskAndProgress;
+import br.com.servicebox.android.common.fragment.CommonRetainedFragmentWithTaskAndProgress.RetainedTask;
+import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.GuiUtils;
+import br.com.servicebox.android.common.util.ObjectAccessor;
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.fragment.CommonFragmentUtils;
-import br.com.servicebox.common.fragment.CommonRetainedFragmentWithTaskAndProgress;
 import br.com.servicebox.common.net.LoginResponse;
-import br.com.servicebox.common.util.CommonUtils;
-import br.com.servicebox.common.util.GuiUtils;
-import br.com.servicebox.common.util.ObjectAccessor;
 
 public class LoginActivity extends CommonActivity {
 	
@@ -191,7 +191,7 @@ public class LoginActivity extends CommonActivity {
 		            if (GuiUtils.checkOnline()){
 		               
 		            	responseResult = restTemplate.postForObject(url, imageEntity, LoginResponse.class);		            	
-		                return  ServiceBoxUtil.checkResponseValido(responseResult);
+		                return  ServiceBoxMobileUtil.checkResponseValido(responseResult);
 		            }		         
 		        
 		        } catch (Exception e) {

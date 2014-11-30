@@ -4,10 +4,10 @@ package br.com.mobilenow;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
+import br.com.servicebox.android.common.util.CommonConfigurationUtils;
+import br.com.servicebox.android.common.util.CommonConfigurationUtils.CommonConfiguration;
+import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.Usuario;
-import br.com.servicebox.common.util.CommonConfigurationUtils;
-import br.com.servicebox.common.util.CommonConfigurationUtils.CommonConfiguration;
-import br.com.servicebox.common.util.GuiUtils;
 
 public class ServiceBoxApplication extends Application{
 	

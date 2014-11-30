@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import br.com.mobilenow.fragment.UsuarioActivity;
-import br.com.servicebox.common.activity.CommonActivity;
-import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.android.common.activity.CommonActivity;
+import br.com.servicebox.android.common.util.CommonUtils;
 
 public class AcessoActivity extends CommonActivity {
 	
