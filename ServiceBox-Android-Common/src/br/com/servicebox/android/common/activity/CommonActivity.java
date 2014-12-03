@@ -9,7 +9,7 @@ import org.holoeverywhere.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
-import br.com.servicebox.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.CommonUtils;
 
 
 public class CommonActivity extends Activity  {   // implements HasLifecycleEventHandler {
