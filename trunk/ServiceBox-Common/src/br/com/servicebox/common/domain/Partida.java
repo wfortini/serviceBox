@@ -1,8 +1,12 @@
 package br.com.servicebox.common.domain;
 
+import java.io.Serializable;
 
-public class Partida{
+
+public class Partida implements Serializable{
 	
+	
+	private static final long serialVersionUID = -7444625527145174350L;
 	private String enderecoPartida;
 	private Double latitude;
 	private Double longitude;

@@ -1,8 +1,12 @@
 package br.com.servicebox.common.domain;
 
+import java.io.Serializable;
 
-public class Planejamento{
+
+public class Planejamento implements Serializable{
 	
+	
+	private static final long serialVersionUID = -8718877526125098226L;
 	private boolean segunda;
 	private boolean terca;
 	private boolean quarta;
