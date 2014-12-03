@@ -1,8 +1,12 @@
 package br.com.servicebox.common.domain;
 
+import java.io.Serializable;
 
-public class Itinerario{
+
+public class Itinerario implements Serializable{
 	
+	
+	private static final long serialVersionUID = 9102384632516503737L;
 	private Partida partida;
 	private Destino destino;
 	private boolean soAmigos;

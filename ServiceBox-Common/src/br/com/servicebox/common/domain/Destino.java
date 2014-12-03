@@ -1,10 +1,13 @@
 package br.com.servicebox.common.domain;
 
+import java.io.Serializable;
 
 
-public class Destino{
+
+public class Destino implements Serializable{
 	
 
+	private static final long serialVersionUID = 6518731629464628395L;
 	private String enderecoDestino;
 	private Double latitude;
 	private Double longitude;
