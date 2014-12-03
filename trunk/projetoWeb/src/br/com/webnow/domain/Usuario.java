@@ -18,7 +18,9 @@ import org.springframework.data.neo4j.annotation.RelatedToVia;
 import org.springframework.data.neo4j.support.index.IndexType;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 
-import br.com.servicebox.common.domain.Localizacao;
+import br.com.servicebox.common.domain.Itinerario;
+import br.com.servicebox.common.domain.Planejamento;
+import br.com.webnow.util.ServiceBoxWebUtil;
 
 @NodeEntity
 public class Usuario implements Serializable{
@@ -49,7 +51,8 @@ public class Usuario implements Serializable{
 	@Fetch
 	private Set<Servico> servicosDisponiveis;
 	
-	@RelatedToVia(type = "PRESTA_SERVICO")	
+	@RelatedToVia(type = "PRESTA_SERVICO")
+	@Fetch
 	private Iterable<PrestarServico> prestarServicos;
 	
 	public Set<Usuario> getAmigos() {
@@ -68,12 +71,11 @@ public class Usuario implements Serializable{
     	return servico != null && getServicosDisponiveis().contains(servico);
     }
     
-    public PrestarServico iniciarPrestacao(Neo4jOperations template, Servico servico, Localizacao inicio, Localizacao destino) {
+    public PrestarServico iniciarPrestacao(Neo4jOperations template, Servico servico, Itinerario itinerario, Planejamento planejamento) {
         PrestarServico prestar = template.createRelationshipBetween(this, servico, PrestarServico.class, "PRESTA_SERVICO", false);
         prestar.setAtiva(true);
         prestar.setData(new Date());
-        prestar.setLocalizacaoFinal(destino);
-        prestar.setLocalizacaoInicial(inicio);
+        prestar = ServiceBoxWebUtil.preencherPrestacao(prestar, itinerario, planejamento);        
         return template.save(prestar);
     }
 
