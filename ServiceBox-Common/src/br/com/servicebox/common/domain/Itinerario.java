@@ -12,6 +12,8 @@ public class Itinerario implements Serializable{
 	private boolean soAmigos;
 	private boolean soAmigosDosAmigos;
 	private boolean todos;
+	private Double distanciaPartidaDestino;
+	private Double distanciaMaxima;
 	
 	public Partida getPartida() {
 		return partida;
@@ -44,6 +46,18 @@ public class Itinerario implements Serializable{
 	}
 	public void setTodos(boolean todos) {
 		this.todos = todos;
+	}
+	public Double getDistanciaPartidaDestino() {
+		return distanciaPartidaDestino;
+	}
+	public void setDistanciaPartidaDestino(Double distanciaPartidaDestino) {
+		this.distanciaPartidaDestino = distanciaPartidaDestino;
+	}
+	public Double getDistanciaMaxima() {
+		return distanciaMaxima;
+	}
+	public void setDistanciaMaxima(Double distanciaMaxima) {
+		this.distanciaMaxima = distanciaMaxima;
 	}
 	
 	
