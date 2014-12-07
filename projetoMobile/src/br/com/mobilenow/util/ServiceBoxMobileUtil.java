@@ -1,5 +1,12 @@
 package br.com.mobilenow.util;
 
+import java.nio.charset.Charset;
+
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import android.text.TextUtils;
 import br.com.mobilenow.R;
 import br.com.servicebox.android.common.net.Itinerario;
@@ -34,6 +41,8 @@ public class ServiceBoxMobileUtil {
 		request.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
 		request.setLatitudePartida(itinerario.getPartida().getLatitude());
 		request.setLongitudePartida(itinerario.getPartida().getLongitude());
+		request.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
+		request.setDistanciaMaxima(itinerario.getDistanciaMaxima());
 		
 		return request;
 		
@@ -58,4 +67,23 @@ public class ServiceBoxMobileUtil {
     }
     
 
+	/**
+	 * Retorna um RestTemplate configurado
+	 * @return restTemplate
+	 */
+	public static RestTemplate getRestTemplate(){
+		
+		FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+        formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
+        
+        RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add( formHttpMessageConverter );
+		restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+		
+		 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+		 
+		 return restTemplate;
+		
+		
+	}
 }
