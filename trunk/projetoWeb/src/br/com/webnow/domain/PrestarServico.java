@@ -61,6 +61,29 @@ public class PrestarServico {
 	private Double latitudePartida;
 	private Double longitudePartida;
 	
+	private Double distanciaPartidaDestino;
+	private Double distanciaMaxima;
+	
+	public Double getDistanciaPartidaDestino() {
+		return distanciaPartidaDestino;
+	}
+
+
+	public void setDistanciaPartidaDestino(Double distanciaPartidaDestino) {
+		this.distanciaPartidaDestino = distanciaPartidaDestino;
+	}
+
+
+	public Double getDistanciaMaxima() {
+		return distanciaMaxima;
+	}
+
+
+	public void setDistanciaMaxima(Double distanciaMaxima) {
+		this.distanciaMaxima = distanciaMaxima;
+	}
+
+
 	public PrestarServico() {
 		
 	}
