@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.AutoCompleteTextView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import br.com.mobilenow.util.GeoCoding;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.net.Destino;
@@ -25,6 +28,7 @@ import br.com.servicebox.android.common.net.Itinerario;
 import br.com.servicebox.android.common.net.Partida;
 import br.com.servicebox.android.common.util.CommonUtils;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -69,6 +73,8 @@ public class ItinerarioActivity extends CommonActivity {
     	private Destino enderecoDestino;
     	private Partida enderecoPartida;
     	private Itinerario itinerario;
+    	private ProgressDialog progressDialog;
+    	private LatLng latitudeLongitude;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -99,15 +105,34 @@ public class ItinerarioActivity extends CommonActivity {
                 	 itinerario = new Itinerario();
                 	 enderecoDestino = new Destino();
                 	 enderecoPartida = new Partida();
-                	 enderecoDestino.setEnderecoDestino(destino.getText().toString());
-                	 enderecoDestino.setLatitude(0d);
-                	 enderecoDestino.setLongitude(0d);
-                	 enderecoPartida.setEnderecoPartida(partida.getText().toString());
-                	 enderecoPartida.setLatitude(0d);
-                	 enderecoPartida.setLongitude(0d);
-                	 itinerario.setDestino(enderecoDestino);
-                	 itinerario.setPartida(enderecoPartida);                	 
-                     finishedClicked(v);
+                	 
+                	 if(destino.getText() != null && !destino.getText().toString().equals("")){
+                		 enderecoDestino.setEnderecoDestino(destino.getText().toString()); 
+                	 }else{
+                		 destino.setError("Entre com um destino.");
+                	 }
+                	 
+                	 if(partida.getText() != null && !partida.getText().toString().equals("")){
+                		 enderecoPartida.setEnderecoPartida(partida.getText().toString()); 
+                	 }else{
+                		 partida.setError("Entre com um local de partida.");
+                	 }
+                	 
+                	 if(enderecoPartida.getEnderecoPartida() != null && 
+                			 !enderecoPartida.getEnderecoPartida().equals("")){
+                		 new RequisicaoTask().execute(enderecoPartida.getEnderecoPartida(), "PARTIDA");
+                		 
+                		 
+                	 }
+                	 
+                	 if(enderecoDestino.getEnderecoDestino() != null && 
+                			 !enderecoPartida.getEnderecoPartida().equals("")){
+                		 new RequisicaoTask().execute(enderecoDestino.getEnderecoDestino(), "DESTINO");
+                		 
+                		 
+                	 }         	
+                	 
+                	 
                  }
              }); // fim classe interna 
              
@@ -118,7 +143,7 @@ public class ItinerarioActivity extends CommonActivity {
              
          }
     	 
-    	 public void finishedClicked(View v) {
+    	 public void finishedClicked() {
 
              Intent data = new Intent();
              data.putExtra(ITINERARIO, itinerario);
@@ -126,6 +151,62 @@ public class ItinerarioActivity extends CommonActivity {
              getActivity().finish();
 
          }
+    	 
+
+    /** processamento assincrono **/	
+	private class RequisicaoTask extends AsyncTask<String, Void, LatLng>{
+			
+			String obterCoordenadasPara = "";
+			
+			@Override
+	        protected void onPreExecute() {
+				super.onPreExecute();
+				progressDialog = new ProgressDialog(getActivity());
+				progressDialog.setTitle(R.string.aguarde_por_favor);
+				progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+				progressDialog.setCancelable(false);
+				progressDialog.show();
+			}
+
+			@Override
+			protected LatLng doInBackground(String... params) {			 
+				
+				GeoCoding geo = new GeoCoding();
+				
+				latitudeLongitude = geo.getLatitudeLongitude(params[0]);
+				obterCoordenadasPara = params[1];
+				
+				return latitudeLongitude;
+				
+			}	
+			
+			@Override
+			protected void onCancelled() {
+				super.onCancelled();
+			}
+			
+			@Override
+			protected void onPostExecute(LatLng result) {				
+				super.onPostExecute(result);
+				if(obterCoordenadasPara.equals("PARTIDA")){
+					enderecoPartida.setLatitude(latitudeLongitude.latitude);
+	       		    enderecoPartida.setLongitude(latitudeLongitude.longitude);	
+				}else{
+					enderecoDestino.setLatitude(latitudeLongitude.latitude);
+	       		    enderecoDestino.setLongitude(latitudeLongitude.longitude);
+	       		    
+		       		 itinerario.setDestino(enderecoDestino);
+	            	 itinerario.setPartida(enderecoPartida); 
+	            	 itinerario.setDistanciaMaxima(0.0);
+	            	 itinerario.setDistanciaPartidaDestino(0.0);
+	                 finishedClicked();
+				}
+				progressDialog.dismiss();
+				
+			}
+			
+		} // fim Task
+
     	 
     	 
     	 private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {

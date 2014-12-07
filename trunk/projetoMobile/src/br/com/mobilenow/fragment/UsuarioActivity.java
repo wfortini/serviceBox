@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
+import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonClosableOnRestoreDialogFragment;
 import br.com.servicebox.android.common.fragment.CommonFragment;
@@ -586,21 +587,13 @@ public class UsuarioActivity extends CommonActivity{
 			}
 
 			@Override
-			protected Response doInBackground(Void... params) {
-				
-				  FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-	              formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
-
+			protected Response doInBackground(Void... params) {			 
 				
 				try {
 					final String url = "http://192.168.0.133:8080/projetoWeb/registrarUsuario.json";
 					
-					RestTemplate restTemplate = new RestTemplate();
-					restTemplate.getMessageConverters().add( formHttpMessageConverter );
-					restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-					
-					 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
                      
 					 map.add("login", usuario.getLogin());
 					 map.add("nome", usuario.getNome());

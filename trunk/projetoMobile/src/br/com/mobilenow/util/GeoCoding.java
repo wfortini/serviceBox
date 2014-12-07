@@ -2,6 +2,7 @@ package br.com.mobilenow.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,6 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 import br.com.servicebox.android.common.util.CommonUtils;
 
@@ -24,16 +28,21 @@ public class GeoCoding {
 
 	public LatLng getLatitudeLongitude(String endereco){
 		
-		    LatLng latLng = null;
+		      endereco = endereco.replaceAll(" ","%20");   
 		
-		    String uri = "http://maps.google.com/maps/api/geocode/json?address=" +
+		     String uri = "http://maps.google.com/maps/api/geocode/json?address=" +
 				 endereco + "&sensor=false";
+		     StringBuilder stringBuilder = new StringBuilder();
+		     
+		    LatLng latLng = null;
+		    try {
+		    
 		   HttpGet httpGet = new HttpGet(uri);
 		   HttpClient client = new DefaultHttpClient();
 		   HttpResponse response;
-		   StringBuilder stringBuilder = new StringBuilder();
+		  
 		
-		   try {
+		  
 		       response = client.execute(httpGet);
 		       HttpEntity entity = response.getEntity();
 		       InputStream stream = entity.getContent();
@@ -61,8 +70,8 @@ public class GeoCoding {
 		           .getJSONObject("geometry").getJSONObject("location")
 		           .getDouble("lat");
 		
-		       Log.d("latitude", "" + lat);
-		       Log.d("longitude", "" + lng);
+		       Log.d("===========================latitude", "" + lat);
+		       Log.d("===========================longitude", "" + lng);
 		       
 		       latLng = new LatLng(lat, lng);
 		       
@@ -73,6 +82,27 @@ public class GeoCoding {
 		   }
 		
 		   return latLng;
+	}
+	
+	public LatLng converteEndereco(String address, Context context) {
+		double lat = 0.0;
+		double lng = 0.0;
+	    if (address != null && !address.isEmpty()) {
+	        try {
+	        	Geocoder geo = new Geocoder(context);
+	            List<Address> addressList = geo.getFromLocationName(address, 1);
+	            if (addressList != null && addressList.size() > 0) {
+	                lat = addressList.get(0).getLatitude();
+	                lng = addressList.get(0).getLongitude();
+	            }
+	            return new LatLng(lat, lng);
+	        } catch (Exception e) {
+	        	CommonUtils.error(TAG, e.getMessage());
+	            e.printStackTrace();
+	        } // end catch
+	    } // end if
+	    
+	    return new LatLng(lat, lng);
 	}
 	
 	
