@@ -105,7 +105,7 @@ public class AutorizarController {
 				return loginResponse;
 			}
 		} catch (Exception e) {
-			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
+			logger.error("Erro ao tentar autenticar usuario Android: ", e);
 			loginResponse = new LoginResponse();
 			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
 			loginResponse.setMessage("Erro ao autenticar o usuário");			
