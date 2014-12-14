@@ -28,14 +28,14 @@ public class Usuario implements Serializable{
 	private static final long serialVersionUID = 179224882566814808L;
 
 	@GraphId
-	private Long nodeId;
+	private Long nodeId;	
 	
-	@Indexed(unique = true)
+	@Indexed(unique = true, indexType = IndexType.SIMPLE)
 	private String login;
 	
 	private String password;
 	
-	@Indexed(indexName = "idx_usuario_nome", indexType = IndexType.FULLTEXT)
+	@Indexed
 	private String nome;
 	
 	private String sobreNome;

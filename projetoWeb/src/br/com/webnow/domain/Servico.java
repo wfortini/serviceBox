@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 import br.com.servicebox.common.domain.TipoServico;
 
@@ -20,7 +21,7 @@ public abstract class Servico implements Serializable{
 	private Boolean servicoDisponivel;
 	private Date dataInicialPrestacao;
 	
-	@Indexed(unique = true,indexName="idServico")
+	@Indexed(unique = true,indexName="idServico", indexType= IndexType.SIMPLE)
 	private Integer tipoServico;	
 	
 	public Servico() {
