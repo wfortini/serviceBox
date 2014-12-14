@@ -9,12 +9,35 @@ public class Itinerario implements Parcelable{
 	private Destino destino;
 	private boolean soAmigos;
 	private boolean soAmigosDosAmigos;
-	private boolean todos;	
+	private boolean todos;
+	private Double distanciaPartidaDestino;
+	private Double distanciaMaxima;
 	
     public Itinerario() {
 		// TODO Auto-generated constructor stub
 	}
     
+    
+	public Double getDistanciaPartidaDestino() {
+		return distanciaPartidaDestino;
+	}
+
+
+	public void setDistanciaPartidaDestino(Double distanciaPartidaDestino) {
+		this.distanciaPartidaDestino = distanciaPartidaDestino;
+	}
+
+
+	public Double getDistanciaMaxima() {
+		return distanciaMaxima;
+	}
+
+
+	public void setDistanciaMaxima(Double distanciaMaxima) {
+		this.distanciaMaxima = distanciaMaxima;
+	}
+
+
 	public Partida getPartida() {
 		return partida;
 	}
@@ -73,7 +96,8 @@ public class Itinerario implements Parcelable{
 		dest.writeByte((byte) (soAmigos ? 1 : 0));
 		dest.writeByte((byte) (soAmigosDosAmigos ? 1 : 0));
 		dest.writeByte((byte) (todos ? 1 : 0));
-		
+		dest.writeDouble(distanciaPartidaDestino);
+		dest.writeDouble(distanciaMaxima);
 	}
 	
 	private Itinerario(Parcel in) {
@@ -82,6 +106,8 @@ public class Itinerario implements Parcelable{
         soAmigos = in.readByte() == 1;
         soAmigosDosAmigos = in.readByte() == 1;
         todos = in.readByte() == 1;
+        distanciaPartidaDestino = in.readDouble();
+        distanciaMaxima = in.readDouble();
     }
 	
 	 public static final Parcelable.Creator<Itinerario> CREATOR = new Parcelable.Creator<Itinerario>() {
