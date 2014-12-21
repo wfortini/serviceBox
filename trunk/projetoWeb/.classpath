@@ -9,6 +9,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LIBS_NEO4j2.1.5_spring4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LIBS_NEO4J_SPRING4_REST"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
