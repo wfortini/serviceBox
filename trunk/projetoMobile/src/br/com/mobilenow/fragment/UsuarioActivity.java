@@ -590,7 +590,8 @@ public class UsuarioActivity extends CommonActivity{
 			protected Response doInBackground(Void... params) {			 
 				
 				try {
-					final String url = "http://192.168.0.133:8080/projetoWeb/registrarUsuario.json";
+					final String url = getString(R.string.ip_servidor_servicebox).
+							                   concat(":8080/projetoWeb/registrarUsuario.json");
 					
 					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();

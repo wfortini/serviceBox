@@ -119,20 +119,13 @@ public class CaronaMapFragment extends SherlockMapFragment{
 					}
 
 					@Override
-					protected Response doInBackground(Void... params) {
-						
-						  FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-			              formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
-
+					protected Response doInBackground(Void... params) {					
 						
 						try {
-							final String url = "http://192.168.0.133:8080/projetoWeb/prestarServico.json";
+							final String url = getString(R.string.ip_servidor_servicebox)
+									.concat(":8080/projetoWeb/prestarServico.json");
 							
-							RestTemplate restTemplate = new RestTemplate();
-							restTemplate.getMessageConverters().add( formHttpMessageConverter );
-							restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-							
-							restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+							RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
 							
 							PrestarServicoRequest request = ServiceBoxMobileUtil.preencheObjetoPrestarServicoRequest(itinerario, planejamento);    
 							request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());

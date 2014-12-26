@@ -40,6 +40,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Key;
+import com.google.maps.android.SphericalUtil;
 
 public class ItinerarioActivity extends CommonActivity {
 
@@ -171,6 +172,7 @@ public class ItinerarioActivity extends CommonActivity {
 			@Override
 			protected LatLng doInBackground(String... params) {			 
 				
+				// Obter latitude / longitude dos endereço de Partida e destino
 				GeoCoding geo = new GeoCoding();
 				
 				latitudeLongitude = geo.getLatitudeLongitude(params[0]);
@@ -195,11 +197,14 @@ public class ItinerarioActivity extends CommonActivity {
 					enderecoDestino.setLatitude(latitudeLongitude.latitude);
 	       		    enderecoDestino.setLongitude(latitudeLongitude.longitude);
 	       		    
-		       		 itinerario.setDestino(enderecoDestino);
-	            	 itinerario.setPartida(enderecoPartida); 
-	            	 itinerario.setDistanciaMaxima(0.0);
-	            	 itinerario.setDistanciaPartidaDestino(0.0);
-	                 finishedClicked();
+	       		    LatLng de = new LatLng(enderecoPartida.getLatitude(), enderecoPartida.getLongitude());
+	       		    LatLng para = new LatLng(enderecoDestino.getLatitude(), enderecoDestino.getLongitude());       		    
+	       		    
+		       		itinerario.setDestino(enderecoDestino);
+	            	itinerario.setPartida(enderecoPartida); 
+	            	itinerario.setDistanciaMaxima(0.0);
+	            	itinerario.setDistanciaPartidaDestino(SphericalUtil.computeDistanceBetween(de, para));
+	                finishedClicked();
 				}
 				progressDialog.dismiss();
 				

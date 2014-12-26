@@ -165,19 +165,13 @@ public class LoginActivity extends CommonActivity {
 		    @Override
 		    protected Boolean doInBackground(Void... params) {
 		    	
-		    	 FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-                 formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
-
 		        try {
 		        	
-                     final String url = "http://192.168.0.133:8080/projetoWeb/autenticar.json";
+                     final String url =  getString(R.string.ip_servidor_servicebox)
+                    		          .concat(":8080/projetoWeb/autenticar.json");
 					
-					RestTemplate restTemplate = new RestTemplate();
-					restTemplate.getMessageConverters().add( formHttpMessageConverter );
-					restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-					
-					 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
                      
 					 map.add("login", credencial.getLogin());
 					 map.add("pwd", credencial.getPwd());				
