@@ -63,7 +63,8 @@ public class ServiceBoxWebUtil {
 		itinerario.setSoAmigos(request.isSoAmigos());
 		itinerario.setSoAmigosDosAmigos(request.isSoAmigosDosAmigos());
 		itinerario.setTodos(request.isTodos());
-		
+		itinerario.setDistanciaMaxima(request.getDistanciaMaxima());
+		itinerario.setDistanciaPartidaDestino(request.getDistanciaPartidaDestino());
 		return itinerario;
 	}
 	
