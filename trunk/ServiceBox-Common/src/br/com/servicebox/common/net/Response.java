@@ -19,6 +19,8 @@ public class Response implements Serializable{
 	public static final int USUARIO_NAO_AUTORIZADO = 5;
 	public static final int USUARIO_AUTORIZADO = 6;
 	public static final int SERVICO_NAO_INCLUSO = 7;
+	public static final int FALHA = 8;
+	
 	
 	public Response(boolean sucesso, String message, Long nodeId, int code){
 		this.setSucesso(sucesso);
