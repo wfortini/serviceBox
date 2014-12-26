@@ -45,19 +45,21 @@ public class PrestarServicoController {
 					  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
 			  if(prestar != null && prestar.getNodeId() != null){
 				  
-				  response = new PrestarServicoResponse(true,"Serviço adicionado com sucesso.",
+				  response = new PrestarServicoResponse(true,"Prestação de serviço adicionado com sucesso.",
 						  prestar.getNodeId(),Response.SUCESSO);                 
                   return response;
 				  
 			  }else{
 				  
+				  response = new PrestarServicoResponse(true,"Falha ao adicionar Prestação de Serviço.",
+						  prestar.getNodeId(),Response.FALHA);                 
+                  return response;
+				  
 			  }
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		 
-		 
-		 return null;
+			logger.error("Erro ao adicionar prestacao servico: ", e.getMessage());
+			return new PrestarServicoResponse(false, "Falha na prestação de serviço", null, Response.ERRO_DESCONHECIDO);
+		}	
 		 
 	 }
 }
