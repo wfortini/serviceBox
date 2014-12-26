@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
@@ -109,21 +110,15 @@ public class PrestarServicoActivity extends CommonActivity {
     			}
 
     			@Override
-    			protected ServicoResponse doInBackground(Void... params) {
-    				
-    				  FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-    	              formHttpMessageConverter.setCharset(Charset.forName("UTF8"));
-
+    			protected ServicoResponse doInBackground(Void... params) {    				
     				
     				try {
-    					final String url = "http://192.168.0.133:8080/projetoWeb/adicionarServico.json";
+    					final String url = getString(R.string.ip_servidor_servicebox)
+    							   .concat(":8080/projetoWeb/adicionarServico.json");
     					
-    					RestTemplate restTemplate = new RestTemplate();
-    					restTemplate.getMessageConverters().add( formHttpMessageConverter );
-    					restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+    					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
     					
-    					 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-    					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();                   
+    					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();                   
     					
     					 map.add("login", ServiceBoxApplication.getUsuario().getLogin());
     					 map.add("disponibilizarServico", String.valueOf(prestarSimNao.isChecked()));
