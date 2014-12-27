@@ -4,8 +4,10 @@ import java.util.Date;
 
 import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 /**
  * Classe que relaciona um usuario a um servico
@@ -54,6 +56,9 @@ public class PrestarServico {
 	private Double latitudeDestino;
 	private Double longitudeDestino;
 	
+	@Indexed(indexType = IndexType.POINT, indexName = "localDestino")
+	private String localDestino;
+	
 	/**
 	 * Partida
 	 */
@@ -61,23 +66,44 @@ public class PrestarServico {
 	private Double latitudePartida;
 	private Double longitudePartida;
 	
-	private Double distanciaPartidaDestino;
-	private Double distanciaMaxima;
+	@Indexed(indexType = IndexType.POINT, indexName = "localPartida")
+	private String localPartida;
 	
+	private Double distanciaPartidaDestino;
+	private Double distanciaMaxima;	
+
+
+	public void setLocalDestino(Double latitudeDestino, Double longitudeDestino) {
+		this.localDestino = String.format("POINT(%f %f)",longitudeDestino,latitudeDestino).replace(",",".");
+	}
+
+	public void setLocalPartida(Double latitudePartida, Double longitudePartida) {
+		this.localPartida = String.format("POINT(%f %f)",longitudePartida,latitudePartida).replace(",",".");
+	}
+
+
 	public Double getDistanciaPartidaDestino() {
 		return distanciaPartidaDestino;
 	}
-
-
-	public void setDistanciaPartidaDestino(Double distanciaPartidaDestino) {
-		this.distanciaPartidaDestino = distanciaPartidaDestino;
+	public String getLocalDestino() {
+		return localDestino;
 	}
 
+
+	public String getLocalPartida() {
+		return localPartida;
+	}
+
+
+	
 
 	public Double getDistanciaMaxima() {
 		return distanciaMaxima;
 	}
 
+	public void setDistanciaPartidaDestino(Double distanciaPartidaDestino) {
+		this.distanciaPartidaDestino = distanciaPartidaDestino;
+	}
 
 	public void setDistanciaMaxima(Double distanciaMaxima) {
 		this.distanciaMaxima = distanciaMaxima;
