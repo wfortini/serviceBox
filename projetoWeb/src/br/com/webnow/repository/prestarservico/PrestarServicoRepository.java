@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.repository.SpatialRepository;
 import br.com.webnow.domain.PrestarServico;
 
 public interface PrestarServicoRepository extends GraphRepository<PrestarServico>, 
-                           RelationshipOperationsRepository<PrestarServico>, SpatialRepository<PrestarServico>{
+                            SpatialRepository<PrestarServico>{
 	
 	PrestarServico findByNodeId(Long id);
 
