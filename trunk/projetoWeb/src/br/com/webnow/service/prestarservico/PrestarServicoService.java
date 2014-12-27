@@ -30,7 +30,7 @@ public class PrestarServicoService {
 			Itinerario itinerario, Planejamento planejamento){
 		
 		Usuario usuario = usuarioRepository.findByNodeId(usuarioId);
-		Servico servico = servicoRepository.findByPropertyValue("tipoServico", tipoServico);
+		Servico servico = servicoRepository.findByTipoServico(tipoServico);
 		PrestarServico prestar = null;
 		if(usuario != null){
 			
