@@ -39,6 +39,8 @@ public class ServiceBoxWebUtil {
 		servico.setLongitudePartida(itinerario.getPartida().getLongitude());
 		servico.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
 		servico.setDistanciaMaxima(itinerario.getDistanciaMaxima());
+		servico.setLocalPartida(itinerario.getPartida().getLatitude(), itinerario.getPartida().getLongitude());
+		servico.setLocalDestino(itinerario.getDestino().getLatitude(), itinerario.getDestino().getLongitude());
 		
 		return servico;
 	}
