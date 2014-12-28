@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.servicebox.common.net.Response;
+import br.com.webnow.boundingCoordinates.GeoLocation;
 import br.com.webnow.domain.Credenciais;
-import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
 import br.com.webnow.net.LoginResponse;
@@ -47,6 +47,27 @@ public class AutorizarController {
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);
 			
+			
+			double earthRadius = 6371.01;
+			GeoLocation myLocation = GeoLocation.fromRadians(-22.7099105, -43.56431449999999);
+			double distance = 1000;
+			
+			GeoLocation[] boundingCoordinates = myLocation.boundingCoordinates(distance, earthRadius);
+			
+			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			
+			System.out.println("Latitude Minima 1" + boundingCoordinates[0].getLatitudeInRadians());
+			System.out.println("Latitude Maxima 2" + boundingCoordinates[1].getLatitudeInRadians());
+			System.out.println("Longitude Minima 3" + boundingCoordinates[0].getLongitudeInRadians());
+			System.out.println("Longitude Maxima 4" + boundingCoordinates[1].getLongitudeInRadians());
+			System.out.println("Latitude busca 5" + myLocation.getLatitudeInRadians());
+			System.out.println("Latitude busca 6" + myLocation.getLatitudeInRadians());
+			System.out.println("Longitude busca 7" + myLocation.getLongitudeInRadians());
+			System.out.println("Distancia 8" + distance / earthRadius);
+			
+			
+			
+			/**
 			for(Servico s : usuario.getServicosDisponiveis()){
 				
 				System.out.println("=================" + s);
@@ -67,7 +88,8 @@ public class AutorizarController {
 				loginResponse.setMessage("Usuário não autorizado.");
 				loginResponse.setSucesso(false);
 				return "/home";
-			}
+			} **/
+			return "/home";
 		} catch (Exception e) {
 			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
 			loginResponse = new LoginResponse();
