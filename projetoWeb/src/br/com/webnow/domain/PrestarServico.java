@@ -74,13 +74,24 @@ public class PrestarServico {
 
 
 	public void setLocalDestino(Double latitudeDestino, Double longitudeDestino) {
-		this.localDestino = String.format("POINT(%f %f)",longitudeDestino,latitudeDestino).replace(",",".");
+		this.setLatitudeDestino(latitudeDestino);
+		this.setLatitudeDestino(latitudeDestino);
+		this.updateLocalDestino();
+	}
+	
+	private void updateLocalDestino(){
+		this.localDestino = String.format("POINT( %.2f %.2f )", this.getLongitudeDestino(), this.getLatitudeDestino());
 	}
 
 	public void setLocalPartida(Double latitudePartida, Double longitudePartida) {
-		this.localPartida = String.format("POINT(%f %f)",longitudePartida,latitudePartida).replace(",",".");
+		this.setLatitudePartida(latitudePartida);
+		this.setLongitudePartida(longitudePartida);
+		this.updateLocalPartida();
 	}
 
+	private void updateLocalPartida(){
+		this.localPartida = String.format("POINT( %.2f %.2f )", this.getLongitudePartida(), this.getLatitudePartida());
+	}
 
 	public Double getDistanciaPartidaDestino() {
 		return distanciaPartidaDestino;
@@ -93,9 +104,6 @@ public class PrestarServico {
 	public String getLocalPartida() {
 		return localPartida;
 	}
-
-
-	
 
 	public Double getDistanciaMaxima() {
 		return distanciaMaxima;
