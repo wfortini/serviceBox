@@ -1,6 +1,12 @@
 package br.com.webnow.service.prestarservico;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +17,7 @@ import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
+import br.com.webnow.repository.prestarservico.PrestarServicoRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 
 @Service
@@ -21,6 +28,9 @@ public class PrestarServicoService {
 	
 	@Autowired
 	private ServicoRepository servicoRepository;
+	
+	@Autowired
+	private PrestarServicoRepository prestarServicoRepository;
 	
 	@Autowired
     private Neo4jOperations template;
@@ -40,5 +50,13 @@ public class PrestarServicoService {
 		
 		
 		return prestar;
+	}
+	
+	@Transactional
+	public List<PrestarServico> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
+				
+		 Circle circle = new Circle(new Point(longitude, latitude), new Distance(distanciaKM, Metrics.KILOMETERS));
+		
+		return this.prestarServicoRepository.findWithinDistance("", circle);
 	}
 }
