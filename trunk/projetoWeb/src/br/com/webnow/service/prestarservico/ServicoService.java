@@ -44,7 +44,7 @@ public class ServicoService {
 	@Transactional
 	public boolean addServico(Usuario usuario, Integer idServico){
 		
-		Servico servico = servicoRepository.findByPropertyValue("tipoServico", "idServico", idServico);
+		Servico servico = servicoRepository.findByTipoServico(idServico);
 		boolean result = usuario.addServico(servico); 
 		template.save(usuario);
 		return result;
@@ -54,7 +54,7 @@ public class ServicoService {
 	@Transactional
 	public boolean removeServico(Usuario usuario, Integer idServico){
 		
-		Servico servico = servicoRepository.findByPropertyValue("tipoServico", "idServico", idServico);
+		Servico servico = servicoRepository.findByTipoServico(idServico);
 		boolean result = usuario.removeServico(servico); 
 		template.save(usuario);
 		return result;		

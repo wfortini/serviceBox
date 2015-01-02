@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.webnow.boundingCoordinates.GeoLocation;
 import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
 import br.com.webnow.domain.Reboque;
@@ -54,6 +55,25 @@ public class UsuarioController {
 	            Model model) {
 
 	        try {
+	        	
+	        	
+	        	double earthRadius = 6371.01;
+				GeoLocation myLocation = GeoLocation.fromRadians(-22.7099105, -43.56431449999999);
+				double distance = 1000;
+				
+				GeoLocation[] boundingCoordinates = myLocation.boundingCoordinates(distance, earthRadius);
+				
+				System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+				
+				System.out.println("Latitude Minima 1" + boundingCoordinates[0].getLatitudeInRadians());
+				System.out.println("Latitude Maxima 2" + boundingCoordinates[1].getLatitudeInRadians());
+				System.out.println("Longitude Minima 3" + boundingCoordinates[0].getLongitudeInRadians());
+				System.out.println("Longitude Maxima 4" + boundingCoordinates[1].getLongitudeInRadians());
+				System.out.println("Latitude busca 5" + myLocation.getLatitudeInRadians());
+				System.out.println("Latitude busca 6" + myLocation.getLatitudeInRadians());
+				System.out.println("Longitude busca 7" + myLocation.getLongitudeInRadians());
+				System.out.println("Distancia 8" + distance / earthRadius);
+	        	
 	        	//Usuario usuario = new Usuario(login, password, nome, sobreNome, sexo, apelido);
 	        	//usuario = usuarioRepository.registrar(usuario);
 	        	Usuario u = usuarioRepository.findByLogin("wellington");

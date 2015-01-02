@@ -53,7 +53,7 @@ public class GeoLocation {
 		result.radLon = longitude;
 		result.degLat = Math.toDegrees(latitude);
 		result.degLon = Math.toDegrees(longitude);
-		result.checkBounds();
+		//result.checkBounds();
 		return result;
 	}
 

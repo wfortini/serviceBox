@@ -48,22 +48,7 @@ public class AutorizarController {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);
 			
 			
-			double earthRadius = 6371.01;
-			GeoLocation myLocation = GeoLocation.fromRadians(-22.7099105, -43.56431449999999);
-			double distance = 1000;
 			
-			GeoLocation[] boundingCoordinates = myLocation.boundingCoordinates(distance, earthRadius);
-			
-			System.out.println(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-			
-			System.out.println("Latitude Minima 1" + boundingCoordinates[0].getLatitudeInRadians());
-			System.out.println("Latitude Maxima 2" + boundingCoordinates[1].getLatitudeInRadians());
-			System.out.println("Longitude Minima 3" + boundingCoordinates[0].getLongitudeInRadians());
-			System.out.println("Longitude Maxima 4" + boundingCoordinates[1].getLongitudeInRadians());
-			System.out.println("Latitude busca 5" + myLocation.getLatitudeInRadians());
-			System.out.println("Latitude busca 6" + myLocation.getLatitudeInRadians());
-			System.out.println("Longitude busca 7" + myLocation.getLongitudeInRadians());
-			System.out.println("Distancia 8" + distance / earthRadius);
 			
 			
 			

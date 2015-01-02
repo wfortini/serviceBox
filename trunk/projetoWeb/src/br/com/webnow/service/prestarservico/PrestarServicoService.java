@@ -2,6 +2,7 @@ package br.com.webnow.service.prestarservico;
 
 import java.util.List;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Distance;
@@ -53,10 +54,11 @@ public class PrestarServicoService {
 	}
 	
 	@Transactional
+	@SuppressWarnings("unchecked")
 	public List<PrestarServico> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
 				
 		 Circle circle = new Circle(new Point(longitude, latitude), new Distance(distanciaKM, Metrics.KILOMETERS));
 		
-		return this.prestarServicoRepository.findWithinDistance("", circle);
+		return IteratorUtils.toList(this.prestarServicoRepository.findWithinDistance("", circle).iterator());
 	}
 }

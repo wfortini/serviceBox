@@ -13,8 +13,8 @@ public class FileUtil {
 	
 	private final static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-	private static final String PATH = "L:/fotos";
-	private static final File raiz = new File("L:/fotos");
+	private static final String PATH = "D:/fotos";
+	private static final File raiz = new File("D:/fotos");
 	
 	public static String renomear(File arquivoAntigo , File arquivoNovo){
 		
