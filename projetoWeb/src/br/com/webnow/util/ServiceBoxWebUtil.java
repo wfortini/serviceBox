@@ -31,16 +31,16 @@ public class ServiceBoxWebUtil {
 		servico.setHoraE(planejamento.getHoraE());
 		
 		servico.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
-		servico.setLatitudeDestino(itinerario.getDestino().getLatitude());
-		servico.setLongitudeDestino(itinerario.getDestino().getLongitude());
+		//servico.setLatitudeDestino(itinerario.getDestino().getLatitude());
+		//servico.setLongitudeDestino(itinerario.getDestino().getLongitude());
 		
 		servico.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
-		servico.setLatitudePartida(itinerario.getPartida().getLatitude());
-		servico.setLongitudePartida(itinerario.getPartida().getLongitude());
+		//servico.setLatitude(itinerario.getPartida().getLatitude());
+		//servico.setLongitude(itinerario.getPartida().getLongitude());
 		servico.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
 		servico.setDistanciaMaxima(itinerario.getDistanciaMaxima());
-		servico.setLocalPartida(itinerario.getPartida().getLatitude(), itinerario.getPartida().getLongitude());
-		servico.setLocalDestino(itinerario.getDestino().getLatitude(), itinerario.getDestino().getLongitude());
+		//servico.setLocalPartida(itinerario.getPartida().getLatitude(), itinerario.getPartida().getLongitude());
+		//servico.setLocalDestino(itinerario.getDestino().getLatitude(), itinerario.getDestino().getLongitude());
 		
 		return servico;
 	}

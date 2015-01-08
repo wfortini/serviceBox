@@ -63,8 +63,8 @@ public class PrestarServicoController {
 		 
 	 }
 	 
-	 @RequestMapping(value = "/prestarServico", method = RequestMethod.POST)
-	 public @ResponseBody PrestarServicoResponse buscarPorLatLonDeistancia(@RequestBody PrestarServicoRequest request){
+	 @RequestMapping(value = "/buscarLocalizacaoPorDistancia", method = RequestMethod.POST)
+	 public @ResponseBody PrestarServicoResponse buscarLocalizacaoPorDistancia(@RequestBody PrestarServicoRequest request){
 		 
 		 
 		

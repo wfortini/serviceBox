@@ -5,10 +5,12 @@ import static org.neo4j.graphdb.Direction.INCOMING;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.helpers.collection.IteratorUtil;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
@@ -23,6 +25,7 @@ import br.com.servicebox.common.domain.Planejamento;
 import br.com.webnow.util.ServiceBoxWebUtil;
 
 @NodeEntity
+@TypeAlias("Usuario")
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 179224882566814808L;
@@ -54,6 +57,48 @@ public class Usuario implements Serializable{
 	@RelatedToVia(type = "PRESTA_SERVICO")
 	@Fetch
 	private Iterable<PrestarServico> prestarServicos;
+	
+	
+	
+	@Indexed(indexName="localPartida", indexType=IndexType.POINT)
+	private String wkt;
+	
+	private Double latitude;
+
+	private Double longitude;
+	
+
+	private void updateWkt(){
+		Locale enLocale = new Locale("en", "EN");
+	    this.wkt = String.format(enLocale, "POINT( %.2f %.2f )", this.getLongitude(), this.getLatitude());
+	}
+	
+	 public Double getLatitude()
+	  {
+	    return latitude;
+	  }
+	
+	  public void setLatitude(Double latitude)
+	  {
+	    this.latitude = latitude;
+	    
+	    this.updateWkt();
+	  }
+	
+	  public Double getLongitude()
+	  {
+	    return longitude;
+	  }
+	
+	  public void setLongitude(Double longitude)
+	  {
+	    this.longitude = longitude;
+	        
+	    this.updateWkt();
+	  }
+	
+	
+	
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
