@@ -53,59 +53,62 @@ public class PrestarServico {
 	 * Destino
 	 */
 	private String enderecoDestino;
-	private Double latitudeDestino;
-	private Double longitudeDestino;
+	//private Double latitudeDestino;
+	//private Double longitudeDestino;
 	
-	@Indexed(indexType = IndexType.POINT, indexName = "localDestino")
-	private String localDestino;
+	//@Indexed(indexType = IndexType.POINT, indexName = "localDestino")
+	//private String localDestino;
 	
 	/**
 	 * Partida
 	 */
 	private String enderecoPartida;
-	private Double latitudePartida;
-	private Double longitudePartida;
+	//private Double latitudePartida;
+	//private Double longitudePartida;
 	
-	@Indexed(indexType = IndexType.POINT, indexName = "localPartida")
-	private String localPartida;
+	
+	
+	
+	//@Indexed(indexType = IndexType.POINT, indexName = "localPartida")
+	//private String localPartida;
 	
 	private Double distanciaPartidaDestino;
 	private Double distanciaMaxima;	
-
-
 	
-	public void setLocalDestino(Double latitudeDestino, Double longitudeDestino) {
-		this.setLatitudeDestino(latitudeDestino);
-		this.setLatitudeDestino(latitudeDestino);
-		this.updateLocalDestino();
-	}
 	
-	private void updateLocalDestino(){
+	  
+	//public void setLocalDestino(Double latitudeDestino, Double longitudeDestino) {
+	//	this.setLatitudeDestino(latitudeDestino);
+	//	this.setLatitudeDestino(latitudeDestino);
+	//	this.updateLocalDestino();
+	//}
+	
+	/*private void updateLocalDestino(){
 		this.localDestino = String.format("POINT( %.2f %.2f )", this.getLongitudeDestino(), this.getLatitudeDestino());
-	}
+	}*/
 
 	
-	public void setLocalPartida(Double latitudePartida, Double longitudePartida) {
+	/*public void setLocalPartida(Double latitudePartida, Double longitudePartida) {
 		this.setLatitudePartida(latitudePartida);
 		this.setLongitudePartida(longitudePartida);
 		this.updateLocalPartida();
-	}
+	}*/
 
-	private void updateLocalPartida(){
+	/*private void updateLocalPartida(){
 		this.localDestino = String.format("POINT( %.2f %.2f )", this.getLongitudePartida(), this.getLatitudePartida());
-	}
+	}*/
 
 	public Double getDistanciaPartidaDestino() {
 		return distanciaPartidaDestino;
 	}
-	public String getLocalDestino() {
+	/*public String getLocalDestino() {
 		return localDestino;
-	}
+	}*/
 
 
-	public String getLocalPartida() {
+	/*public String getLocalPartida() {
 		return localPartida;
-	}
+	}*/
 
 
 	
@@ -268,7 +271,7 @@ public class PrestarServico {
 	}
 
 
-	public Double getLatitudeDestino() {
+	/*public Double getLatitudeDestino() {
 		return latitudeDestino;
 	}
 
@@ -285,7 +288,7 @@ public class PrestarServico {
 
 	public void setLongitudeDestino(Double longitudeDestino) {
 		this.longitudeDestino = longitudeDestino;
-	}
+	}*/
 
 
 	public String getEnderecoPartida() {
@@ -298,7 +301,7 @@ public class PrestarServico {
 	}
 
 
-	public Double getLatitudePartida() {
+	/*public Double getLatitudePartida() {
 		return latitudePartida;
 	}
 
@@ -315,7 +318,7 @@ public class PrestarServico {
 
 	public void setLongitudePartida(Double longitudePartida) {
 		this.longitudePartida = longitudePartida;
-	}
+	}*/
 
 
 	public Long getNodeId() {

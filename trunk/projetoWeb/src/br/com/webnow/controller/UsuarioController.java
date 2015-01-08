@@ -77,6 +77,12 @@ public class UsuarioController {
 	        	//Usuario usuario = new Usuario(login, password, nome, sobreNome, sexo, apelido);
 	        	//usuario = usuarioRepository.registrar(usuario);
 	        	Usuario u = usuarioRepository.findByLogin("wellington");
+	        	
+	        	u.setLatitude(new Double("-22.7099105"));
+	        	u.setLongitude(new Double("-43.56431449999999"));
+	        	
+	        	usuarioRepository.save(u);
+	        	
 	        	System.out.println(u);
 	        	
 	        	for(Servico s : u.getServicosDisponiveis()){
