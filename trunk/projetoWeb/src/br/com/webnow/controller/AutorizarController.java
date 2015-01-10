@@ -45,20 +45,9 @@ public class AutorizarController {
 		 String pwd = "12345";
 		 LoginResponse loginResponse = new LoginResponse();
 		 try {
-			Usuario usuario = autenticarRepository.autenticar(login, pwd);
-			
-			
-			
-			
-			
+			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
 			
 			/**
-			for(Servico s : usuario.getServicosDisponiveis()){
-				
-				System.out.println("=================" + s);
-				
-			}
-			
 			if (usuario != null && usuario.getNodeId() != null){						
 				
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
