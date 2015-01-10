@@ -2,12 +2,12 @@ package br.com.webnow.domain;
 
 import java.util.Date;
 
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.Indexed;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
-import org.springframework.data.neo4j.support.index.IndexType;
 
 /**
  * Classe que relaciona um usuario a um servico
@@ -49,70 +49,40 @@ public class PrestarServico {
 	private boolean soAmigosDosAmigos;
 	private boolean todos;
 	
-	/**
-	 * Destino
-	 */
-	private String enderecoDestino;
-	//private Double latitudeDestino;
-	//private Double longitudeDestino;
+	@RelatedTo(type = "VEM_DE", direction = Direction.INCOMING)
+	private Partida partida;
 	
-	//@Indexed(indexType = IndexType.POINT, indexName = "localDestino")
-	//private String localDestino;
-	
-	/**
-	 * Partida
-	 */
-	private String enderecoPartida;
-	//private Double latitudePartida;
-	//private Double longitudePartida;
+	@RelatedTo(type = "VAI_PARA", direction = Direction.INCOMING)
+	private Destino destino;
 	
 	
 	
-	
-	//@Indexed(indexType = IndexType.POINT, indexName = "localPartida")
-	//private String localPartida;
 	
 	private Double distanciaPartidaDestino;
 	private Double distanciaMaxima;	
 	
 	
-	  
-	//public void setLocalDestino(Double latitudeDestino, Double longitudeDestino) {
-	//	this.setLatitudeDestino(latitudeDestino);
-	//	this.setLatitudeDestino(latitudeDestino);
-	//	this.updateLocalDestino();
-	//}
 	
-	/*private void updateLocalDestino(){
-		this.localDestino = String.format("POINT( %.2f %.2f )", this.getLongitudeDestino(), this.getLatitudeDestino());
-	}*/
+	public Partida getPartida() {
+		return partida;
+	}
 
-	
-	/*public void setLocalPartida(Double latitudePartida, Double longitudePartida) {
-		this.setLatitudePartida(latitudePartida);
-		this.setLongitudePartida(longitudePartida);
-		this.updateLocalPartida();
-	}*/
+	public void setPartida(Partida partida) {
+		this.partida = partida;
+	}
 
-	/*private void updateLocalPartida(){
-		this.localDestino = String.format("POINT( %.2f %.2f )", this.getLongitudePartida(), this.getLatitudePartida());
-	}*/
+	public Destino getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Destino destino) {
+		this.destino = destino;
+	}
 
 	public Double getDistanciaPartidaDestino() {
 		return distanciaPartidaDestino;
 	}
-	/*public String getLocalDestino() {
-		return localDestino;
-	}*/
-
-
-	/*public String getLocalPartida() {
-		return localPartida;
-	}*/
-
-
 	
-
 	public Double getDistanciaMaxima() {
 		return distanciaMaxima;
 	}
@@ -259,67 +229,6 @@ public class PrestarServico {
 	public void setTodos(boolean todos) {
 		this.todos = todos;
 	}
-
-
-	public String getEnderecoDestino() {
-		return enderecoDestino;
-	}
-
-
-	public void setEnderecoDestino(String enderecoDestino) {
-		this.enderecoDestino = enderecoDestino;
-	}
-
-
-	/*public Double getLatitudeDestino() {
-		return latitudeDestino;
-	}
-
-
-	public void setLatitudeDestino(Double latitudeDestino) {
-		this.latitudeDestino = latitudeDestino;
-	}
-
-
-	public Double getLongitudeDestino() {
-		return longitudeDestino;
-	}
-
-
-	public void setLongitudeDestino(Double longitudeDestino) {
-		this.longitudeDestino = longitudeDestino;
-	}*/
-
-
-	public String getEnderecoPartida() {
-		return enderecoPartida;
-	}
-
-
-	public void setEnderecoPartida(String enderecoPartida) {
-		this.enderecoPartida = enderecoPartida;
-	}
-
-
-	/*public Double getLatitudePartida() {
-		return latitudePartida;
-	}
-
-
-	public void setLatitudePartida(Double latitudePartida) {
-		this.latitudePartida = latitudePartida;
-	}
-
-
-	public Double getLongitudePartida() {
-		return longitudePartida;
-	}
-
-
-	public void setLongitudePartida(Double longitudePartida) {
-		this.longitudePartida = longitudePartida;
-	}*/
-
 
 	public Long getNodeId() {
 		return nodeId;

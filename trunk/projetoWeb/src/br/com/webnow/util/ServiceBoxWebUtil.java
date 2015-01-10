@@ -1,13 +1,14 @@
 package br.com.webnow.util;
 
 
-import br.com.servicebox.common.domain.Destino;
+
 import br.com.servicebox.common.domain.Itinerario;
-import br.com.servicebox.common.domain.Partida;
 import br.com.servicebox.common.domain.Planejamento;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.domain.Carona;
+import br.com.webnow.domain.Destino;
 import br.com.webnow.domain.Estacionamento;
+import br.com.webnow.domain.Partida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
@@ -28,19 +29,20 @@ public class ServiceBoxWebUtil {
 		servico.setSabado(planejamento.isSabado());
 		servico.setHoraFixa(planejamento.getHoraFixa());
 		servico.setHoraEntre(planejamento.getHoraEntre());
-		servico.setHoraE(planejamento.getHoraE());
-		
-		servico.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
-		//servico.setLatitudeDestino(itinerario.getDestino().getLatitude());
-		//servico.setLongitudeDestino(itinerario.getDestino().getLongitude());
-		
-		servico.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
-		//servico.setLatitude(itinerario.getPartida().getLatitude());
-		//servico.setLongitude(itinerario.getPartida().getLongitude());
+		servico.setHoraE(planejamento.getHoraE());		
 		servico.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
 		servico.setDistanciaMaxima(itinerario.getDistanciaMaxima());
-		//servico.setLocalPartida(itinerario.getPartida().getLatitude(), itinerario.getPartida().getLongitude());
-		//servico.setLocalDestino(itinerario.getDestino().getLatitude(), itinerario.getDestino().getLongitude());
+		
+		Partida partida = new Partida();
+		partida.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
+		partida.setLatitude(itinerario.getPartida().getLatitude());
+		servico.setPartida(partida);
+		
+		Destino destino = new Destino();
+		destino.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
+		destino.setLatitude(itinerario.getDestino().getLatitude());
+		destino.setLongitude(itinerario.getPartida().getLongitude());
+		servico.setDestino(destino);
 		
 		return servico;
 	}
@@ -49,8 +51,8 @@ public class ServiceBoxWebUtil {
 	public static Itinerario preencherObjetoItinerario(PrestarServicoRequest request){
 		
 		Itinerario itinerario = new Itinerario();
-		Partida partida = new Partida();
-		Destino destino = new Destino();
+		br.com.servicebox.common.domain.Partida partida = new br.com.servicebox.common.domain.Partida();
+		br.com.servicebox.common.domain.Destino destino = new br.com.servicebox.common.domain.Destino();
 		
 		partida.setEnderecoPartida(request.getEnderecoPartida());
 		partida.setLatitude(request.getLatitudePartida());

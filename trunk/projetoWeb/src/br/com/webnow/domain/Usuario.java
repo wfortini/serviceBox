@@ -57,48 +57,7 @@ public class Usuario implements Serializable{
 	@RelatedToVia(type = "PRESTA_SERVICO")
 	@Fetch
 	private Iterable<PrestarServico> prestarServicos;
-	
-	
-	
-	@Indexed(indexName="localPartida", indexType=IndexType.POINT)
-	private String wkt;
-	
-	private Double latitude;
-
-	private Double longitude;
-	
-
-	private void updateWkt(){
-		Locale enLocale = new Locale("en", "EN");
-	    this.wkt = String.format(enLocale, "POINT( %.2f %.2f )", this.getLongitude(), this.getLatitude());
-	}
-	
-	 public Double getLatitude()
-	  {
-	    return latitude;
-	  }
-	
-	  public void setLatitude(Double latitude)
-	  {
-	    this.latitude = latitude;
-	    
-	    this.updateWkt();
-	  }
-	
-	  public Double getLongitude()
-	  {
-	    return longitude;
-	  }
-	
-	  public void setLongitude(Double longitude)
-	  {
-	    this.longitude = longitude;
-	        
-	    this.updateWkt();
-	  }
-	
-	
-	
+		
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
