@@ -1,5 +1,7 @@
 package br.com.webnow.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
 import br.com.servicebox.common.net.Response;
-import br.com.servicebox.common.net.ServicoResponse;
+import br.com.webnow.domain.Partida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
@@ -43,16 +45,16 @@ public class PrestarServicoController {
 			  prestar = prestarServicoService.prestarServico(request.getNodeId(), 
 					  request.getServicoPrestado(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
 					  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
-			  if(prestar != null && prestar.getNodeId() != null){
+			  if(prestar != null && prestar.getId() != null){
 				  
 				  response = new PrestarServicoResponse(true,"Prestação de serviço adicionado com sucesso.",
-						  prestar.getNodeId(),Response.SUCESSO);                 
+						  prestar.getId(),Response.SUCESSO);                 
                   return response;
 				  
 			  }else{
 				  
 				  response = new PrestarServicoResponse(true,"Falha ao adicionar Prestação de Serviço.",
-						  prestar.getNodeId(),Response.FALHA);                 
+						  prestar.getId(),Response.FALHA);                 
                   return response;
 				  
 			  }
@@ -66,7 +68,7 @@ public class PrestarServicoController {
 	 @RequestMapping(value = "/buscarLocalizacaoPorDistancia", method = RequestMethod.POST)
 	 public @ResponseBody PrestarServicoResponse buscarLocalizacaoPorDistancia(@RequestBody PrestarServicoRequest request){
 		 
-		 
+		List<Partida> lista =  prestarServicoService.prestarServico(new Double("-22.7099105"), new Double("-43.56431449999999"), new Double("1000000"));
 		
 		 return null;
 		 

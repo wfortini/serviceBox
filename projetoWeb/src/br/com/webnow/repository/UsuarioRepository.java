@@ -9,5 +9,5 @@ public interface UsuarioRepository extends GraphRepository<Usuario>, Relationshi
                                            ServiceBoxUserDetailsService{
 
 	Usuario findByLogin(String login);
-	Usuario findByNodeId(Long id);
+	Usuario findById(Long id);
 }

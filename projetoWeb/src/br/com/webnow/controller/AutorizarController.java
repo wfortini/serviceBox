@@ -85,7 +85,7 @@ public class AutorizarController {
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
 			
-			if (usuario != null && usuario.getNodeId() != null){						
+			if (usuario != null && usuario.getId() != null){						
 				
 				loginResponse = new LoginResponse(usuario);
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
@@ -134,7 +134,7 @@ public class AutorizarController {
 	    	usuario = FileUtil.salvarArquivoLocal(usuario, foto);    	
 	    	
 	    	usuario = usuarioRepository.registrar(usuario);		    	
-	    	return new Response(true, "Usuário cadastrado com sucesso.", usuario.getNodeId(), Response.SUCESSO);
+	    	return new Response(true, "Usuário cadastrado com sucesso.", usuario.getId(), Response.SUCESSO);
     	}catch(UsuarioException ux){
     		return new Response(false, ux.getMessage(), null, ux.getCode());
 		} catch (Exception e) {

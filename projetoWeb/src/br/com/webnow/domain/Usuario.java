@@ -31,7 +31,7 @@ public class Usuario implements Serializable{
 	private static final long serialVersionUID = 179224882566814808L;
 
 	@GraphId
-	private Long nodeId;	
+	private Long id;	
 	
 	@Indexed(unique = true, indexType = IndexType.SIMPLE)
 	private String login;
@@ -132,11 +132,11 @@ public class Usuario implements Serializable{
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Long getNodeId() {
-		return nodeId;
+	public Long getId() {
+		return id;
 	}
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
+	public void setId(Long nodeId) {
+		this.id = nodeId;
 	}
 	public String getLogin() {
 		return login;
@@ -180,21 +180,21 @@ public class Usuario implements Serializable{
         if (o == null || getClass() != o.getClass()) return false;
 
         Usuario user = (Usuario) o;
-        if (nodeId == null) return super.equals(o);
-        return nodeId.equals(user.nodeId);
+        if (id == null) return super.equals(o);
+        return id.equals(user.id);
 
     }
 	
 	@Override
     public int hashCode() {
 
-        return nodeId != null ? nodeId.hashCode() : super.hashCode();
+        return id != null ? id.hashCode() : super.hashCode();
     }
 	
 	@Override
 	public String toString() {
 		
-		return "Node Id: " + this.getNodeId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
+		return "Node Id: " + this.getId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
 	}
 
 }
