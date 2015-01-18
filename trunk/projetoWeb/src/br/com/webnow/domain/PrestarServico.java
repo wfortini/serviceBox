@@ -18,7 +18,7 @@ import org.springframework.data.neo4j.annotation.StartNode;
 public class PrestarServico {
 	
 	@GraphId
-	private Long nodeId;
+	private Long id;
 	
 	@StartNode
 	private Usuario usuario;
@@ -230,12 +230,12 @@ public class PrestarServico {
 		this.todos = todos;
 	}
 
-	public Long getNodeId() {
-		return nodeId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
+	public void setId(Long nodeId) {
+		this.id = nodeId;
 	}
 
 	public Usuario getUsuario() {

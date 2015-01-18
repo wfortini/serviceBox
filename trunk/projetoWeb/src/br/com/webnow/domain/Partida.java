@@ -19,7 +19,7 @@ public class Partida implements Serializable{
 		
 	private static final long serialVersionUID = -7444625527145174350L;
 	@GraphId
-	private Long nodeId;
+	private Long id;
 	private String enderecoPartida;
 	private Double latitude;
 	private Double longitude;
@@ -33,11 +33,11 @@ public class Partida implements Serializable{
 	private String wkt;
 	
 		
-	public Long getNodeId() {
-		return nodeId;
+	public Long getId() {
+		return id;
 	}
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
+	public void setId(Long nodeId) {
+		this.id = nodeId;
 	}
 	public String getWkt() {
 		return wkt;

@@ -41,7 +41,7 @@ public class LoginResponse extends Response{
     public LoginResponse(Usuario usuario){
     	
     	this.preencherServicoJSON(usuario);		 
-    	this.nodeId = usuario.getNodeId();
+    	this.nodeId = usuario.getId();
     	this.login = usuario.getLogin();
     	this.apelido = usuario.getApelido();
     	this.dataCadastro = usuario.getDataCadastro();
@@ -76,7 +76,7 @@ public class LoginResponse extends Response{
     public Usuario preencherUsuario(){
    	 
    	 Usuario usuario = new Usuario(this.login, this.password,this.nome,this.sobreNome,this.sexo,this.apelido);
-   	 usuario.setNodeId(this.nodeId);
+   	 usuario.setId(this.nodeId);
    	 
    	 for(ServicoJSON s : this.servicoJSONs){
    		 

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.servicebox.common.domain.Itinerario;
 import br.com.servicebox.common.domain.Planejamento;
+import br.com.webnow.domain.Partida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
@@ -31,7 +32,7 @@ public class PrestarServicoService {
 	private ServicoRepository servicoRepository;
 	
 	@Autowired
-	private PrestarServicoRepository prestarServicoRepository;
+	private PrestarServicoRepository prestarServicoPartidaRepository;
 	
 	@Autowired
     private Neo4jOperations template;
@@ -40,7 +41,7 @@ public class PrestarServicoService {
 	public PrestarServico prestarServico(Long usuarioId, Integer tipoServico, 
 			Itinerario itinerario, Planejamento planejamento){
 		
-		Usuario usuario = usuarioRepository.findByNodeId(usuarioId);
+		Usuario usuario = usuarioRepository.findById(usuarioId);
 		Servico servico = servicoRepository.findByTipoServico(tipoServico);
 		PrestarServico prestar = null;
 		if(usuario != null){
@@ -55,10 +56,10 @@ public class PrestarServicoService {
 	
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<PrestarServico> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
+	public List<Partida> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
 				
 		 Circle circle = new Circle(new Point(longitude, latitude), new Distance(distanciaKM, Metrics.KILOMETERS));
 		
-		return IteratorUtils.toList(this.prestarServicoRepository.findWithinDistance("", circle).iterator());
+		return IteratorUtils.toList(this.prestarServicoPartidaRepository.findWithinDistance("localPartida", circle).iterator());
 	}
 }
