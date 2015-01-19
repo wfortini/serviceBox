@@ -25,7 +25,7 @@ import br.com.servicebox.common.domain.Planejamento;
 import br.com.webnow.util.ServiceBoxWebUtil;
 
 @NodeEntity
-@TypeAlias("Usuario")
+@TypeAlias("USUARIO")
 public class Usuario implements Serializable{
 	
 	private static final long serialVersionUID = 179224882566814808L;
@@ -46,6 +46,7 @@ public class Usuario implements Serializable{
 	private String apelido;
 	private String fotoPerfil;
 	private Date dataCadastro;
+	private String telefone;
 	
 	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
 	private Set<Usuario> amigos;
