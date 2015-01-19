@@ -8,6 +8,7 @@ import br.com.webnow.domain.Partida;
 public interface PrestarServicoRepository extends GraphRepository<Partida>, 
                             SpatialRepository<Partida>{
 	
+	public static final String PARTIDA_GEOSPATIAL_INDEX = "localPartida";	
 	Partida findById(Long id);
 
 }
