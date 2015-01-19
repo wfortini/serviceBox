@@ -3,6 +3,7 @@ package br.com.webnow.domain;
 import java.io.Serializable;
 import java.util.Locale;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -14,6 +15,7 @@ import org.springframework.data.neo4j.support.index.IndexType;
  *
  */
 @NodeEntity
+@TypeAlias("PARTIDA")
 public class Partida implements Serializable{
 	
 		
