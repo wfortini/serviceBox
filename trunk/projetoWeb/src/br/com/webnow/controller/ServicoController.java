@@ -49,7 +49,7 @@ public class ServicoController {
     		if(Boolean.valueOf(disponibilizarServico)){
     			if (prestarServicoService.addServico(usuario, servico)){
         			
-                    response = new ServicoResponse(true,"Serviço adicionado com sucesso.",servico.getNodeId(),Response.SUCESSO);
+                    response = new ServicoResponse(true,"Serviço adicionado com sucesso.",servico.getId(),Response.SUCESSO);
                     response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
                     response.setServicoDisponivel(servico.getServicoDisponivel());
                     response.setTipoServico(servico.getTipoServico());
@@ -58,7 +58,7 @@ public class ServicoController {
     		}else{
     			if (prestarServicoService.removeServico(usuario, servico)){
         			
-                    response = new ServicoResponse(true,"Serviço removido com sucesso.",servico.getNodeId(),Response.SUCESSO);
+                    response = new ServicoResponse(true,"Serviço removido com sucesso.",servico.getId(),Response.SUCESSO);
                     response.setDataInicialPrestacao(servico.getDataInicialPrestacao());
                     response.setServicoDisponivel(servico.getServicoDisponivel());
                     response.setTipoServico(servico.getTipoServico());
