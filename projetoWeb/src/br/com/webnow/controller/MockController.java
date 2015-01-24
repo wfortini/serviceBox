@@ -14,7 +14,7 @@ import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.boundingCoordinates.GeoLocation;
 import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
-import br.com.webnow.domain.Partida;
+import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
@@ -94,11 +94,14 @@ public class MockController {
 	        	request.setHoraE("00:00");
 	        	request.setHoraEntre("00:00");
 	        	request.setHoraFixa("00:00");
-	        	request.setLatitudeDestino(new Double("-22.9033746"));
-	        	request.setLatitudePartida(new Double("-22.7099105"));
+	        	
+	        	request.setLongitudePartida(new Double("51.5086"));
+	        	request.setLatitudePartida(new Double("-0.1283"));
+	        	
 	        	request.setLogin("wellington");
 	        	request.setLongitudeDestino(new Double("-43.1776887"));
-	        	request.setLongitudePartida(new Double("-43.5643145"));
+	        	request.setLatitudeDestino(new Double("-22.9033746"));
+	        	
 	        	request.setQuarta(true);
 	        	request.setQuinta(true);
 	        	request.setSabado(true);
@@ -116,7 +119,7 @@ public class MockController {
 						  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
 	        	
 	        	
-	        	
+	        	prestarServicoService.addNoAoIndex();
 	        	
 	        	return  "/home";
 	        } catch(Exception e) {
@@ -128,10 +131,10 @@ public class MockController {
 	 @RequestMapping(value = "/buscarLocalizacaoTeste", method = RequestMethod.POST)
 	 public String  buscarLocalizacaoPorDistancia(){
 		 
-		List<Partida> lista =  prestarServicoService.prestarServico(new Double("-22.7099105"), 
-				new Double("-43.5643145"), new Double("1.000"));
+		List<Usuario> lista =  prestarServicoService.prestarServico(new Double("-0.1283"), 
+				new Double("51.5086"), new Double("10.0"));
 		
-		for(Partida p : lista){
+		for(Usuario p : lista){
 			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + p);
 		}
 		 return "/home";
