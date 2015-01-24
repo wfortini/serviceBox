@@ -3,12 +3,11 @@ package br.com.webnow.repository.prestarservico;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.neo4j.repository.SpatialRepository;
 
-import br.com.webnow.domain.Partida;
+import br.com.webnow.domain.GeoPartida;
 
-public interface PrestarServicoRepository extends GraphRepository<Partida>, 
-                            SpatialRepository<Partida>{
+public interface PrestarServicoRepository extends GraphRepository<GeoPartida>{
 	
-	public static final String PARTIDA_GEOSPATIAL_INDEX = "localPartida";	
-	Partida findById(Long id);
+		
+	GeoPartida findById(Long id);
 
 }
