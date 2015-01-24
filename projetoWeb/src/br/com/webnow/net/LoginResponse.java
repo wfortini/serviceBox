@@ -61,7 +61,7 @@ public class LoginResponse extends Response{
     		this.servicoJSONs = new ServicoJSON[lista.size()];
     		for(Servico s : lista){
     			
-    			ServicoJSON sj = new ServicoJSON(s.getNodeId(),
+    			ServicoJSON sj = new ServicoJSON(s.getId(),
     					         s.getServicoDisponivel(), s.getDataInicialPrestacao(), s.getTipoServico());
     			
     			this.servicoJSONs[i] = sj;
@@ -83,7 +83,7 @@ public class LoginResponse extends Response{
    		 if(s.getTipoServico().equals(TipoServico.CARONA.getCodigo())){
    			 
    			 Carona c = new Carona();
-   			 c.setNodeId(s.getNodeId());
+   			 c.setId(s.getNodeId());
    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
    			 c.setServicoDisponivel(s.getServicoDisponivel());
    			 c.setTipoServico(s.getTipoServico());
@@ -92,7 +92,7 @@ public class LoginResponse extends Response{
    		 } else if(s.getTipoServico().equals(TipoServico.ESTACIONAMENTO.getCodigo())){
    			 
    			 Estacionamento c = new Estacionamento();
-   			 c.setNodeId(s.getNodeId());
+   			 c.setId(s.getNodeId());
    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
    			 c.setServicoDisponivel(s.getServicoDisponivel());
    			 c.setTipoServico(s.getTipoServico());
@@ -101,7 +101,7 @@ public class LoginResponse extends Response{
    		 } else if(s.getTipoServico().equals(TipoServico.REBOQUE.getCodigo())){
    			
    			 Reboque c = new Reboque();
-   			 c.setNodeId(s.getNodeId());
+   			 c.setId(s.getNodeId());
    			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
    			 c.setServicoDisponivel(s.getServicoDisponivel());
    			 c.setTipoServico(s.getTipoServico());
