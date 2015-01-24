@@ -1,10 +1,13 @@
 package br.com.webnow.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
@@ -14,16 +17,11 @@ import org.springframework.data.neo4j.annotation.StartNode;
  * @author wpn0510
  *
  */
-@RelationshipEntity(type = "PRESTA_SERVICO")
-public class PrestarServico {
+@NodeEntity
+@TypeAlias("PrestarServico")
+public class PrestarServico extends BaseEntity implements Serializable {	
 	
-	@GraphId
-	private Long id;
-	
-	@StartNode
-	private Usuario usuario;
-	@EndNode
-	private Servico servico;
+	private static final long serialVersionUID = 9205181567303950602L;
 	
 	private Date data;
 	private boolean ativa;
@@ -49,33 +47,28 @@ public class PrestarServico {
 	private boolean soAmigosDosAmigos;
 	private boolean todos;
 	
-	@RelatedTo(type = "VEM_DE", direction = Direction.INCOMING)
-	private Partida partida;
+	@RelatedTo(type = "VEM_DE", direction = Direction.OUTGOING, elementClass = GeoPartida.class)
+	private GeoPartida partida;
 	
-	@RelatedTo(type = "VAI_PARA", direction = Direction.INCOMING)
-	private Destino destino;
-	
-	
-	
+	@RelatedTo(type = "VAI_PARA", direction = Direction.OUTGOING, elementClass = GeoDestino.class)
+	private GeoDestino destino;	
 	
 	private Double distanciaPartidaDestino;
-	private Double distanciaMaxima;	
+	private Double distanciaMaxima;		
 	
-	
-	
-	public Partida getPartida() {
+	public GeoPartida getPartida() {
 		return partida;
 	}
 
-	public void setPartida(Partida partida) {
+	public void setPartida(GeoPartida partida) {
 		this.partida = partida;
 	}
 
-	public Destino getDestino() {
+	public GeoDestino getDestino() {
 		return destino;
 	}
 
-	public void setDestino(Destino destino) {
+	public void setDestino(GeoDestino destino) {
 		this.destino = destino;
 	}
 
@@ -230,30 +223,7 @@ public class PrestarServico {
 		this.todos = todos;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long nodeId) {
-		this.id = nodeId;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Servico getServico() {
-		return servico;
-	}
-
-	public void setServico(Servico servico) {
-		this.servico = servico;
-	}	
-
+	
 	public Date getData() {
 		return data;
 	}

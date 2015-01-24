@@ -3,7 +3,6 @@ package br.com.webnow.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.support.index.IndexType;
@@ -12,12 +11,10 @@ import br.com.servicebox.common.domain.TipoServico;
 
 
 @NodeEntity
-public abstract class Servico implements Serializable{
+public abstract class Servico extends BaseEntity implements Serializable{
 	
-	private static final long serialVersionUID = 7403125160671707264L;
+	private static final long serialVersionUID = 7403125160671707264L;	
 	
-	@GraphId
-	private Long nodeId;
 	private Boolean servicoDisponivel;
 	private Date dataInicialPrestacao;
 	
@@ -32,20 +29,8 @@ public abstract class Servico implements Serializable{
 		return tipoServico;
 	}
 
-
-
 	public void setTipoServico(Integer tipoServico) {
 		this.tipoServico = tipoServico;
-	}
-
-
-
-	public Long getNodeId() {
-		return nodeId;
-	}
-
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
 	}
 
 	public Boolean getServicoDisponivel() {
@@ -82,8 +67,35 @@ public abstract class Servico implements Serializable{
 	
 	@Override
     public String toString() {
-        return String.format("%s [%s]", TipoServico.getTipoServico(this.tipoServico).getDescricao(), nodeId);
+        return String.format("%s [%s]", TipoServico.getTipoServico(this.tipoServico).getDescricao(), this.getId());
     }
 	
+	public static Servico getInstance(Integer tipoServico){
+		
+		TipoServico tipo = TipoServico.getTipoServico(tipoServico);
+		Servico retorno = null;
+		switch (tipo) {
+		case CARONA:{
+			retorno = new Carona();
+			retorno.setTipoServico(tipo.getCodigo());
+			break;
+		}
+		case REBOQUE:{
+			retorno = new Reboque();
+			retorno.setTipoServico(tipo.getCodigo());
+			break;
+		}
+		case ESTACIONAMENTO:{
+			retorno = new Estacionamento();
+			retorno.setTipoServico(tipo.getCodigo());
+			break;
+		}
+		default:
+			retorno = null;
+		}		
+		
+		return retorno;
+		
+	}
 
 }

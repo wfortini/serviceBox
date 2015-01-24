@@ -12,7 +12,6 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
@@ -26,12 +25,9 @@ import br.com.webnow.util.ServiceBoxWebUtil;
 
 @NodeEntity
 @TypeAlias("USUARIO")
-public class Usuario implements Serializable{
+public class Usuario extends BaseEntity implements Serializable{
 	
-	private static final long serialVersionUID = 179224882566814808L;
-
-	@GraphId
-	private Long id;	
+	private static final long serialVersionUID = 179224882566814808L;	
 	
 	@Indexed(unique = true, indexType = IndexType.SIMPLE)
 	private String login;
@@ -46,8 +42,8 @@ public class Usuario implements Serializable{
 	private String apelido;
 	private String fotoPerfil;
 	private Date dataCadastro;
-	private String telefone;
-	
+	private String telefone;	
+
 	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
 	private Set<Usuario> amigos;
 	
@@ -55,14 +51,18 @@ public class Usuario implements Serializable{
 	@Fetch
 	private Set<Servico> servicosDisponiveis;
 	
-	@RelatedToVia(type = "PRESTA_SERVICO")
+	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)
 	@Fetch
-	private Iterable<PrestarServico> prestarServicos;
+	private Set<PrestarServico> prestarServicos;
 		
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
 	}
+	
+	public boolean addPrestarServico(PrestarServico servico){
+    	return this.prestarServicos.add(servico);
+    }
 
     public boolean addServico(Servico servico){
     	return this.servicosDisponiveis.add(servico);
@@ -74,15 +74,7 @@ public class Usuario implements Serializable{
     
     public boolean isPrestaServico(Servico servico){
     	return servico != null && getServicosDisponiveis().contains(servico);
-    }
-    
-    public PrestarServico iniciarPrestacao(Neo4jOperations template, Servico servico, Itinerario itinerario, Planejamento planejamento) {
-        PrestarServico prestar = template.createRelationshipBetween(this, servico, PrestarServico.class, "PRESTA_SERVICO", false);
-        prestar.setAtiva(true);
-        prestar.setData(new Date());
-        prestar = ServiceBoxWebUtil.preencherPrestacao(prestar, itinerario, planejamento);        
-        return template.save(prestar);
-    }
+    }   
 
     public Collection<PrestarServico> getPrestarServicos() {
         return IteratorUtil.asCollection(this.prestarServicos);
@@ -133,12 +125,7 @@ public class Usuario implements Serializable{
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long nodeId) {
-		this.id = nodeId;
-	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -168,30 +155,20 @@ public class Usuario implements Serializable{
 	}
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
-	}
-	
+	}	
 	
 	public Set<Servico> getServicosDisponiveis() {
 		return servicosDisponiveis;
+	}	
+	
+	public String getTelefone() {
+		return telefone;
 	}
 
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
-        Usuario user = (Usuario) o;
-        if (id == null) return super.equals(o);
-        return id.equals(user.id);
-
-    }
-	
-	@Override
-    public int hashCode() {
-
-        return id != null ? id.hashCode() : super.hashCode();
-    }
-	
 	@Override
 	public String toString() {
 		

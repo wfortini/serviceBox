@@ -10,48 +10,45 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.support.index.IndexType;
 
 /**
- * Entidade Partida do Itinerario ( Projeto Web )
+ * Entidade Destino do Itinerario ( projeto web )
  * @author wellington
  *
  */
 @NodeEntity
-@TypeAlias("PARTIDA")
-public class Partida implements Serializable{
+@TypeAlias("GEODESTINO")
+public class GeoDestino extends BaseEntity implements Serializable{
 	
-		
-	private static final long serialVersionUID = -7444625527145174350L;
-	@GraphId
-	private Long id;
-	private String enderecoPartida;
+	private static final long serialVersionUID = 6518731629464628395L;	
+	public static final String DESTINO_GEOSPATIAL_INDEX = "localDestino";
+	
+	private String enderecoDestino;
 	private Double latitude;
 	private Double longitude;
+	
+	
+	@Indexed(indexName="localDestino", indexType=IndexType.POINT)
+	private String wkt;
 	
 	private void updateWkt(){
 		Locale enLocale = new Locale("en", "EN");
 	    this.wkt = String.format(enLocale, "POINT( %.2f %.2f )", this.getLongitude(), this.getLatitude());
 	}
 	
-	@Indexed(indexName="localPartida", indexType=IndexType.POINT)
-	private String wkt;
+	public void setWkt(double longitude, double latitude) {
+		this.setLongitude(longitude);
+	    this.setLatitude(latitude);
+	    
+	    this.updateWkt();
+	}
 	
-		
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long nodeId) {
-		this.id = nodeId;
-	}
 	public String getWkt() {
 		return wkt;
 	}
-	public void setWkt(String wkt) {
-		this.wkt = wkt;
+	public String getEnderecoDestino() {
+		return enderecoDestino;
 	}
-	public String getEnderecoPartida() {
-		return enderecoPartida;
-	}
-	public void setEnderecoPartida(String enderecoPartida) {
-		this.enderecoPartida = enderecoPartida;
+	public void setEnderecoDestino(String enderecoDestino) {
+		this.enderecoDestino = enderecoDestino;
 	}
 	public Double getLatitude() {
 		return latitude;

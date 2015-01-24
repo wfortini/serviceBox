@@ -10,63 +10,46 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.support.index.IndexType;
 
 /**
- * Entidade Destino do Itinerario ( projeto web )
+ * Entidade Partida do Itinerario ( Projeto Web )
  * @author wellington
  *
  */
 @NodeEntity
-@TypeAlias("DESTINO")
-public class Destino implements Serializable{
+@TypeAlias("GEOPARTIDA")
+public class GeoPartida extends BaseEntity implements Serializable{
 	
-
-	private static final long serialVersionUID = 6518731629464628395L;
-	
-	@GraphId
-	private Long nodeId;
-	
-	private String enderecoDestino;
+		
+	private static final long serialVersionUID = -7444625527145174350L;
+	public static final String PARTIDA_GEOSPATIAL_INDEX = "localPartida";
+		
+	private String enderecoPartida;
 	private Double latitude;
-	private Double longitude;
-	
-	@Indexed(indexName="localDestino", indexType=IndexType.POINT)
-	private String wkt;
+	private Double longitude;	
 	
 	private void updateWkt(){
 		Locale enLocale = new Locale("en", "EN");
 	    this.wkt = String.format(enLocale, "POINT( %.2f %.2f )", this.getLongitude(), this.getLatitude());
 	}
 	
+	@Indexed(indexName="localPartida", indexType=IndexType.POINT)
+	private String wkt;
 	
+	public void setWkt(double longitude, double latitude) {
+		this.setLongitude(longitude);
+	    this.setLatitude(latitude);
+	    
+	    this.updateWkt();
+	}
 	
-	public Long getNodeId() {
-		return nodeId;
-	}
-
-
-
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
-
-
-
 	public String getWkt() {
 		return wkt;
 	}
-
-
-
-	public void setWkt(String wkt) {
-		this.wkt = wkt;
+	
+	public String getEnderecoPartida() {
+		return enderecoPartida;
 	}
-
-
-
-	public String getEnderecoDestino() {
-		return enderecoDestino;
-	}
-	public void setEnderecoDestino(String enderecoDestino) {
-		this.enderecoDestino = enderecoDestino;
+	public void setEnderecoPartida(String enderecoPartida) {
+		this.enderecoPartida = enderecoPartida;
 	}
 	public Double getLatitude() {
 		return latitude;
