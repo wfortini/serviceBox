@@ -6,9 +6,9 @@ import br.com.servicebox.common.domain.Itinerario;
 import br.com.servicebox.common.domain.Planejamento;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.domain.Carona;
-import br.com.webnow.domain.Destino;
+import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.Estacionamento;
-import br.com.webnow.domain.Partida;
+import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
@@ -33,12 +33,13 @@ public class ServiceBoxWebUtil {
 		servico.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
 		servico.setDistanciaMaxima(itinerario.getDistanciaMaxima());
 		
-		Partida partida = new Partida();
+		GeoPartida partida = new GeoPartida();
 		partida.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
 		partida.setLatitude(itinerario.getPartida().getLatitude());
+		partida.setLongitude(itinerario.getPartida().getLongitude());
 		servico.setPartida(partida);
 		
-		Destino destino = new Destino();
+		GeoDestino destino = new GeoDestino();
 		destino.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
 		destino.setLatitude(itinerario.getDestino().getLatitude());
 		destino.setLongitude(itinerario.getPartida().getLongitude());
