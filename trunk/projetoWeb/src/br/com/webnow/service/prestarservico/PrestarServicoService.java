@@ -1,6 +1,7 @@
 package br.com.webnow.service.prestarservico;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.servicebox.common.domain.Itinerario;
 import br.com.servicebox.common.domain.Planejamento;
-import br.com.webnow.domain.Partida;
+import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
+import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.prestarservico.PrestarServicoRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.util.ServiceBoxWebUtil;
 
 @Service
 public class PrestarServicoService {
@@ -51,30 +54,36 @@ public class PrestarServicoService {
 	@Autowired
     private Neo4jOperations template;
 	
+	@Autowired
+	private UsuarioRepository repository;
+	
 	@Transactional
 	public PrestarServico prestarServico(Long usuarioId, Integer tipoServico, 
 			Itinerario itinerario, Planejamento planejamento){
 		
+		PrestarServico prestar = new PrestarServico();
 		Usuario usuario = usuarioRepository.findById(usuarioId);
-		Servico servico = servicoRepository.findByTipoServico(tipoServico);
-		PrestarServico prestar = null;
-		if(usuario != null){
+		Servico servico = Servico.getInstance(tipoServico);
+		if(usuario != null && usuario.getServicosDisponiveis().contains(servico)){
 			
-			prestar = usuario.iniciarPrestacao(template, servico, itinerario, planejamento);
+	        prestar.setAtiva(true);
+	        prestar.setData(new Date());
+	        prestar = ServiceBoxWebUtil.preencherPrestacao(prestar, itinerario, planejamento); 
+	        usuario.addPrestarServico(prestar);
+	        template.save(usuario);
 			
-		}
-		
+		}		
 		
 		return prestar;
 	}
 	
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<Partida> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
+	public List<Usuario> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
 				
 		 Circle circle = new Circle(new Point(longitude, latitude), new Distance(distanciaKM, Metrics.KILOMETERS));
 		
-		return IteratorUtils.toList(this.prestarServicoPartidaRepository.findWithinDistance("localPartida", circle).iterator());
+		return null; //IteratorUtils.toList(this.repository.findWithinDistance("localPartida", circle).iterator());
 	}
 	
 	@Transactional
@@ -90,7 +99,7 @@ public class PrestarServicoService {
 	                          IndexManager.PROVIDER, SpatialIndexProvider.SERVICE_NAME,
 	                          LayerNodeIndex.WKT_PROPERTY_KEY, "wkt") );
 	    
-	    Index<Node> index = indexManager.forNodes(PrestarServicoRepository.PARTIDA_GEOSPATIAL_INDEX, config);
+	    Index<Node> index = indexManager.forNodes(GeoPartida.PARTIDA_GEOSPATIAL_INDEX, config);
 	    
 	    Iterator<Node> museums = this.neo4jTemplate.query("MATCH (m:PARTIDA) RETURN m", null).to(Node.class).iterator();
 
@@ -100,13 +109,13 @@ public class PrestarServicoService {
 	      
 	      if (museum.hasProperty("wkt"))
 	      {
-	        System.out.println("Adding " + museum.getProperty("name") + " to " + PrestarServicoRepository.PARTIDA_GEOSPATIAL_INDEX + " index...");
+	        System.out.println("Adding " + museum.getProperty("name") + " to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index...");
 	      
 	        index.add(museum, "dummy", "value");
 	      }
 	      else
 	      {
-	        System.out.println(museum.getProperty("name") + " NOT ADDED to " + PrestarServicoRepository.PARTIDA_GEOSPATIAL_INDEX + " index...");
+	        System.out.println(museum.getProperty("name") + " NOT ADDED to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index...");
 	      }
 	    }
 	}
