@@ -101,7 +101,7 @@ public class PrestarServicoService {
 	    
 	    Index<Node> index = indexManager.forNodes(GeoPartida.PARTIDA_GEOSPATIAL_INDEX, config);
 	    
-	    Iterator<Node> museums = this.neo4jTemplate.query("MATCH (m:PARTIDA) RETURN m", null).to(Node.class).iterator();
+	    Iterator<Node> museums = this.neo4jTemplate.query("MATCH (m:GEOPARTIDA) RETURN m", null).to(Node.class).iterator();
 
 	    while (museums.hasNext())
 	    {
@@ -109,13 +109,13 @@ public class PrestarServicoService {
 	      
 	      if (museum.hasProperty("wkt"))
 	      {
-	        System.out.println("Adding " + museum.getProperty("name") + " to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index...");
+	        System.out.println("Adding  to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index............");
 	      
 	        index.add(museum, "dummy", "value");
 	      }
 	      else
 	      {
-	        System.out.println(museum.getProperty("name") + " NOT ADDED to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index...");
+	        System.out.println(" NOT ADDED to " + GeoPartida.PARTIDA_GEOSPATIAL_INDEX + " index...");
 	      }
 	    }
 	}

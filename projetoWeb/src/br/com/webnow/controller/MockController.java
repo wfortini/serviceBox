@@ -140,5 +140,15 @@ public class MockController {
 		 return "/home";
 		 
 	 }
+	 
+	 @RequestMapping(value = "/addNodeIndexSpartial", method = RequestMethod.POST)
+	 public String  addNodeIndexSpartial(){
+		 
+		
+		 prestarServicoService.addNoAoIndex();
+		 
+		 return "/home";
+		 
+	 }
 
 }
