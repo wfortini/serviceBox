@@ -42,7 +42,7 @@ public class ServiceBoxWebUtil {
 		GeoDestino destino = new GeoDestino();
 		destino.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
 		destino.setLatitude(itinerario.getDestino().getLatitude());
-		destino.setLongitude(itinerario.getPartida().getLongitude());
+		destino.setLongitude(itinerario.getDestino().getLongitude());
 		servico.setDestino(destino);
 		
 		return servico;
