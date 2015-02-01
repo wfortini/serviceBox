@@ -1,6 +1,7 @@
 package br.com.webnow.repository.prestarservico;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
 		cypher.append(" GeoDestino=node:localDestino(".concat(strDestino).concat(")"));
 		cypher.append(" match (GeoPartida)-[:VEM_DE]-(PrestarServico)-[:PRESTA_SERVICO]->(Usuario), ");
 		cypher.append(" (Servico)-[:SERVICO_DISPONIVEL]-(Usuario) ");
-		cypher.append(" where Servico.tipoServico in [" + servico + "] return GeoPartida, Usuario, PrestarServico, GeoDestino");
+		cypher.append(" where Servico.tipoServico in [" + servico + "] return distinct(Usuario), PrestarServico");
 		
 		Result<Map<String,Object>> mapa = neo4jTemplate.query(cypher.toString(), null);
 		List<ServicoLocalizado> lstServico = new ArrayList<ServicoLocalizado>();
@@ -57,27 +58,34 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
 			
             for (Map.Entry<String, Object> e : m.entrySet()) {
             	
-            	Node nodeUsuario = (Node) e.getValue();
+            	Node nodeUsuario = (Node) e.getValue();            	
             	
-            	if(e.getKey().equals("Usuario")){
+            	if(e.getKey().equals("(Usuario)")){
             		
             		Usuario u = new Usuario();
-            		u.setId((Long) nodeUsuario.getProperty("id"));            		
+            		u.setId(nodeUsuario.getId()); 
+            		if(nodeUsuario.hasProperty("apelido") && nodeUsuario.getProperty("apelido") != null){
+            			u.setApelido((String) nodeUsuario.getProperty("apelido"));	
+            		}
+            		u.setNome( (String) nodeUsuario.getProperty("nome"));
+            		u.setLogin( (String) nodeUsuario.getProperty("login") );
+            		u.setSobreNome( (String) nodeUsuario.getProperty("sobreNome") );
+            		u.setSexo( (String) nodeUsuario.getProperty("sexo") );
+            		if(nodeUsuario.hasProperty("fotoPerfil") && nodeUsuario.getProperty("fotoPerfil") != null)
+            		   u.setFotoPerfil( (String) nodeUsuario.getProperty("fotoPerfil") );
+            		if(nodeUsuario.hasProperty("dataCadastro") && nodeUsuario.getProperty("dataCadastro") != null)
+            		  u.setDataCadastro((Date) nodeUsuario.getProperty("dataCadastro") );
+            		if(nodeUsuario.hasProperty("telefone") && nodeUsuario.getProperty("telefone") != null){
+            			u.setTelefone((String) nodeUsuario.getProperty("telefone") );	
+            		}            		
             		servicoLocalizado.setUsuario(u);
             		
             	}else if(e.getKey().equals("PrestarServico")){
             		
-            		PrestarServico prestar = new PrestarServico();
-            		prestar.setId((Long)nodeUsuario.getProperty("id"));
+            		PrestarServico prestar = this.prestarServicoRepository.findById(nodeUsuario.getId());
             		servicoLocalizado.setPrestarServico(prestar);
             		
-            	}else if(e.getKey().equals("GeoPartida")){
-            		GeoPartida geo = (GeoPartida) e.getValue();
-            		servicoLocalizado.setGeoPartida(geo);
-            	}else if(e.getKey().equals("GeoDestino")){
-            		GeoDestino geo = (GeoDestino) e.getValue();
-            		servicoLocalizado.setGeoDestino(geo);
-            	}                
+            	}            
 
             }            
             lstServico.add(servicoLocalizado);            

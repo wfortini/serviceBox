@@ -51,8 +51,7 @@ public class Usuario extends BaseEntity implements Serializable{
 	@Fetch
 	private Set<Servico> servicosDisponiveis;
 	
-	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)
-	@Fetch
+	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)	
 	private Set<PrestarServico> prestarServicos;
 		
 	
