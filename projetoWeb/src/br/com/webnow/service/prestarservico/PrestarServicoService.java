@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.neo4j.gis.spatial.indexprovider.LayerNodeIndex;
 import org.neo4j.gis.spatial.indexprovider.SpatialIndexProvider;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.helpers.collection.MapUtil;
@@ -26,14 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.servicebox.common.domain.Itinerario;
 import br.com.servicebox.common.domain.Planejamento;
+import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
-import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
-import br.com.webnow.repository.prestarservico.PrestarServicoRepository;
+import br.com.webnow.repository.prestarservico.PrestarServicoRepositoryImpl;
 import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.returno.cypher.ServicoLocalizado;
 import br.com.webnow.util.ServiceBoxWebUtil;
 
 @Service
@@ -46,7 +47,7 @@ public class PrestarServicoService {
 	private ServicoRepository servicoRepository;
 	
 	@Autowired
-	private PrestarServicoRepository prestarServicoPartidaRepository;
+	private PrestarServicoRepositoryImpl prestarServicoRepository;
 	
 	@Autowired
 	private Neo4jTemplate neo4jTemplate;
@@ -77,7 +78,7 @@ public class PrestarServicoService {
 		return prestar;
 	}
 	
-	@Transactional
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
 				
@@ -85,6 +86,36 @@ public class PrestarServicoService {
 		
 		return null; //IteratorUtils.toList(this.repository.findWithinDistance("localPartida", circle).iterator());
 	}
+	
+	@Transactional
+	public List<ServicoLocalizado> buscarServicoPorCoordenadasDistancia(GeoPartida partida, 
+			GeoDestino destino, Integer servico, double distancia){
+		
+		
+		return this.prestarServicoRepository.buscarServicoPorCoordenadasDistancia(partida, 
+				          destino, servico, distancia);
+		
+		
+	}
+	
+	
+	public Iterable<ServicoLocalizado> buscarServicoPorCoordenadasDistancia(){
+		GraphDatabaseService graphDatabaseService = this.neo4jTemplate.getGraphDatabaseService();
+		Transaction tx = graphDatabaseService.beginTx();
+		Iterable<ServicoLocalizado> lista = null;
+		try {
+		//	lista = this.prestarServicoRepository.buscarServicoPorCoordenadasDistancia(partida, destino, servico, distancia)();	
+			tx.success();
+			return lista;
+		} catch (Exception e) {
+			tx.close();
+	   }
+	
+		return lista;
+		
+	}
+	
+	
 	
 	@Transactional
 	public void addNoAoIndex(){
