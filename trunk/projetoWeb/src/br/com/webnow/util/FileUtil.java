@@ -13,8 +13,8 @@ public class FileUtil {
 	
 	private final static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-	private static final String PATH = "D:/fotos";
-	private static final File raiz = new File("D:/fotos");
+	private static final String PATH = "c:/fotos";
+	private static final File raiz = new File("c:/fotos");
 	
 	public static String renomear(File arquivoAntigo , File arquivoNovo){
 		
@@ -33,7 +33,7 @@ public class FileUtil {
 			}			
 			return arquivoNovo.getName();
 		} catch (Exception e) {
-			logger.error("Erro renomear aquivo: ", e.getMessage());
+			logger.error("Erro renomear aquivo: ", e);
 			return null;
 		}
 		
@@ -45,7 +45,7 @@ public class FileUtil {
 			File arquivoNovo = new File(raiz, nomeArquivoNovo);
 			return renomear(arquivoAntigo, arquivoNovo);
 		} catch (Exception e) {
-			logger.error("Erro renomear aquivo: ", e.getMessage());
+			logger.error("Erro renomear aquivo: ", e);
 			return null;
 		}
 		

@@ -1,13 +1,16 @@
 package br.com.webnow.repository.prestarservico;
 
 import org.springframework.data.neo4j.repository.GraphRepository;
-import org.springframework.data.neo4j.repository.SpatialRepository;
+import org.springframework.data.neo4j.repository.RelationshipOperationsRepository;
 
-import br.com.webnow.domain.GeoPartida;
+import br.com.webnow.domain.PrestarServico;
 
-public interface PrestarServicoRepository extends GraphRepository<GeoPartida>{
+public interface PrestarServicoRepository extends GraphRepository<PrestarServico>, 
+                                                  RelationshipOperationsRepository<PrestarServico>, 
+                                                  PrestarServicoRepositoryExtension  {
 	
 		
-	GeoPartida findById(Long id);
-
+	PrestarServico findById(Long id);	
+	
+	
 }

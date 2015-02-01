@@ -14,6 +14,7 @@ import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.boundingCoordinates.GeoLocation;
 import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
+import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
@@ -22,6 +23,7 @@ import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
+import br.com.webnow.returno.cypher.ServicoLocalizado;
 import br.com.webnow.service.prestarservico.PrestarServicoService;
 import br.com.webnow.service.prestarservico.ServicoService;
 import br.com.webnow.util.ServiceBoxWebUtil;
@@ -43,17 +45,17 @@ public class MockController {
 	 
 	
 	 @RequestMapping(value = "/rodar", method = RequestMethod.POST)
-	    public String registrar() {
+	 public String registrar() {
 
 	        try {        	
 	        	
 	        	
 	        	
-	        	Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "wellington");
-	        	usuario = usuarioRepository.registrar(usuario);
-	        	Usuario u = usuarioRepository.findByLogin("wellington");        	
+	        	//Usuario usuario = new Usuario("wallace", "12345", "Wallace", "Nascimento", "M", "Wallace");
+	        	//usuario = usuarioRepository.registrar(usuario);
+	        	Usuario u = usuarioRepository.findByLogin("wallace");        	
 	        	
-	        	
+	        	/**
 	        	Carona c = new Carona();
 	        	c.setDataInicialPrestacao(new Date());
 	        	c.setServicoDisponivel(true);
@@ -73,14 +75,14 @@ public class MockController {
 	        	e.setServicoDisponivel(true);
 	        	e.setTipoServico(TipoServico.ESTACIONAMENTO.getCodigo());
 	        	servicoRepository.save(e);
+	        	**/
+	        	//Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
+	        	//Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
+	        	//Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
 	        	
-	        	Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
-	        	Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
-	        	Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
-	        	
-	        	servicoService.addServico(u, servicoc);
-	        	servicoService.addServico(u, servicor);
-	        	servicoService.addServico(u, servicoe);
+	        	//servicoService.addServico(u, servicoc);
+	        	//servicoService.addServico(u, servicor);
+	        	//servicoService.addServico(u, servicoe);
 	        	
 	        	
 	        	// registrar serviço
@@ -90,15 +92,19 @@ public class MockController {
 	        	request.setDistanciaPartidaDestino(0d);
 	        	request.setDomingo(true);
 	        	request.setEnderecoDestino("Rua do Ouvidor");
-	        	request.setEnderecoPartida("Rua Janira");
+	        	//request.setEnderecoPartida("Rua Ten.jeronimo Costa, 206-286 - Fluminense, Queimados - RJ, 26387-276, Brasil");
 	        	request.setHoraE("00:00");
 	        	request.setHoraEntre("00:00");
 	        	request.setHoraFixa("00:00");
 	        	
-	        	request.setLongitudePartida(new Double("51.5086"));
-	        	request.setLatitudePartida(new Double("-0.1283"));
+	        	//request.setLongitudePartida(new Double("-43.56361485000002"));
+	        	//request.setLatitudePartida(new Double("-22.709765256646044"));
 	        	
-	        	request.setLogin("wellington");
+	        	request.setLongitudePartida(new Double("-43.56415734999996"));
+	        	request.setLatitudePartida(new Double("-22.71002105737215"));
+	        	request.setEnderecoPartida("Rua Janira, 207-287 - Vila do Tingua, Queimados - RJ, 26383-230, Brasil");
+	        	
+	        	request.setLogin("wallace");
 	        	request.setLongitudeDestino(new Double("-43.1776887"));
 	        	request.setLatitudeDestino(new Double("-22.9033746"));
 	        	
@@ -131,12 +137,24 @@ public class MockController {
 	 @RequestMapping(value = "/buscarLocalizacaoTeste", method = RequestMethod.POST)
 	 public String  buscarLocalizacaoPorDistancia(){
 		 
-		List<Usuario> lista =  prestarServicoService.prestarServico(new Double("-0.1283"), 
-				new Double("51.5086"), new Double("10.0"));
+		 GeoPartida partida = new GeoPartida();
+		 GeoDestino destino = new GeoDestino();
+		 partida.setLatitude(new Double("-22.71002105737215"));
+		 partida.setLongitude(new Double("-43.56415734999996"));
+		 destino.setLatitude(new Double("-22.9033746"));
+		 destino.setLongitude(new Double("-43.1776887"));
+		 Double dist = new Double("1.1");
+		 
+		 List<ServicoLocalizado> lista = prestarServicoService.buscarServicoPorCoordenadasDistancia(
+				 partida, destino, TipoServico.CARONA.getCodigo(), dist);
 		
-		for(Usuario p : lista){
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + p);
-		}
+		 for(ServicoLocalizado s : lista){
+			 System.out.println(s.getUsuario());
+			 System.out.println(s.getPrestarServico());
+			 System.out.println(s.getGeoDestino());
+			 System.out.println(s.getGeoPartida());
+		 }
+				 
 		 return "/home";
 		 
 	 }

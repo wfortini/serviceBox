@@ -3,6 +3,8 @@ package br.com.webnow.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.support.index.IndexType;
@@ -11,9 +13,13 @@ import br.com.servicebox.common.domain.TipoServico;
 
 
 @NodeEntity
-public abstract class Servico extends BaseEntity implements Serializable{
+@TypeAlias("Servico")
+public abstract class Servico implements Serializable{
 	
 	private static final long serialVersionUID = 7403125160671707264L;	
+	
+	@GraphId
+	private Long id;
 	
 	private Boolean servicoDisponivel;
 	private Date dataInicialPrestacao;
@@ -48,6 +54,14 @@ public abstract class Servico extends BaseEntity implements Serializable{
 	public void setDataInicialPrestacao(Date dataInicialPrestacao) {
 		this.dataInicialPrestacao = dataInicialPrestacao;
 	}	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@Override
     public boolean equals(Object o) {

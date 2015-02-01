@@ -24,7 +24,7 @@ import br.com.servicebox.common.domain.Planejamento;
 import br.com.webnow.util.ServiceBoxWebUtil;
 
 @NodeEntity
-@TypeAlias("USUARIO")
+@TypeAlias("Usuario")
 public class Usuario extends BaseEntity implements Serializable{
 	
 	private static final long serialVersionUID = 179224882566814808L;	
