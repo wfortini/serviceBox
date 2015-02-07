@@ -35,7 +35,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-`    
+`    
     <application
         android:name=".ServiceBoxApplication"
         android:allowBackup="true"
@@ -85,8 +85,12 @@
         </activity>
         <activity
             android:name=".PlanejamentoActivity"
-            android:label="@string/title_activity_planejamento" 
+            android:label="@string/title_activity_planejamento"
             android:theme="@style/Theme.ServiceBox.DialogActivity.Light" >
+        </activity>
+        <activity
+            android:name=".ListaServicoActivity"
+            android:label="@string/title_activity_lista_servico" >
         </activity>
     </application>
 

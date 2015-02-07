@@ -182,16 +182,30 @@ public class CaronaMapFragment extends SherlockMapFragment{
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
 			  if (item.getItemId() == R.id.item_menu_oferecr_carona) {
+				  
 				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
+				  
 			  } else if (item.getItemId() == R.id.item_menu_pegar_carona) {
+				  
 				  startActivityForResult(new Intent(getActivity(), ItinerarioActivity.class), ItinerarioActivity.RESULT_CODE);
+				  
 			  } else if (item.getItemId() == R.id.item_menu_motorista_rodada_carona) {
+				  
 				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
+				  
 			  } else  if (item.getItemId() == R.id.item_menu_prestar_carona) {
+				  
 				  Intent i = new Intent(getActivity(), PrestarServicoActivity.class);
                   i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, "carona");
-                  startActivityForResult(i, REQUEST_PRESTA_SERVICO);				 
-			  } 
+                  startActivityForResult(i, REQUEST_PRESTA_SERVICO);
+                  
+			  } else  if (item.getItemId() == R.id.item_menu_motorista_rodada_carona){
+				  
+				  Intent i = new Intent(getActivity(), PrestarServicoActivity.class);
+                  i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, "carona");
+                  startActivityForResult(i, REQUEST_PRESTA_SERVICO);
+				  
+			  }
 			  
 		      return true;
 		}

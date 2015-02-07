@@ -8,8 +8,8 @@
     <dimen name="servicebox_site_padding_half">5dp</dimen>
     
     <dimen name="listview_prestarservico_titulo">17dp</dimen>
-    <dimen name="listview_prestarservico_rating">15dip</dimen>
-    <dimen name="listview_prestarservico_genre">13dip</dimen>
+    <dimen name="listview_prestarservico_classificacao">15dip</dimen>
+    <dimen name="listview_prestarservico_genero">13dip</dimen>
     <dimen name="listview_prestarservico_ano">12dip</dimen>
     
 
