@@ -25,7 +25,16 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	
 	private Date data;
 	private boolean ativa;
+	private String descricao;
 	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	/**
 	 * Planejamento
 	 */
