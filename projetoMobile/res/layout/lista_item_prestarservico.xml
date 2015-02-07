@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/title"
+        android:textSize="@dimen/listview_prestarservico_titulo"
         android:textStyle="bold" />
 
     <!-- Rating -->
@@ -30,7 +30,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/rating" />
+        android:textSize="@dimen/listview_prestarservico_classificacao" />
     
     <!-- Genre -->
     <TextView
@@ -40,8 +40,8 @@
         android:layout_below="@id/rating"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="@color/genre"
-        android:textSize="@dimen/genre" />
+        android:textColor="@color/genero"
+        android:textSize="@dimen/listview_prestarservico_genero" />
 
     <!-- Release Year -->
     <TextView
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/year"
-        android:textSize="@dimen/year" />
+        android:textColor="@color/ano"
+        android:textSize="@dimen/listview_prestarservico_ano" />
 
 </RelativeLayout>

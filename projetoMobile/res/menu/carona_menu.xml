@@ -20,7 +20,10 @@
 		        android:title="@string/item_menu_motorista_rodada_carona"/>	
 		        
 				<item android:id="@+id/item_menu_prestar_carona"		        
-		        android:title="@string/item_menu_prestar"/>	
+		        android:title="@string/item_menu_prestar"/>
+				
+				<item android:id="@+id/item_menu_listar_carona"		        
+		        android:title="@string/item_menu_listar_carona"/>
        	
 		</menu>
 				

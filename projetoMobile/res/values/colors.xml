@@ -5,5 +5,13 @@
 
     <drawable name="ab_bg_black">#66000000</drawable>
     
+    <color name="genero">#666666</color>
+    <color name="ano">#888888</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+    
 
 </resources>

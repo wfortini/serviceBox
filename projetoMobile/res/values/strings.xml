@@ -44,6 +44,7 @@
     <string name="item_dialog_regiao">Por região</string>
     <string name="item_dialog_rota">Por rota</string>
     <string name="menu_selecione_carona">Selecione tipo de Carona</string>
+    <string name="item_menu_listar_carona">Listar minhas caronas</string>
 
     <!-- Prestar servco -->
     <string name="prestar_servico_confirmar">Confirmar</string>
@@ -56,7 +57,7 @@
     <string name="prestar_servico_so_amigo">só Amigos</string>
     <string name="prestar_servico_so_amigos_do_amigos">só Amigos dos Amigos</string>
     <string name="prestar_servico_todos">Todos</string>
-    
+
     <!-- Activity Planejamento -->
     <string name="domingo">Domingo</string>
     <string name="segunda">Segunda</string>
@@ -71,16 +72,15 @@
     <string name="zero_hora">00:00</string>
     <string name="entre_faixa">entre</string>
     <string name="e_faixa">e</string>
-    <string name="planejamento_confirmar">Confirmar</string>   
-    
-    
+    <string name="planejamento_confirmar">Confirmar</string>
+
     <!-- errors -->
     <string name="errorUploadPicassaNaoSuportado">Imagens do Picasa ainda não são suportados. Por favor seleccione imagem local.</string>
     <string name="errorCanNotFindExternalStorageForTakingPicture">Não é possível encontrar de armazenamento externo para tirar uma foto</string>
     <string name="erroNaoConhecido">Não foi possivél identificar o erro ocorrido</string>
     <string name="errorCouldNotLogin">Could not login</string>
     <!-- Fim erros -->
-    
+
     <string name="title_activity_activity_acesso">ActivityAcesso</string>
     <string name="account_google_login_button"><![CDATA[Connect using <b>Google</b> login]]></string>
     <string name="instant_sign_in_instructions"><![CDATA[<b>Sign up</b> or <b>sign in</b> with a single tap]]></string>
@@ -101,8 +101,9 @@
     <string name="title_activity_prestar_servico">Prestar Serviço</string>
     <string name="title_activity_itinerario">Itinerário</string>
     <string name="title_activity_planejamento">Planejamento</string>
-    
+
     <!-- Configurações -->
     <string name="ip_servidor_servicebox">http://192.168.1.9</string>
+    <string name="title_activity_lista_servico">ListaServicoActivity</string>
 
 </resources>
