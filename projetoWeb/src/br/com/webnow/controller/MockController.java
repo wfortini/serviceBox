@@ -117,11 +117,12 @@ public class MockController {
 	        	request.setSoAmigos(true);
 	        	request.setTerca(true);
 	        	request.setNodeId(u.getId());
+	        	request.setDescricao("Carona para Teste");
 	        	
 	        	PrestarServico prestar = null; 
 	        	
 	        	prestar = prestarServicoService.prestarServico(request.getNodeId(), 
-						  request.getServicoPrestado(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
+						  request.getServicoPrestado(), request.getDescricao(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
 						  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
 	        	
 	        	

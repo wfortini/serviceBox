@@ -43,7 +43,7 @@ public class PrestarServicoController {
 		 PrestarServicoResponse response = null;
 		 try {
 			  prestar = prestarServicoService.prestarServico(request.getNodeId(), 
-					  request.getServicoPrestado(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
+					  request.getServicoPrestado(), request.getDescricao(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
 					  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
 			  if(prestar != null && prestar.getId() != null){
 				  

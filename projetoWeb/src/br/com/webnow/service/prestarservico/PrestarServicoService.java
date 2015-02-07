@@ -31,6 +31,7 @@ import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
+import br.com.webnow.exception.ServicoNaoDisponivelException;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.prestarservico.PrestarServicoRepositoryImpl;
 import br.com.webnow.repository.servico.ServicoRepository;
@@ -59,7 +60,7 @@ public class PrestarServicoService {
 	private UsuarioRepository repository;
 	
 	@Transactional
-	public PrestarServico prestarServico(Long usuarioId, Integer tipoServico, 
+	public PrestarServico prestarServico(Long usuarioId, Integer tipoServico, String descricao,
 			Itinerario itinerario, Planejamento planejamento){
 		
 		PrestarServico prestar = new PrestarServico();
@@ -69,11 +70,14 @@ public class PrestarServicoService {
 			
 	        prestar.setAtiva(true);
 	        prestar.setData(new Date());
+	        prestar.setDescricao(descricao);
 	        prestar = ServiceBoxWebUtil.preencherPrestacao(prestar, itinerario, planejamento); 
 	        usuario.addPrestarServico(prestar);
 	        template.save(usuario);
 			
-		}		
+		}else{
+			throw new ServicoNaoDisponivelException("Este Serviço não está disponivel para o usuário atual.");
+		}
 		
 		return prestar;
 	}
