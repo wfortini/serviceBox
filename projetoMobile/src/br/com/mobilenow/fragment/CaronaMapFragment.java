@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import br.com.mobilenow.ItinerarioActivity;
+import br.com.mobilenow.ListaServicoActivity;
 import br.com.mobilenow.PlanejamentoActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
@@ -201,8 +202,8 @@ public class CaronaMapFragment extends SherlockMapFragment{
                   
 			  } else  if (item.getItemId() == R.id.item_menu_motorista_rodada_carona){
 				  
-				  Intent i = new Intent(getActivity(), PrestarServicoActivity.class);
-                  i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, "carona");
+				  Intent i = new Intent(getActivity(), ListaServicoActivity.class);
+                  i.putExtra(ListaServicoActivity.LISTAR_SERVICO, "listarServico");
                   startActivityForResult(i, REQUEST_PRESTA_SERVICO);
 				  
 			  }
