@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.servicebox.common.net.PrestarServicoRequest;
@@ -73,4 +74,11 @@ public class PrestarServicoController {
 		 return null;
 		 
 	 }
+	 
+	@RequestMapping(value = "/listarPrestarServicoOferecidos", method = RequestMethod.POST) 
+	public @ResponseBody PrestarServicoResponse buscarPorUsuario(
+			        @RequestParam(value = "idUsuario") String idUsuario){
+		
+		return null;
+	}
 }

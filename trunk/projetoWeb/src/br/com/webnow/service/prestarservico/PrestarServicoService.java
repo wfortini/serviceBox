@@ -82,6 +82,14 @@ public class PrestarServicoService {
 		return prestar;
 	}
 	
+	/**
+	 * Retorna uma lista de Prestações de serviço por usuario
+	 * @param id do usuario
+	 * @return lista de Prestar Serviço
+	 */
+	public List<PrestarServico> buscarPorUsuario(Long id){
+		return this.prestarServicoRepository.buscarPorUsuario(id);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> prestarServico(Double latitude, Double longitude, Double distanciaKM){		
