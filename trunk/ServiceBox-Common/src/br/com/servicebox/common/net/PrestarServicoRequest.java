@@ -6,6 +6,8 @@ public class PrestarServicoRequest extends Request{
 	
 	private static final long serialVersionUID = 8497195528947212068L;
 	
+	private String descricao;
+	
 	/**
 	 * Planejamento
 	 */
@@ -44,7 +46,16 @@ public class PrestarServicoRequest extends Request{
 	private Double distanciaPartidaDestino;
 	private Double distanciaMaxima;
 	
-	
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	
 	public Double getDistanciaPartidaDestino() {
 		return distanciaPartidaDestino;
