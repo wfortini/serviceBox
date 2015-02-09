@@ -1,17 +1,18 @@
 package br.com.mobilenow.adapter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import br.com.mobilenow.R;
+import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.common.domain.PrestarServico;
 
 public class ListarServicoAdapter extends BaseAdapter{
@@ -49,13 +50,17 @@ public class ListarServicoAdapter extends BaseAdapter{
 		if (convertView == null)
 			convertView = inflater.inflate(R.layout.lista_item_listaservico, null);
 		
-		TextView title = (TextView) convertView.findViewById(R.id.title);
-		TextView rating = (TextView) convertView.findViewById(R.id.rating);
-		TextView genre = (TextView) convertView.findViewById(R.id.genre);
-		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
+		TextView descricao = (TextView) convertView.findViewById(R.id.descricao);
+		TextView classificacao = (TextView) convertView.findViewById(R.id.classificacao);
+		TextView aceitacao = (TextView) convertView.findViewById(R.id.aceitacao);
+		TextView data = (TextView) convertView.findViewById(R.id.dataCriacao);
 
-		// getting movie data for the row
+		
 		PrestarServico p = lista.get(position);	
+		descricao.setText(p.getDescricao());
+		classificacao.setText("Text fixo  no código");
+		aceitacao.setText("Texto fixo no código");
+		data.setText(ServiceBoxMobileUtil.dateToString(p.getData(), DateFormat.FULL));
 		
 		
 

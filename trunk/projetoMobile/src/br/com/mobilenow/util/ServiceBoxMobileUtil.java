@@ -1,6 +1,9 @@
 package br.com.mobilenow.util;
 
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -84,6 +87,20 @@ public class ServiceBoxMobileUtil {
 		 
 		 return restTemplate;
 		
+		
+	}
+	
+	public static String dateToString(Date data, int formato){
+		
+		DateFormat dateFormat = DateFormat.getDateInstance(formato);
+		return dateFormat.format(data);
+		
+	}
+	
+   public static Date stringToDate(String data, int formato) throws ParseException{
+		
+		DateFormat dateFormat = DateFormat.getDateInstance(formato);
+		return dateFormat.parse(data);
 		
 	}
 }
