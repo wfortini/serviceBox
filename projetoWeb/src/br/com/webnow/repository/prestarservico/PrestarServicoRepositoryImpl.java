@@ -94,4 +94,8 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
 		
 		return lstServico;
 	}
+	
+	public List<PrestarServico> buscarPorUsuario(Long id){
+		return this.prestarServicoRepository.buscarPorUsuario(id);
+	}
 }
