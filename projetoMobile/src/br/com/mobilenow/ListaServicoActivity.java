@@ -3,7 +3,9 @@ package br.com.mobilenow;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +13,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -90,9 +91,11 @@ public class ListaServicoActivity extends CommonActivity {
 
     		// Creating volley request obj
     		JsonArrayRequest servicoReq = new JsonArrayRequest(url,
-    				new Response.Listener<JSONArray>() {
+    				new Response.Listener<JSONArray>()
+    				{
     					@Override
-    					public void onResponse(JSONArray response) {
+    					public void onResponse(JSONArray response) 
+    					{
     						Log.d(TAG, response.toString());
     						hidePDialog();
 
@@ -121,16 +124,29 @@ public class ListaServicoActivity extends CommonActivity {
     					}
     				}, new Response.ErrorListener() {
     					@Override
-    					public void onErrorResponse(VolleyError error) {
+    					public void onErrorResponse(VolleyError error) 
+    					{
     						VolleyLog.d(TAG, "Error: " + error.getMessage());
     						hidePDialog();
 
     					}
-    				});
+    				}
+    				
+    			) {
+    			 
+	    		    @Override
+	    		    protected Map<String, String> getParams() 
+	    		    {  
+	    		            Map<String, String>  params = new HashMap<String, String> ();  
+	    		            params.put("idUsuario", ServiceBoxApplication.getUsuario().getNodeId().toString());  
+	    		           
+	    		            return params; 
+	    		    }
+    		    }; // fim classe anonima
 
     		// Adding request to request queue
     		ServiceBoxApplication.getInstance().addToRequestQueue(servicoReq);
-    	}      
+    	} // fim metodo init      
             
 			
 			
