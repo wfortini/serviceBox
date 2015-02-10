@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
 import br.com.servicebox.common.net.Response;
-import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
@@ -66,8 +65,9 @@ public class PrestarServicoController {
 		 
 	 }
 	 
-	 @RequestMapping(value = "/buscarLocalizacaoPorDistancia", method = RequestMethod.POST)
-	 public @ResponseBody PrestarServicoResponse buscarLocalizacaoPorDistancia(@RequestBody PrestarServicoRequest request){
+	 @RequestMapping(value = "/buscarServicosPorCoordenadasComDistancia", method = RequestMethod.POST)
+	 public @ResponseBody PrestarServicoResponse buscarServicosPorCoordenadasComDistancia(
+			 @RequestBody PrestarServicoRequest request){
 		 
 		
 		
@@ -79,6 +79,8 @@ public class PrestarServicoController {
 	public @ResponseBody PrestarServicoResponse buscarPorUsuario(
 			        @RequestParam(value = "idUsuario") String idUsuario){
 		
-		return null;
+		List<PrestarServico> lista = prestarServicoService.buscarPorUsuario(Long.valueOf(idUsuario));
+		
+		return null; 
 	}
 }

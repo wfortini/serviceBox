@@ -146,7 +146,7 @@ public class MockController {
 		 destino.setLongitude(new Double("-43.1776887"));
 		 Double dist = new Double("1.1");
 		 
-		 List<ServicoLocalizado> lista = prestarServicoService.buscarServicoPorCoordenadasDistancia(
+		 List<ServicoLocalizado> lista = prestarServicoService.buscarServicosPorCoordenadasComDistancia(
 				 partida, destino, TipoServico.CARONA.getCodigo(), dist);
 		
 		 for(ServicoLocalizado s : lista){

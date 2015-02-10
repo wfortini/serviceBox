@@ -100,7 +100,7 @@ public class PrestarServicoService {
 	}
 	
 	@Transactional
-	public List<ServicoLocalizado> buscarServicoPorCoordenadasDistancia(GeoPartida partida, 
+	public List<ServicoLocalizado> buscarServicosPorCoordenadasComDistancia(GeoPartida partida, 
 			GeoDestino destino, Integer servico, double distancia){
 		
 		
@@ -110,7 +110,7 @@ public class PrestarServicoService {
 		
 	}
 	
-	
+	@Deprecated
 	public Iterable<ServicoLocalizado> buscarServicoPorCoordenadasDistancia(){
 		GraphDatabaseService graphDatabaseService = this.neo4jTemplate.getGraphDatabaseService();
 		Transaction tx = graphDatabaseService.beginTx();
