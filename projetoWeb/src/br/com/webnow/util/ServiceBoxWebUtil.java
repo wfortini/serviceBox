@@ -2,12 +2,16 @@ package br.com.webnow.util;
 
 
 
+import java.util.List;
+
 import br.com.servicebox.common.domain.Itinerario;
 import br.com.servicebox.common.domain.Planejamento;
+import br.com.servicebox.common.json.PrestarServicoJSON;
+import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.domain.Carona;
-import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.Estacionamento;
+import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
@@ -113,6 +117,35 @@ public class ServiceBoxWebUtil {
 		}		
 		
 	}
+	
+	public PrestarServicoJSON[] preencherPrestarServicoJSON(List<PrestarServico> lista){
+		
+		PrestarServicoJSON[] prestarServicoJSONs = null;
+		
+		if(lista != null && lista.size() > 0){
+			
+			int i = 0;
+			prestarServicoJSONs = new PrestarServicoJSON[lista.size()];
+			for(PrestarServico p : lista){
+				
+				PrestarServicoJSON json = new PrestarServicoJSON();
+				
+				json.setAtivo(p.isAtiva());
+				json.setData(p.getData());
+				json.setDescricao(p.getDescricao());
+				
+				
+				prestarServicoJSONs[i] = json;
+				i++;	   			
+					
+			}		
+		}
+			
+	return 	prestarServicoJSONs;	
+			
+	}
+		
+	
 	
 	
 
