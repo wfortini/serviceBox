@@ -51,11 +51,11 @@ public class MockController {
 	        	
 	        	
 	        	
-	        	//Usuario usuario = new Usuario("wallace", "12345", "Wallace", "Nascimento", "M", "Wallace");
-	        	//usuario = usuarioRepository.registrar(usuario);
-	        	Usuario u = usuarioRepository.findByLogin("wallace");        	
+	        	Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");
+	        	usuario = usuarioRepository.registrar(usuario);
+	        	Usuario u = usuarioRepository.findByLogin("wellington");        	
 	        	
-	        	/**
+	        	
 	        	Carona c = new Carona();
 	        	c.setDataInicialPrestacao(new Date());
 	        	c.setServicoDisponivel(true);
@@ -75,14 +75,14 @@ public class MockController {
 	        	e.setServicoDisponivel(true);
 	        	e.setTipoServico(TipoServico.ESTACIONAMENTO.getCodigo());
 	        	servicoRepository.save(e);
-	        	**/
-	        	//Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
-	        	//Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
-	        	//Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
 	        	
-	        	//servicoService.addServico(u, servicoc);
-	        	//servicoService.addServico(u, servicor);
-	        	//servicoService.addServico(u, servicoe);
+	        	Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
+	        	Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
+	        	Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
+	        	
+	        	servicoService.addServico(u, servicoc);
+	        	servicoService.addServico(u, servicor);
+	        	servicoService.addServico(u, servicoe);
 	        	
 	        	
 	        	// registrar serviço
@@ -92,19 +92,19 @@ public class MockController {
 	        	request.setDistanciaPartidaDestino(0d);
 	        	request.setDomingo(true);
 	        	request.setEnderecoDestino("Rua do Ouvidor");
-	        	//request.setEnderecoPartida("Rua Ten.jeronimo Costa, 206-286 - Fluminense, Queimados - RJ, 26387-276, Brasil");
+	        	request.setEnderecoPartida("Rua Ten.jeronimo Costa, 206-286 - Fluminense, Queimados - RJ, 26387-276, Brasil");
 	        	request.setHoraE("00:00");
 	        	request.setHoraEntre("00:00");
 	        	request.setHoraFixa("00:00");
 	        	
-	        	//request.setLongitudePartida(new Double("-43.56361485000002"));
-	        	//request.setLatitudePartida(new Double("-22.709765256646044"));
+	        	request.setLongitudePartida(new Double("-43.56361485000002"));
+	        	request.setLatitudePartida(new Double("-22.709765256646044"));
 	        	
-	        	request.setLongitudePartida(new Double("-43.56415734999996"));
-	        	request.setLatitudePartida(new Double("-22.71002105737215"));
-	        	request.setEnderecoPartida("Rua Janira, 207-287 - Vila do Tingua, Queimados - RJ, 26383-230, Brasil");
+	            //request.setLongitudePartida(new Double("-43.56415734999996"));
+	        	//request.setLatitudePartida(new Double("-22.71002105737215"));
+	        	//request.setEnderecoPartida("Rua Janira, 207-287 - Vila do Tingua, Queimados - RJ, 26383-230, Brasil");
 	        	
-	        	request.setLogin("wallace");
+	        	request.setLogin("wellington");
 	        	request.setLongitudeDestino(new Double("-43.1776887"));
 	        	request.setLatitudeDestino(new Double("-22.9033746"));
 	        	

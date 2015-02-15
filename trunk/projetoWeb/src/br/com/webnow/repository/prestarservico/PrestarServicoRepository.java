@@ -17,7 +17,7 @@ public interface PrestarServicoRepository extends GraphRepository<PrestarServico
 	PrestarServico findById(Long id);
 	
 	@Query("START n=node({id}) MATCH (n)-[:PRESTA_SERVICO]-(prestarServico) RETURN prestarServico")
-	List<PrestarServico> buscarPorUsuario(@Param("id")  Long id);
+	List<PrestarServico> listarPrestarServicoOferecidos(@Param("id")  Long id);
 	
 	
 }

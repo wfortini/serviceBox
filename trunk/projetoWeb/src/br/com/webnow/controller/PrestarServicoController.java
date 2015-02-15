@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.servicebox.common.json.PrestarServicoJSON;
+import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
 import br.com.servicebox.common.net.Response;
@@ -69,18 +71,26 @@ public class PrestarServicoController {
 	 public @ResponseBody PrestarServicoResponse buscarServicosPorCoordenadasComDistancia(
 			 @RequestBody PrestarServicoRequest request){
 		 
-		
+		 try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		 return null;
 		 
 	 }
 	 
 	@RequestMapping(value = "/listarPrestarServicoOferecidos", method = RequestMethod.POST) 
-	public @ResponseBody PrestarServicoResponse buscarPorUsuario(
+	public @ResponseBody ListaServicoResponse listarPrestarServicoOferecidos(
 			        @RequestParam(value = "idUsuario") String idUsuario){
 		
-		List<PrestarServico> lista = prestarServicoService.buscarPorUsuario(Long.valueOf(idUsuario));
+		List<PrestarServico> lista = prestarServicoService.listarPrestarServicoOferecidos(
+				   Long.valueOf(idUsuario));
 		
-		return null; 
+		ListaServicoResponse listaResponse = new ListaServicoResponse();
+		listaResponse.setPrestarServicoJSON(ServiceBoxWebUtil.preencherPrestarServicoJSON(lista));
+		
+		return listaResponse; 
 	}
 }

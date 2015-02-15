@@ -27,13 +27,6 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	private boolean ativa;
 	private String descricao;
 	
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 
 	/**
 	 * Planejamento
@@ -62,6 +55,14 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	@RelatedTo(type = "VAI_PARA", direction = Direction.OUTGOING, elementClass = GeoDestino.class)
 	private GeoDestino destino;	
 	
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	private Double distanciaPartidaDestino;
 	private Double distanciaMaxima;		
 	

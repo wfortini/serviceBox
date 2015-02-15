@@ -87,8 +87,8 @@ public class PrestarServicoService {
 	 * @param id do usuario
 	 * @return lista de Prestar Serviço
 	 */
-	public List<PrestarServico> buscarPorUsuario(Long id){
-		return this.prestarServicoRepository.buscarPorUsuario(id);
+	public List<PrestarServico> listarPrestarServicoOferecidos(Long id){
+		return this.prestarServicoRepository.listarPrestarServicoOferecidos(id);
 	}
 	
 	@SuppressWarnings("unchecked")

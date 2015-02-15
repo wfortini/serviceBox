@@ -183,7 +183,7 @@
 					</div>
 			     	<div class="error">${error}</div>	
 					<div class="box-content">
-						<form class="form-horizontal" action="<c:url value="/buscarLocalizacaoTeste" />" method="POST">
+						<form class="form-horizontal" action="<c:url value="/rodar" />" method="POST">
 							<fieldset>
 							  <div class="control-group">
 								<label class="control-label" for="login">Login</label>

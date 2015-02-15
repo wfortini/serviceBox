@@ -118,7 +118,7 @@ public class ServiceBoxWebUtil {
 		
 	}
 	
-	public PrestarServicoJSON[] preencherPrestarServicoJSON(List<PrestarServico> lista){
+	public static PrestarServicoJSON[] preencherPrestarServicoJSON(List<PrestarServico> lista){
 		
 		PrestarServicoJSON[] prestarServicoJSONs = null;
 		
@@ -133,7 +133,27 @@ public class ServiceBoxWebUtil {
 				json.setAtivo(p.isAtiva());
 				json.setData(p.getData());
 				json.setDescricao(p.getDescricao());
-				
+				json.setDistanciaMaxima(p.getDistanciaMaxima());
+				json.setDistanciaPartidaDestino(p.getDistanciaPartidaDestino());
+				json.setDomingo(p.isDomingo());
+				json.setEnderecoPartida(p.getPartida().getEnderecoPartida());
+				json.setEnderecoDestino(p.getDestino().getEnderecoDestino());
+				json.setHoraE(p.getHoraE());
+				json.setHoraEntre(p.getHoraEntre());
+				json.setHoraFixa(p.getHoraFixa());
+				json.setLatitudeDestino(p.getDestino().getLatitude());
+				json.setLongitudeDestino(p.getDestino().getLongitude());
+				json.setLatitudePartida(p.getPartida().getLatitude());
+				json.setLongitudePartida(p.getPartida().getLongitude());
+				json.setQuarta(p.isQuarta());
+				json.setQuinta(p.isQuinta());
+				json.setTerca(p.isTerca());
+				json.setSegunda(p.isSegunda());
+				json.setSexta(p.isSexta());
+				json.setSabado(p.isSabado());
+				json.setSoAmigos(p.isSoAmigos());
+				json.setSoAmigosDosAmigos(p.isSoAmigosDosAmigos());
+				json.setTodos(p.isTodos());
 				
 				prestarServicoJSONs[i] = json;
 				i++;	   			
