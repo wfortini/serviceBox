@@ -3,7 +3,7 @@ package br.com.servicebox.android.common.net;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Destino implements Parcelable{
+public class GeoDestino implements Parcelable{
 
 	
 	private String enderecoDestino;
@@ -11,7 +11,7 @@ public class Destino implements Parcelable{
 	private Double longitude;
 	
 	
-	public Destino() {
+	public GeoDestino() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -60,21 +60,21 @@ public class Destino implements Parcelable{
 		
 	}
 	
-    private Destino(Parcel in) {
+    private GeoDestino(Parcel in) {
         this.enderecoDestino = in.readString();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
     }
 	
-	 public static final Parcelable.Creator<Destino> CREATOR = new Parcelable.Creator<Destino>() {
+	 public static final Parcelable.Creator<GeoDestino> CREATOR = new Parcelable.Creator<GeoDestino>() {
 	        @Override
-	        public Destino createFromParcel(Parcel in) {
-	            return new Destino(in);
+	        public GeoDestino createFromParcel(Parcel in) {
+	            return new GeoDestino(in);
 	        }
 
 	        @Override
-	        public Destino[] newArray(int size) {
-	            return new Destino[size];
+	        public GeoDestino[] newArray(int size) {
+	            return new GeoDestino[size];
 	        }
 	    };
 

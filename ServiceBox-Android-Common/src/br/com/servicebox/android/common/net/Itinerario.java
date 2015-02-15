@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 public class Itinerario implements Parcelable{	
 	
-	private Partida partida;
-	private Destino destino;
+	private GeoPartida partida;
+	private GeoDestino destino;
 	private boolean soAmigos;
 	private boolean soAmigosDosAmigos;
 	private boolean todos;
@@ -38,20 +38,20 @@ public class Itinerario implements Parcelable{
 	}
 
 
-	public Partida getPartida() {
+	public GeoPartida getPartida() {
 		return partida;
 	}
 
-	public void setPartida(Partida partida) {
+	public void setPartida(GeoPartida partida) {
 		if(partida != null)
 		   this.partida = partida;
 	}
 
-	public Destino getDestino() {
+	public GeoDestino getDestino() {
 		return destino;
 	}
 
-	public void setDestino(Destino destino) {
+	public void setDestino(GeoDestino destino) {
 		if (destino != null)
 		    this.destino = destino;
 	}
