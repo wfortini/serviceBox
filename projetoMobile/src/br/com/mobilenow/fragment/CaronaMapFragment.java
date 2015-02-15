@@ -200,7 +200,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
                   i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, "carona");
                   startActivityForResult(i, REQUEST_PRESTA_SERVICO);
                   
-			  } else  if (item.getItemId() == R.id.item_menu_motorista_rodada_carona){
+			  } else  if (item.getItemId() == R.id.item_menu_listar_carona){
 				  
 				  Intent i = new Intent(getActivity(), ListaServicoActivity.class);
                   i.putExtra(ListaServicoActivity.LISTAR_SERVICO, "listarServico");
