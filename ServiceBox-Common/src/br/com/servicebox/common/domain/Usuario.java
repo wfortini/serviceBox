@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /**
  * Classe Usuario Modulo Commons
  * @author wpn0510
@@ -26,19 +27,13 @@ public class Usuario {
 	private Date dataCadastro;	
 	private Set<Usuario> amigos;	
 	private Set<Servico> servicosDisponiveis;	
-	private Iterable<PrestarServico> prestarServicos;
+	
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Iterable<PrestarServico> getPrestarServicos() {
-		return prestarServicos;
-	}
 	
-	public void setPrestarServicos(Iterable<PrestarServico> prestarServicos) {
-		this.prestarServicos = prestarServicos;
-	}
 	
 	public boolean addServico(Servico servico){
 		if(this.servicosDisponiveis != null){
