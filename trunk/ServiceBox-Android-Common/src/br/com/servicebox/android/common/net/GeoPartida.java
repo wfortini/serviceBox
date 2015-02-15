@@ -3,7 +3,7 @@ package br.com.servicebox.android.common.net;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Partida implements Parcelable{
+public class GeoPartida implements Parcelable{
 	
 	private String enderecoPartida;
 	private Double latitude;
@@ -33,25 +33,25 @@ public class Partida implements Parcelable{
 		this.enderecoPartida = enderecoPartida;
 	}
 
-	public Partida() {
+	public GeoPartida() {
 		// TODO Auto-generated constructor stub
 	}
 	
-     private Partida(Parcel in) {
+     private GeoPartida(Parcel in) {
         this.enderecoPartida = in.readString();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
     }
 	
-	 public static final Parcelable.Creator<Partida> CREATOR = new Parcelable.Creator<Partida>() {
+	 public static final Parcelable.Creator<GeoPartida> CREATOR = new Parcelable.Creator<GeoPartida>() {
 	        @Override
-	        public Partida createFromParcel(Parcel in) {
-	            return new Partida(in);
+	        public GeoPartida createFromParcel(Parcel in) {
+	            return new GeoPartida(in);
 	        }
 
 	        @Override
-	        public Partida[] newArray(int size) {
-	            return new Partida[size];
+	        public GeoPartida[] newArray(int size) {
+	            return new GeoPartida[size];
 	        }
 	    };
 
