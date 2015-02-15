@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import br.com.mobilenow.adapter.ListarServicoAdapter;
+import br.com.mobilenow.domain.PrestarServico;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
-import br.com.servicebox.common.domain.PrestarServico;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -58,20 +57,41 @@ public class ListaServicoActivity extends CommonActivity {
 		private ProgressDialog progressDialog;
 		private List<PrestarServico> prestarLista = new ArrayList<PrestarServico>();
 		
-		 @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);	            
-        }
-
+		@Override
+		public void onAttach(org.holoeverywhere.app.Activity activity) {
+			// TODO Auto-generated method stub
+			super.onAttach(activity);			
+		}
+		
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub
+			super.onCreate(savedInstanceState);
+			
+			setRetainInstance(true);
+		}
 		@Override
 		public View onCreateView(org.holoeverywhere.LayoutInflater inflater,
 				ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
             View v = inflater.inflate(R.layout.activity_lista_servico, container, false);
+            init(v, savedInstanceState);
             return v;
 		}
 		
+		 @Override
+         public void onViewCreated(View view, Bundle savedInstanceState) {
+             super.onViewCreated(view, savedInstanceState);
+            
+         }
+		
 		void init(View v, Bundle savedInstanceState){
+			
+			progressDialog = new ProgressDialog(getActivity());
+			progressDialog.setTitle(R.string.aguarde_por_favor);
+			progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+			progressDialog.setCancelable(false);
+			progressDialog.show();
 			
 			mAdapter = new ListarServicoAdapter(getActivity(), prestarLista);
             ListView list = (ListView) v.findViewById(R.id.list);
@@ -79,11 +99,7 @@ public class ListaServicoActivity extends CommonActivity {
             list.setOnItemClickListener(this);
             
             
-            progressDialog = new ProgressDialog(getActivity());
-			progressDialog.setTitle(R.string.aguarde_por_favor);
-			progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
-			progressDialog.setCancelable(false);
-			progressDialog.show();
+           
 
     		// changing action bar color
     		//getActionBar().setBackgroundDrawable(
@@ -173,7 +189,7 @@ public class ListaServicoActivity extends CommonActivity {
 		 @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
            
-            Activity activity = getSupportActivity();
+           
            
         } 
 		 

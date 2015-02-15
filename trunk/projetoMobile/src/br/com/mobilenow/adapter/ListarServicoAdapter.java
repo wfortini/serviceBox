@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import br.com.mobilenow.R;
+import br.com.mobilenow.domain.PrestarServico;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
-import br.com.servicebox.common.domain.PrestarServico;
 
 public class ListarServicoAdapter extends BaseAdapter{
 	
