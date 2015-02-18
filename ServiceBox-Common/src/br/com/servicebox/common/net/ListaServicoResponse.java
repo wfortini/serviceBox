@@ -18,6 +18,14 @@ public class ListaServicoResponse extends Response{
 		this.prestarServicoJSON = prestarServicoJSON;
 	}
 	
-	
+	public ListaServicoResponse(boolean sucesso, String message, Long nodeId, int code){
+		this.setSucesso(sucesso);
+		this.setMessage(message);
+		this.setNodeId(nodeId);
+		this.setCode(code);
+	}
 
+	public ListaServicoResponse() {
+		// TODO Auto-generated constructor stub
+	}
 }

@@ -3,13 +3,8 @@ package br.com.servicebox.common.net;
 import java.util.Date;
 import java.util.Set;
 
-import br.com.servicebox.common.domain.Carona;
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.domain.Estacionamento;
-import br.com.servicebox.common.domain.Reboque;
-import br.com.servicebox.common.domain.Servico;
 import br.com.servicebox.common.domain.TipoServico;
-import br.com.servicebox.common.domain.Usuario;
 import br.com.servicebox.common.json.ServicoJSON;
 
 /**
@@ -31,95 +26,16 @@ public class LoginResponse extends Response{
 	 private String sexo;
 	 private String apelido;
 	 private String fotoPerfil;
-	 private Date dataCadastro;	
+	 private Date dataCadastro;
+	 private String telefone;
+	 
 	 private ServicoJSON[] servicoJSONs;
 	
 	public LoginResponse() {
 		
-	}    
-	
-   public LoginResponse(Usuario usuario){
-   	
-	   	preencherServicoJSON(usuario);			 
-	   	this.nodeId = usuario.getNodeId();
-	   	this.login = usuario.getLogin();
-	   	this.apelido = usuario.getApelido();
-	   	this.dataCadastro = usuario.getDataCadastro();
-	   	this.fotoPerfil = usuario.getFotoPerfil();
-	   	this.nome = usuario.getNome();
-	   	this.sexo = usuario.getSexo();   	
-	   	
-	 }
-
-   private void preencherServicoJSON(Usuario usuario) {
-	   
-	Set<Servico> lista = usuario.getServicosDisponiveis();
-	if(lista != null && lista.size() > 0){
-		//this.servicos = lista.toArray(new Servico[lista.size()]);  
-		
-		int i = 0;
-		this.servicoJSONs = new ServicoJSON[lista.size()];
-		for(Servico s : lista){
-			
-			ServicoJSON sj = new ServicoJSON(s.getNodeId(),
-					         s.getServicoDisponivel(), s.getDataInicialPrestacao(), s.getTipoServico());
-			
-			this.servicoJSONs[i] = sj;
-			i++;	   			
-			
-		}		
-		
-	}
-  }      
-     /**
-      * Monta o Objeto Usuario com seus respectivos atributos List, Set, etc
-      * @return Objeto Usuario da pacore br.com.servicebox.common.domain
-      */
-     public Usuario preencherUsuario(){
-    	 
-    	 Usuario usuario = new Usuario(this.login, this.password,this.nome,this.sobreNome,this.sexo,this.apelido);
-    	 usuario.setNodeId(this.nodeId);
-    	 
-    	 if (this.servicoJSONs != null){
-                 
-    		 for(ServicoJSON s : this.servicoJSONs){
-        		 
-        		 if(s.getTipoServico().equals(TipoServico.CARONA.getCodigo())){
-        			 
-        			 Carona c = new Carona();
-        			 c.setNodeId(s.getNodeId());
-        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-        			 c.setServicoDisponivel(s.getServicoDisponivel());
-        			 c.setTipoServico(s.getTipoServico());
-        			 usuario.addServico(c);
-        			 
-        		 } else if(s.getTipoServico().equals(TipoServico.ESTACIONAMENTO.getCodigo())){
-        			 
-        			 Estacionamento c = new Estacionamento();
-        			 c.setNodeId(s.getNodeId());
-        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-        			 c.setServicoDisponivel(s.getServicoDisponivel());
-        			 c.setTipoServico(s.getTipoServico());
-        			 usuario.addServico(c);
-        			 
-        		 } else if(s.getTipoServico().equals(TipoServico.REBOQUE.getCodigo())){
-        			
-        			 Reboque c = new Reboque();
-        			 c.setNodeId(s.getNodeId());
-        			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
-        			 c.setServicoDisponivel(s.getServicoDisponivel());
-        			 c.setTipoServico(s.getTipoServico());
-        			 usuario.addServico(c);
-        		 }
-        		 
-        	 }
-        	 
-        
-    	 }
-    	 
-    	 return usuario;
-    	 
-     }
+	} 
+   
+     
     
 	public Long getNodeId() {
 		return nodeId;
@@ -191,6 +107,18 @@ public class LoginResponse extends Response{
 	}
 	public void setServicoJSONs(ServicoJSON[] servicoJSONs) {
 		this.servicoJSONs = servicoJSONs;
+	}
+
+
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	} 
 	
 
