@@ -13,7 +13,6 @@ import br.com.servicebox.common.domain.TipoServico;
 
 
 @NodeEntity
-@TypeAlias("Servico")
 public abstract class Servico implements Serializable{
 	
 	private static final long serialVersionUID = 7403125160671707264L;	

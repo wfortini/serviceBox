@@ -3,9 +3,8 @@ package br.com.webnow.util;
 
 
 import java.util.List;
+import java.util.Set;
 
-import br.com.servicebox.common.domain.Itinerario;
-import br.com.servicebox.common.domain.Planejamento;
 import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.PrestarServicoRequest;
@@ -13,10 +12,13 @@ import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
 import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
+import br.com.webnow.domain.Itinerario;
+import br.com.webnow.domain.Planejamento;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.TipoServico;
+import br.com.webnow.domain.Usuario;
 
 public class ServiceBoxWebUtil {
 	
@@ -56,8 +58,8 @@ public class ServiceBoxWebUtil {
 	public static Itinerario preencherObjetoItinerario(PrestarServicoRequest request){
 		
 		Itinerario itinerario = new Itinerario();
-		br.com.servicebox.common.domain.Partida partida = new br.com.servicebox.common.domain.Partida();
-		br.com.servicebox.common.domain.Destino destino = new br.com.servicebox.common.domain.Destino();
+		GeoPartida partida = new GeoPartida();
+		GeoDestino destino = new GeoDestino();
 		
 		partida.setEnderecoPartida(request.getEnderecoPartida());
 		partida.setLatitude(request.getLatitudePartida());
@@ -164,6 +166,36 @@ public class ServiceBoxWebUtil {
 	return 	prestarServicoJSONs;	
 			
 	}
+	
+	/**
+	 * 
+	 * @param usuario
+	 * @return
+	 */
+	public static ServicoJSON[] preencherServicoJSON(Usuario usuario) {
+		
+		ServicoJSON[] servicoJSONs = null;
+		
+		Set<Servico> lista = usuario.getServicosDisponiveis();
+		if(lista != null && lista.size() > 0){
+			//this.servicos = lista.toArray(new Servico[lista.size()]);  
+			
+			int i = 0;
+			servicoJSONs = new ServicoJSON[lista.size()];
+			for(Servico s : lista){
+				
+				ServicoJSON sj = new ServicoJSON(s.getId(),
+						         s.getServicoDisponivel(), s.getDataInicialPrestacao(), s.getTipoServico());
+				
+				servicoJSONs[i] = sj;
+				i++;	   			
+				
+			}		
+			
+		}
+		
+		return servicoJSONs;
+	}      
 		
 	
 	

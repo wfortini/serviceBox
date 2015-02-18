@@ -95,7 +95,5 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
 		return lstServico;
 	}
 	
-	public List<PrestarServico> listarPrestarServicoOferecidos(Long id){
-		return this.prestarServicoRepository.listarPrestarServicoOferecidos(id);
-	}
+	
 }
