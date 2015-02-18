@@ -4,35 +4,14 @@
     android:background="@drawable/list_row_selector"
     android:padding="8dp" >
 
-    
-    
     <TextView
         android:id="@+id/descricao"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/imageView1"
         android:textSize="@dimen/listview_prestarservico_titulo"
         android:textStyle="bold" />
 
-    
-    <TextView
-        android:id="@+id/classificacao"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="1dip"       
-        android:textSize="@dimen/listview_prestarservico_classificacao" />
-    
-    
-    <TextView
-        android:id="@+id/aceitacao"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/classificacao"
-        android:layout_marginTop="5dp"       
-        android:textColor="@color/genero"
-        android:textSize="@dimen/listview_prestarservico_genero" />
-
-    
     <TextView
         android:id="@+id/dataCriacao"
         android:layout_width="wrap_content"
@@ -41,12 +20,31 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/ano"
         android:textSize="@dimen/listview_prestarservico_ano" />
-    
-    <ImageView 
+
+    <ImageView
         android:layout_width="wrap_content"
-     	android:layout_height="wrap_content"
-     	android:src="@drawable/arrow"
-     	android:layout_alignParentRight="true"
-     	android:layout_centerVertical="true"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow" />
+
+    <TextView
+        android:id="@+id/classificacao"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/descricao"
+        android:layout_marginTop="32dp"
+        android:textSize="@dimen/listview_prestarservico_classificacao" />
+
+    <TextView
+        android:id="@+id/aceitacao"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/classificacao"
+        android:layout_below="@+id/classificacao"
+        android:layout_marginTop="23dp"
+        android:textColor="@color/genero"
+        android:textSize="@dimen/listview_prestarservico_genero" />
 
 </RelativeLayout>
