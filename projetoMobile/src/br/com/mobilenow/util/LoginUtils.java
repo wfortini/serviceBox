@@ -54,7 +54,7 @@ public class LoginUtils
      */
     public static void onLoggedIn(Activity activity, boolean finishActivity, LoginResponse response) {
         // iniciar nova activity e adiciono o usuario logado na application
-    	ServiceBoxApplication.setUsuario(response.preencherUsuario());
+    	ServiceBoxApplication.setUsuario(ServiceBoxMobileUtil.preencherUsuario(response));
         activity.startActivity(new Intent(activity, TabbedActivity.class));
        
         if (finishActivity) {

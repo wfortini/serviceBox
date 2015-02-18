@@ -3,7 +3,9 @@ package br.com.mobilenow.util;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -12,9 +14,21 @@ import org.springframework.web.client.RestTemplate;
 
 import android.text.TextUtils;
 import br.com.mobilenow.R;
-import br.com.servicebox.android.common.net.Itinerario;
-import br.com.servicebox.android.common.net.Planejamento;
+import br.com.mobilenow.domain.Carona;
+import br.com.mobilenow.domain.Estacionamento;
+import br.com.mobilenow.domain.GeoDestino;
+import br.com.mobilenow.domain.GeoPartida;
+import br.com.mobilenow.domain.Itinerario;
+import br.com.mobilenow.domain.Planejamento;
+import br.com.mobilenow.domain.PrestarServico;
+import br.com.mobilenow.domain.Reboque;
+import br.com.mobilenow.domain.Usuario;
 import br.com.servicebox.android.common.util.GuiUtils;
+import br.com.servicebox.common.domain.TipoServico;
+import br.com.servicebox.common.json.PrestarServicoJSON;
+import br.com.servicebox.common.json.ServicoJSON;
+import br.com.servicebox.common.net.ListaServicoResponse;
+import br.com.servicebox.common.net.LoginResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
 
@@ -103,4 +117,116 @@ public class ServiceBoxMobileUtil {
 		return dateFormat.parse(data);
 		
 	}
+   
+   /**
+    * Monta o Objeto Usuario com seus respectivos atributos List, Set, etc
+    * @return Objeto Usuario da pacore br.com.servicebox.common.domain
+    */
+   public static Usuario preencherUsuario(LoginResponse response){
+  	 
+  	 Usuario usuario = new Usuario(response.getLogin(), response.getPassword(),
+  			 response.getNome(), response.getSobreNome(), response.getSexo(), response.getApelido());
+  	 usuario.setNodeId(response.getNodeId());
+  	 
+  	 if (response.getServicoJSONs() != null){
+               
+  		 for(ServicoJSON s : response.getServicoJSONs()){
+      		 
+      		 if(s.getTipoServico().equals(TipoServico.CARONA.getCodigo())){
+      			 
+      			 Carona c = new Carona();
+      			 c.setNodeId(s.getNodeId());
+      			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+      			 c.setServicoDisponivel(s.getServicoDisponivel());
+      			 c.setTipoServico(s.getTipoServico());
+      			 usuario.addServico(c);
+      			 
+      		 } else if(s.getTipoServico().equals(TipoServico.ESTACIONAMENTO.getCodigo())){
+      			 
+      			 Estacionamento c = new Estacionamento();
+      			 c.setNodeId(s.getNodeId());
+      			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+      			 c.setServicoDisponivel(s.getServicoDisponivel());
+      			 c.setTipoServico(s.getTipoServico());
+      			 usuario.addServico(c);
+      			 
+      		 } else if(s.getTipoServico().equals(TipoServico.REBOQUE.getCodigo())){
+      			
+      			 Reboque c = new Reboque();
+      			 c.setNodeId(s.getNodeId());
+      			 c.setDataInicialPrestacao(s.getDataInicialPrestacao());
+      			 c.setServicoDisponivel(s.getServicoDisponivel());
+      			 c.setTipoServico(s.getTipoServico());
+      			 usuario.addServico(c);
+      		 }
+      		 
+      	 }
+      	 
+      
+  	 }
+  	 
+  	 return usuario;
+  	 
+   }
+   
+   /**
+    * 
+    * @param response
+    * @return
+    */
+   public static List<PrestarServico> preencherServico(ListaServicoResponse response){
+	   
+	   List<PrestarServico> lista = new ArrayList<PrestarServico>();
+	   
+	   for(PrestarServicoJSON json : response.getPrestarServicoJSON()){
+		   
+		   PrestarServico servico = new PrestarServico();
+		   
+		   servico.setDescricao(json.getDescricao());
+		   servico.setAtiva(json.isAtivo());
+		   servico.setData(json.getData());
+		   
+		   Itinerario itinerario = new Itinerario();
+		   GeoPartida partida = new GeoPartida();
+		   GeoDestino destino = new GeoDestino();
+		   
+			partida.setEnderecoPartida(json.getEnderecoPartida());
+			partida.setLatitude(json.getLatitudePartida());
+			partida.setLongitude(json.getLongitudePartida());
+			
+			destino.setEnderecoDestino(json.getEnderecoDestino());
+			destino.setLatitude(json.getLatitudeDestino());
+			destino.setLongitude(json.getLongitudeDestino());
+			
+			itinerario.setPartida(partida);
+			itinerario.setDestino(destino);
+			itinerario.setSoAmigos(json.isSoAmigos());
+			itinerario.setSoAmigosDosAmigos(json.isSoAmigosDosAmigos());
+			itinerario.setTodos(json.isTodos());
+			itinerario.setDistanciaMaxima(json.getDistanciaMaxima());
+			itinerario.setDistanciaPartidaDestino(json.getDistanciaPartidaDestino());
+			
+			servico.setItinerario(itinerario);
+			
+			Planejamento planejamento = new Planejamento();
+			planejamento.setDomingo(json.isDomingo());
+			planejamento.setSegunda(json.isSegunda());
+			planejamento.setTerca(json.isTerca());
+			planejamento.setQuarta(json.isQuarta());
+			planejamento.setQuinta(json.isQuinta());
+			planejamento.setSexta(json.isSexta());
+			planejamento.setSabado(json.isSabado());
+			planejamento.setHoraFixa(json.getHoraFixa());
+			planejamento.setHoraEntre(json.getHoraEntre());
+			planejamento.setHoraE(json.getHoraE());
+			
+			servico.setPlanejamento(planejamento);
+			
+			lista.add(servico);
+		   
+	   }
+	   
+	  return lista; 
+	   
+   }
 }

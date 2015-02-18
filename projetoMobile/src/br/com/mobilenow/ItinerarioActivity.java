@@ -20,12 +20,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import br.com.mobilenow.domain.GeoDestino;
+import br.com.mobilenow.domain.GeoPartida;
+import br.com.mobilenow.domain.Itinerario;
 import br.com.mobilenow.util.GeoCoding;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
-import br.com.servicebox.android.common.net.Destino;
-import br.com.servicebox.android.common.net.Itinerario;
-import br.com.servicebox.android.common.net.Partida;
 import br.com.servicebox.android.common.util.CommonUtils;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -71,8 +71,8 @@ public class ItinerarioActivity extends CommonActivity {
     	protected static final int RESULT_CODE = 123;
     	private AutoCompleteTextView partida;
     	private AutoCompleteTextView destino;
-    	private Destino enderecoDestino;
-    	private Partida enderecoPartida;
+    	private GeoDestino enderecoDestino;
+    	private GeoPartida enderecoPartida;
     	private Itinerario itinerario;
     	private ProgressDialog progressDialog;
     	private LatLng latitudeLongitude;
@@ -104,8 +104,8 @@ public class ItinerarioActivity extends CommonActivity {
                  @Override
                  public void onClick(View v) {
                 	 itinerario = new Itinerario();
-                	 enderecoDestino = new Destino();
-                	 enderecoPartida = new Partida();
+                	 enderecoDestino = new GeoDestino();
+                	 enderecoPartida = new GeoPartida();
                 	 
                 	 if(destino.getText() != null && !destino.getText().toString().equals("")){
                 		 enderecoDestino.setEnderecoDestino(destino.getText().toString()); 

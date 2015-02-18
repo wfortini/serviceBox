@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
+import br.com.mobilenow.domain.Usuario;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonClosableOnRestoreDialogFragment;
@@ -51,7 +52,6 @@ import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.FileUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.android.common.util.ImageUtils;
-import br.com.servicebox.common.domain.Usuario;
 import br.com.servicebox.common.net.Response;
 
 public class UsuarioActivity extends CommonActivity{
