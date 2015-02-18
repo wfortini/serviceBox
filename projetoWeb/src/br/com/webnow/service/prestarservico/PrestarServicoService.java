@@ -1,5 +1,6 @@
 package br.com.webnow.service.prestarservico;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -24,15 +25,16 @@ import org.springframework.data.neo4j.template.Neo4jOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.servicebox.common.domain.Itinerario;
-import br.com.servicebox.common.domain.Planejamento;
 import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
+import br.com.webnow.domain.Itinerario;
+import br.com.webnow.domain.Planejamento;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.ServicoNaoDisponivelException;
 import br.com.webnow.repository.UsuarioRepository;
+import br.com.webnow.repository.prestarservico.PrestarServicoRepository;
 import br.com.webnow.repository.prestarservico.PrestarServicoRepositoryImpl;
 import br.com.webnow.repository.servico.ServicoRepository;
 import br.com.webnow.returno.cypher.ServicoLocalizado;
@@ -57,7 +59,9 @@ public class PrestarServicoService {
     private Neo4jOperations template;
 	
 	@Autowired
-	private UsuarioRepository repository;
+	private PrestarServicoRepository prestarRepository;
+	
+
 	
 	@Transactional
 	public PrestarServico prestarServico(Long usuarioId, Integer tipoServico, String descricao,
@@ -88,7 +92,12 @@ public class PrestarServicoService {
 	 * @return lista de Prestar Serviço
 	 */
 	public List<PrestarServico> listarPrestarServicoOferecidos(Long id){
-		return this.prestarServicoRepository.listarPrestarServicoOferecidos(id);
+		try{
+		    return this.prestarRepository.listarPrestarServicoOferecidos(id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return new ArrayList<PrestarServico>();
 	}
 	
 	@SuppressWarnings("unchecked")

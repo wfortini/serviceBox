@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
@@ -85,11 +84,21 @@ public class PrestarServicoController {
 	public @ResponseBody ListaServicoResponse listarPrestarServicoOferecidos(
 			        @RequestParam(value = "idUsuario") String idUsuario){
 		
-		List<PrestarServico> lista = prestarServicoService.listarPrestarServicoOferecidos(
-				   Long.valueOf(idUsuario));
-		
 		ListaServicoResponse listaResponse = new ListaServicoResponse();
-		listaResponse.setPrestarServicoJSON(ServiceBoxWebUtil.preencherPrestarServicoJSON(lista));
+		List<PrestarServico> lista = null;
+		try{
+			lista = prestarServicoService.listarPrestarServicoOferecidos(
+					   Long.valueOf(idUsuario));			
+			
+			listaResponse.setPrestarServicoJSON(ServiceBoxWebUtil.preencherPrestarServicoJSON(lista));
+			listaResponse.setMessage("Sucesso");
+			listaResponse.setSucesso(true);
+			listaResponse.setCode(Response.SUCESSO);
+			
+		}catch(Exception e){
+			logger.error("Erro ao listar servico: ", e.getMessage());
+			return new ListaServicoResponse(false, "Falha ao listar prestação de serviço", 0L, Response.ERRO_DESCONHECIDO);
+		}
 		
 		return listaResponse; 
 	}

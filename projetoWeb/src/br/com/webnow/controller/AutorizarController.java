@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.servicebox.common.domain.Credenciais;
+import br.com.servicebox.common.net.LoginResponse;
 import br.com.servicebox.common.net.Response;
-import br.com.webnow.boundingCoordinates.GeoLocation;
-import br.com.webnow.domain.Credenciais;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
-import br.com.webnow.net.LoginResponse;
 import br.com.webnow.repository.AutorizarRepository;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 import br.com.webnow.util.FileUtil;
+import br.com.webnow.util.ServiceBoxWebUtil;
 
 @Controller
 public class AutorizarController {
@@ -87,8 +87,20 @@ public class AutorizarController {
 			
 			if (usuario != null && usuario.getId() != null){						
 				
-				loginResponse = new LoginResponse(usuario);
+				loginResponse = new LoginResponse();
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
+				loginResponse.setNodeId(usuario.getId());
+				loginResponse.setNome(usuario.getNome());
+				loginResponse.setApelido(usuario.getApelido());
+				loginResponse.setDataCadastro(usuario.getDataCadastro());
+				loginResponse.setFotoPerfil(usuario.getFotoPerfil());
+				loginResponse.setLogin(usuario.getLogin());
+				loginResponse.setPassword(usuario.getPassword());
+				loginResponse.setSexo(usuario.getSexo());
+				loginResponse.setSobreNome(usuario.getSobreNome());
+				loginResponse.setServicoJSONs(ServiceBoxWebUtil.preencherServicoJSON(usuario));
+				
+				
 				loginResponse.setCode(Response.SUCESSO);
 				loginResponse.setMessage("Usuário autorizado");				
 				loginResponse.setSucesso(true);
