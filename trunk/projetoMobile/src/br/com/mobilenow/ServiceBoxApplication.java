@@ -5,11 +5,11 @@ import org.holoeverywhere.app.Application;
 
 import android.content.Context;
 import android.text.TextUtils;
+import br.com.mobilenow.domain.Usuario;
 import br.com.mobilenow.util.LruBitmapCache;
 import br.com.servicebox.android.common.util.CommonConfigurationUtils;
 import br.com.servicebox.android.common.util.CommonConfigurationUtils.CommonConfiguration;
 import br.com.servicebox.android.common.util.GuiUtils;
-import br.com.servicebox.common.domain.Usuario;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

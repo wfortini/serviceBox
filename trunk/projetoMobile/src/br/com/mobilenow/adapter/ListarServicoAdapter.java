@@ -9,19 +9,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import br.com.mobilenow.R;
 import br.com.mobilenow.domain.PrestarServico;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 
-public class ListarServicoAdapter extends BaseAdapter{
+public class ListarServicoAdapter extends ArrayAdapter<PrestarServico>{
 	
 	private Activity activity;
 	private LayoutInflater inflater;
 	private List<PrestarServico> lista = new ArrayList<PrestarServico>();
 
 	public ListarServicoAdapter(Activity activity, List<PrestarServico> list) {
+		super(activity, android.R.layout.simple_list_item_1, list);
 		this.activity = activity;
 		this.lista = list;
 	}
@@ -32,7 +33,7 @@ public class ListarServicoAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public Object getItem(int location) {
+	public PrestarServico getItem(int location) {
 		return lista.get(location);
 	}
 

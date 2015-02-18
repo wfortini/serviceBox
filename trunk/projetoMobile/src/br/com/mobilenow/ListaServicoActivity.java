@@ -1,17 +1,19 @@
 package br.com.mobilenow;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,11 +27,10 @@ import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.android.common.util.GuiUtils;
+import br.com.servicebox.common.net.ListaServicoResponse;
+import br.com.servicebox.common.net.Response;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 
 public class ListaServicoActivity extends CommonActivity {
 	
@@ -51,120 +52,127 @@ public class ListaServicoActivity extends CommonActivity {
 	public static class ListaServicoFragment extends CommonFragment implements
               OnItemClickListener {
 		
-		private ListarServicoAdapter mAdapter;
-		final String url = getString(R.string.ip_servidor_servicebox)
-				   .concat(":8080/projetoWeb/listarPrestarServicoOferecidos.json");
+		private ListarServicoAdapter mAdapter;		
 		private ProgressDialog progressDialog;
 		private List<PrestarServico> prestarLista = new ArrayList<PrestarServico>();
+		private ListView list;
 		
-		@Override
-		public void onAttach(org.holoeverywhere.app.Activity activity) {
-			// TODO Auto-generated method stub
-			super.onAttach(activity);			
-		}
-		
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			// TODO Auto-generated method stub
-			super.onCreate(savedInstanceState);
-			
-			setRetainInstance(true);
-		}
 		@Override
 		public View onCreateView(org.holoeverywhere.LayoutInflater inflater,
 				ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
             View v = inflater.inflate(R.layout.activity_lista_servico, container, false);
-            init(v, savedInstanceState);
             return v;
 		}
 		
 		 @Override
          public void onViewCreated(View view, Bundle savedInstanceState) {
              super.onViewCreated(view, savedInstanceState);
+             init(view, savedInstanceState);
             
          }
 		
-		void init(View v, Bundle savedInstanceState){
+		void init(View v, Bundle savedInstanceState){			
 			
-			progressDialog = new ProgressDialog(getActivity());
-			progressDialog.setTitle(R.string.aguarde_por_favor);
-			progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
-			progressDialog.setCancelable(false);
-			progressDialog.show();
-			
-			mAdapter = new ListarServicoAdapter(getActivity(), prestarLista);
-            ListView list = (ListView) v.findViewById(R.id.list);
-            list.setAdapter(mAdapter);
-            list.setOnItemClickListener(this);
-            
-            
+            list = (ListView) v.findViewById(R.id.list);            
+            list.setOnItemClickListener(this);            
+            new RequisicaoTask().execute();      
            
-
-    		// changing action bar color
-    		//getActionBar().setBackgroundDrawable(
-    		//		new ColorDrawable(Color.parseColor("#1b1b1b")));
-
-    		// Creating volley request obj
-    		JsonArrayRequest servicoReq = new JsonArrayRequest(url,
-    				new Response.Listener<JSONArray>()
-    				{
-    					@Override
-    					public void onResponse(JSONArray response) 
-    					{
-    						Log.d(TAG, response.toString());
-    						hidePDialog();
-
-    						// Parsing json
-    						for (int i = 0; i < response.length(); i++) {
-    							try {
-
-    								JSONObject obj = response.getJSONObject(i);
-    								PrestarServico prestar = new PrestarServico(); 
-    								prestar.setDescricao(obj.getString("descricao"));
-    								prestar.setData(ServiceBoxMobileUtil.
-    										stringToDate(obj.getString("data"), DateFormat.MEDIUM));
-    								prestarLista.add(prestar);
-
-    							} catch (JSONException e) {
-    								e.printStackTrace();
-    							}catch(ParseException pe){
-    								pe.printStackTrace();
-    							}
-
-    						}
-
-    						// notifying list adapter about data changes
-    						// so that it renders the list view with updated data
-    						mAdapter.notifyDataSetChanged();
-    					}
-    				}, new Response.ErrorListener() {
-    					@Override
-    					public void onErrorResponse(VolleyError error) 
-    					{
-    						VolleyLog.d(TAG, "Error: " + error.getMessage());
-    						hidePDialog();
-
-    					}
-    				}
-    				
-    			) {
-    			 
-	    		    @Override
-	    		    protected Map<String, String> getParams() 
-	    		    {  
-	    		            Map<String, String>  params = new HashMap<String, String> ();  
-	    		            params.put("idUsuario", ServiceBoxApplication.getUsuario().getNodeId().toString());  
-	    		           
-	    		            return params; 
-	    		    }
-    		    }; // fim classe anonima
-
-    		// Adding request to request queue
-    		ServiceBoxApplication.getInstance().addToRequestQueue(servicoReq);
     	} // fim metodo init      
             
-			
+		
+		/** processamento assincrono **/	
+		private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
+					
+				Response response = null;
+				
+				@Override
+		        protected void onPreExecute() {
+					super.onPreExecute();
+					progressDialog = new ProgressDialog(getActivity());
+					progressDialog.setTitle(R.string.aguarde_por_favor);
+					progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+					progressDialog.setCancelable(false);
+					progressDialog.show();
+				}
+		
+				@Override
+				protected Response doInBackground(Void... params) {					
+					
+					try {
+						final String url = getString(R.string.ip_servidor_servicebox)
+				 				   .concat(":8080/projetoWeb/listarPrestarServicoOferecidos.json");  
+						
+						RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
+						
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+	                     
+						 map.add("idUsuario", ServiceBoxApplication.getUsuario().getNodeId().toString());						 			
+			             
+			             HttpHeaders headers = new HttpHeaders();
+			             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+			             HttpEntity<MultiValueMap<String, Object>> entity = 
+			            		     new HttpEntity<MultiValueMap<String, Object>>(map, headers);
+
+						
+			             Response response = null;
+			             if (GuiUtils.checkOnline()){
+						         response = restTemplate.postForObject(url, entity, ListaServicoResponse.class);
+			             }
+			             
+			             return response;
+						
+					}catch(ResourceAccessException rae){
+						CommonUtils.error(TAG, rae.getMessage());
+						response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+						progressDialog.dismiss();
+					} catch (Exception e) {
+						Log.e(TAG, e.getMessage());
+						response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+						progressDialog.dismiss();
+					}
+					
+					return response;
+				}
+				
+				public void retornoRegistro(Response response){						
+						
+					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
+						
+						if(response instanceof ListaServicoResponse){							
+							ListaServicoResponse lstResponse = (ListaServicoResponse) response;
+							prestarLista = ServiceBoxMobileUtil.preencherServico(lstResponse);
+							mAdapter = new ListarServicoAdapter(getActivity(), prestarLista);
+							list.setAdapter(mAdapter);
+							mAdapter.notifyDataSetChanged();
+						}						
+						
+					}else{
+						progressDialog.dismiss();
+						GuiUtils.alert(response.getMessage());
+					}	
+									
+				}	
+				
+				
+				@Override
+				protected void onCancelled() {
+					super.onCancelled();
+					progressDialog.dismiss();
+				}
+				
+				
+				
+				@Override
+				protected void onPostExecute(Response result) {				
+					super.onPostExecute(result);
+					progressDialog.dismiss();
+					this.retornoRegistro(result);
+					mAdapter.notifyDataSetChanged();
+				}
+					
+		 } // Fim	
 			
 		
 		 @Override
@@ -176,20 +184,14 @@ public class ListaServicoActivity extends CommonActivity {
 		 @Override
 		 public void onDestroy() {
 			super.onDestroy();
-			hidePDialog();
+			
 		}
-		 
-		 private void hidePDialog() {
-				if (progressDialog != null) {
-					progressDialog.dismiss();
-					progressDialog = null;
-				}
-			}
+		
  
 		 @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
            
-           
+            Activity activity = getSupportActivity();
            
         } 
 		 

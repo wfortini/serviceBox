@@ -1,12 +1,9 @@
 package br.com.mobilenow.fragment;
 
-import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.holoeverywhere.app.ProgressDialog;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +23,10 @@ import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.componente.SherlockMapFragment;
+import br.com.mobilenow.domain.Itinerario;
+import br.com.mobilenow.domain.Planejamento;
+import br.com.mobilenow.domain.PrestarServico;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
-import br.com.servicebox.android.common.net.Itinerario;
-import br.com.servicebox.android.common.net.Planejamento;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.TipoServico;
@@ -44,8 +43,11 @@ public class CaronaMapFragment extends SherlockMapFragment{
 	 static final String TAG = CaronaMapFragment.class.getSimpleName();
 	
 	private Handler handler = new Handler();
-	private Itinerario itinerario;
+	private Itinerario itinerario;	
 	private ProgressDialog progressDialog;
+	private ArrayList<? extends Parcelable> prestarLista = new ArrayList<PrestarServico>();
+	
+	
 	private Planejamento planejamento;
 	private Random random = new Random();
 	private Runnable runner = new Runnable() {
@@ -176,9 +178,18 @@ public class CaronaMapFragment extends SherlockMapFragment{
 						this.retornoRegistro(result);
 					}
 					
-				} 
+		 } // Fim		
+		
+        
+		 
+		private void chamar(){
+			
 
-				  
+			 Intent i = new Intent(getActivity(), ListaServicoActivity.class);
+            i.putParcelableArrayListExtra(ListaServicoActivity.LISTAR_SERVICO, prestarLista);
+            startActivity(i);
+			
+		}
 		
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
@@ -202,9 +213,10 @@ public class CaronaMapFragment extends SherlockMapFragment{
                   
 			  } else  if (item.getItemId() == R.id.item_menu_listar_carona){
 				  
-				  Intent i = new Intent(getActivity(), ListaServicoActivity.class);
-                  i.putExtra(ListaServicoActivity.LISTAR_SERVICO, "listarServico");
-                  startActivityForResult(i, REQUEST_PRESTA_SERVICO);
+				  Intent i = new Intent(getActivity(), ListaServicoActivity.class);                 
+                  startActivity(i);
+				  
+				 
 				  
 			  }
 			  
