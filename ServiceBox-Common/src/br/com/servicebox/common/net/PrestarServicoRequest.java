@@ -21,6 +21,7 @@ public class PrestarServicoRequest extends Request{
 	private String horaFixa;
 	private String horaEntre;
 	private String horaE;
+	private Integer lugares;
 	
 	/**
 	 * Itinerario
@@ -311,6 +312,18 @@ public class PrestarServicoRequest extends Request{
 
 	public PrestarServicoRequest() {
 		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public Integer getLugares() {
+		return lugares;
+	}
+
+
+
+	public void setLugares(Integer lugares) {
+		this.lugares = lugares;
 	}
 
 
