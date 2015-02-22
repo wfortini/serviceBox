@@ -121,6 +121,8 @@ public class ItinerarioActivity extends CommonActivity {
                 	 
                 	 if(enderecoPartida.getEnderecoPartida() != null && 
                 			 !enderecoPartida.getEnderecoPartida().equals("")){
+                		 
+                		 /** pegar latitude / longitude do endereco partida **/
                 		 new RequisicaoTask().execute(enderecoPartida.getEnderecoPartida(), "PARTIDA");
                 		 
                 		 
@@ -128,6 +130,7 @@ public class ItinerarioActivity extends CommonActivity {
                 	 
                 	 if(enderecoDestino.getEnderecoDestino() != null && 
                 			 !enderecoPartida.getEnderecoPartida().equals("")){
+                		 /** pegar latitude / longitude do endereco destino **/
                 		 new RequisicaoTask().execute(enderecoDestino.getEnderecoDestino(), "DESTINO");
                 		 
                 		 
