@@ -21,6 +21,8 @@ public class PrestarServicoJSON {
 	private String horaFixa;
 	private String horaEntre;
 	private String horaE;
+	private Integer lugares;
+	
 	
 	/**
 	 * Itinerario
@@ -45,6 +47,8 @@ public class PrestarServicoJSON {
 	
 	private Double distanciaPartidaDestino;
 	private Double distanciaMaxima;
+	
+	
 	
 	public PrestarServicoJSON() {
 		// TODO Auto-generated constructor stub
@@ -240,6 +244,14 @@ public class PrestarServicoJSON {
 
 	public void setDistanciaMaxima(Double distanciaMaxima) {
 		this.distanciaMaxima = distanciaMaxima;
+	}
+
+	public Integer getLugares() {
+		return lugares;
+	}
+
+	public void setLugares(Integer lugares) {
+		this.lugares = lugares;
 	}
 	
 	
