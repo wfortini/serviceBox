@@ -38,6 +38,7 @@ public class ServiceBoxWebUtil {
 		servico.setHoraE(planejamento.getHoraE());		
 		servico.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
 		servico.setDistanciaMaxima(itinerario.getDistanciaMaxima());
+		servico.setLugares(planejamento.getLugares());
 		
 		GeoPartida partida = new GeoPartida();
 		partida.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
@@ -92,6 +93,7 @@ public class ServiceBoxWebUtil {
 		planejamento.setHoraFixa(request.getHoraFixa());
 		planejamento.setHoraEntre(request.getHoraEntre());
 		planejamento.setHoraE(request.getHoraE());
+		planejamento.setLugares(request.getLugares());
 		
 		return planejamento;		
 		
@@ -156,6 +158,7 @@ public class ServiceBoxWebUtil {
 				json.setSoAmigos(p.isSoAmigos());
 				json.setSoAmigosDosAmigos(p.isSoAmigosDosAmigos());
 				json.setTodos(p.isTodos());
+				json.setLugares(p.getLugares());
 				
 				prestarServicoJSONs[i] = json;
 				i++;	   			

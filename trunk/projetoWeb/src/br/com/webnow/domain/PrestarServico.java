@@ -41,6 +41,7 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	private String horaFixa;
 	private String horaEntre;
 	private String horaE;
+	private Integer lugares;
 	
 	/**
 	 * Itinerario
@@ -56,6 +57,14 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	private GeoDestino destino;	
 	
 
+
+	public Integer getLugares() {
+		return lugares;
+	}
+
+	public void setLugares(Integer lugares) {
+		this.lugares = lugares;
+	}
 	public String getDescricao() {
 		return descricao;
 	}
