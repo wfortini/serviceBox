@@ -13,7 +13,18 @@ public class Planejamento{
 	private String horaFixa;
 	private String horaEntre;
 	private String horaE;
+	private Integer lugares;
 	
+	
+	
+	public Integer getLugares() {
+		return lugares;
+	}
+
+	public void setLugares(Integer lugares) {
+		this.lugares = lugares;
+	}
+
 	public Planejamento() {
 		// TODO Auto-generated constructor stub
 	}	
