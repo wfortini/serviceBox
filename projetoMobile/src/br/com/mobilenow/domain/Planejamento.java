@@ -15,6 +15,7 @@ public class Planejamento implements Parcelable{
 	private String horaFixa;
 	private String horaEntre;
 	private String horaE;
+	private Integer lugares = 0;
 	
 	public Planejamento() {
 		// TODO Auto-generated constructor stub
@@ -39,6 +40,7 @@ public class Planejamento implements Parcelable{
 		dest.writeString(horaFixa);
 		dest.writeString(horaEntre);
 		dest.writeString(horaE);
+		dest.writeInt(lugares);
 		
 	}
 	
@@ -53,6 +55,7 @@ public class Planejamento implements Parcelable{
 		horaFixa = in.readString();
 		horaEntre = in.readString();
 		horaE = in.readString();
+		lugares = in.readInt();
     }
 	
 	 public static final Parcelable.Creator<Planejamento> CREATOR = new Parcelable.Creator<Planejamento>() {
@@ -146,6 +149,16 @@ public class Planejamento implements Parcelable{
 
 	public void setHoraE(String horaE) {
 		this.horaE = horaE;
+	}
+
+
+	public Integer getLugares() {
+		return lugares;
+	}
+
+
+	public void setLugares(Integer lugares) {
+		this.lugares = lugares;
 	}
 	    
 	    

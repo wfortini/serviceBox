@@ -219,6 +219,7 @@ public class ServiceBoxMobileUtil {
 			planejamento.setHoraFixa(json.getHoraFixa());
 			planejamento.setHoraEntre(json.getHoraEntre());
 			planejamento.setHoraE(json.getHoraE());
+			planejamento.setLugares(json.getLugares());
 			
 			servico.setPlanejamento(planejamento);
 			
