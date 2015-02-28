@@ -8,6 +8,7 @@ import java.util.List;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.AutoCompleteTextView;
+import org.holoeverywhere.widget.Switch;
 
 import android.content.Context;
 import android.content.Intent;
@@ -77,6 +78,10 @@ public class ItinerarioActivity extends CommonActivity {
     	private ProgressDialog progressDialog;
     	private LatLng latitudeLongitude;
     	
+    	private Switch todos;
+    	private Switch soAmigos;
+    	private Switch amigosDosAmigos;
+    	
     	@Override
         public View onCreateView(LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState)
@@ -98,6 +103,10 @@ public class ItinerarioActivity extends CommonActivity {
              Button uploadBtn = (Button) v.findViewById(R.id.confirmar_itinerario);
              partida = (AutoCompleteTextView) v.findViewById(R.id.partida);
      		 destino = (AutoCompleteTextView) v.findViewById(R.id.destino);
+     		 
+     		todos = (Switch) v.findViewById(R.id.todos_switch);
+   		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
+   		    amigosDosAmigos = (Switch) v.findViewById(R.id.soAmigosDoAmigos_switch);
      		 
              uploadBtn.setOnClickListener(new OnClickListener() {
 
@@ -207,6 +216,9 @@ public class ItinerarioActivity extends CommonActivity {
 	            	itinerario.setPartida(enderecoPartida); 
 	            	itinerario.setDistanciaMaxima(0.0);
 	            	itinerario.setDistanciaPartidaDestino(SphericalUtil.computeDistanceBetween(de, para));
+	            	itinerario.setTodos(todos.isChecked());
+	            	itinerario.setSoAmigos(soAmigos.isChecked());
+	            	itinerario.setSoAmigosDosAmigos(amigosDosAmigos.isChecked());
 	                finishedClicked();
 				}
 				progressDialog.dismiss();
