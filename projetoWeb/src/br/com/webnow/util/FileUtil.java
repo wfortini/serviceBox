@@ -68,7 +68,7 @@ public class FileUtil {
 		try {
 			File nomeFoto = new File(pathUsuario, nomeUsuario.concat("_perfil.jpg"));
 			FileUtils.writeByteArrayToFile(nomeFoto, image.getBytes());
-			usuario.setFotoPerfil(nomeFoto.getCanonicalPath());
+			usuario.setFotoPerfil(nomeUsuario.concat("_perfil.jpg"));
 			return usuario;
 			
 		} catch (Exception e) {
