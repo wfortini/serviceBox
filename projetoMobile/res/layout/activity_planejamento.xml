@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1" >
+    android:layout_height="match_parent" >
     
      <LinearLayout
         android:layout_width="0px"
@@ -14,7 +12,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"  
+        android:layout_height="match_parent"  
         android:layout_weight="1"            
         android:fillViewport="true" >
          
@@ -35,11 +33,10 @@
                  <org.holoeverywhere.widget.Switch
                      android:id="@+id/domingo_switch"
                      style="@style/SimNaoSwitch"
-                     android:layout_width="match_parent"
+                     android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignParentLeft="true"
                      android:layout_alignParentTop="true"
-                     android:layout_alignRight="@+id/sabado_switch"
                      android:checked="true"
                      android:height="@dimen/abs__action_bar_subtitle_bottom_margin"
                      android:text="@string/domingo"
@@ -49,7 +46,7 @@
                  <org.holoeverywhere.widget.Switch
                      android:id="@+id/segunda_switch"
                      style="@style/SimNaoSwitch"
-                     android:layout_width="match_parent"
+                     android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignParentLeft="true"
                      android:layout_alignRight="@+id/domingo_switch"
@@ -93,7 +90,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignLeft="@+id/quinta_switch"
-                     android:layout_alignRight="@+id/sabado_switch"
+                     android:layout_alignRight="@+id/quinta_switch"
                      android:layout_below="@+id/quinta_switch"
                      android:checked="true"
                      android:text="@string/sexta"
@@ -106,6 +103,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignParentLeft="true"
+                     android:layout_alignRight="@+id/sexta_switch"
                      android:layout_below="@+id/sexta_switch"
                      android:checked="true"
                      android:height="@dimen/abs__action_bar_subtitle_bottom_margin"
@@ -154,17 +152,6 @@
                      android:checked="true"
                      android:text="@string/hora_fixa" />
 
-                 <TextView
-                     android:id="@+id/tv_horaFixa"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignRight="@+id/sabado_switch"
-                     android:layout_below="@+id/rb_horaFixa"
-                     android:layout_marginRight="22dp"
-                     android:clickable="true"
-                     android:enabled="true"
-                     android:text="@string/zero_hora" />
-
                  <RadioButton
                      android:id="@+id/rb_faixaHorario"
                      android:layout_width="wrap_content"
@@ -196,17 +183,6 @@
                      android:text="@string/e_faixa" />
 
                  <TextView
-                     android:id="@+id/tvFaixaHoraE"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignBaseline="@+id/labelE"
-                     android:layout_alignBottom="@+id/labelE"
-                     android:layout_toRightOf="@+id/tv_horaFixa"
-                     android:clickable="true"
-                     android:enabled="true"
-                     android:text="@string/zero_hora" />
-
-                 <TextView
                      android:id="@+id/label_entre"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
@@ -215,7 +191,29 @@
                      android:layout_marginTop="21dp"
                      android:layout_toLeftOf="@+id/tv_faixaHorarioEntre"
                      android:text="@string/entre_faixa" />
+
+                 <TextView
+                     android:id="@+id/tv_horaFixa"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignRight="@+id/rb_faixaHorario"
+                     android:layout_below="@+id/rb_horaFixa"
+                     android:layout_marginRight="14dp"
+                     android:clickable="true"
+                     android:enabled="true"
+                     android:text="@string/zero_hora" />
+
+                 <TextView
+                     android:id="@+id/tvFaixaHoraE"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignBaseline="@+id/labelE"
+                     android:layout_alignBottom="@+id/labelE"
+                     android:layout_toRightOf="@+id/sabado_switch"
+                     android:clickable="true"
+                     android:enabled="true"
+                     android:text="@string/zero_hora" />
         
              </RelativeLayout>
      </ScrollView>
-</LinearLayout>
+</RelativeLayout>

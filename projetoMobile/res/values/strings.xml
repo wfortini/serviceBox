@@ -103,7 +103,8 @@
     <string name="title_activity_planejamento">Planejamento</string>
 
     <!-- Configurações -->
-    <string name="ip_servidor_servicebox">http://192.168.1.12</string>
+    <string name="ip_servidor_servicebox">http://192.168.1.15</string>
     <string name="title_activity_lista_servico">ListaServicoActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
 
 </resources>
