@@ -127,6 +127,8 @@ public class ServiceBoxMobileUtil {
   	 Usuario usuario = new Usuario(response.getLogin(), response.getPassword(),
   			 response.getNome(), response.getSobreNome(), response.getSexo(), response.getApelido());
   	 usuario.setNodeId(response.getNodeId());
+  	 usuario.setFotoPerfil(response.getFotoPerfil());
+  	 usuario.setTelefone(response.getTelefone());
   	 
   	 if (response.getServicoJSONs() != null){
                
@@ -230,4 +232,18 @@ public class ServiceBoxMobileUtil {
 	  return lista; 
 	   
    }
+   
+   public static String getUrlImagemPerfil(String urlServer, String fotoPerfil, String loginPath){
+		
+		String urlTemp = "";
+		
+		if(urlServer != null && !urlServer.equals("")){
+			
+			urlTemp = urlServer.concat(":8080/projetoWeb/imagemPerfil?fileName=").concat(fotoPerfil)
+					  .concat("&login=").concat(loginPath);
+			
+			
+		}
+		return urlTemp;
+	}
 }

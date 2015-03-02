@@ -85,6 +85,7 @@ public class ListaServicoActivity extends CommonActivity {
 		private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
 					
 				Response response = null;
+				String url;
 				
 				@Override
 		        protected void onPreExecute() {
@@ -100,7 +101,7 @@ public class ListaServicoActivity extends CommonActivity {
 				protected Response doInBackground(Void... params) {					
 					
 					try {
-						final String url = getString(R.string.ip_servidor_servicebox)
+						url = getString(R.string.ip_servidor_servicebox)
 				 				   .concat(":8080/projetoWeb/listarPrestarServicoOferecidos.json");  
 						
 						RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
@@ -144,6 +145,7 @@ public class ListaServicoActivity extends CommonActivity {
 							ListaServicoResponse lstResponse = (ListaServicoResponse) response;
 							prestarLista = ServiceBoxMobileUtil.preencherServico(lstResponse);
 							mAdapter = new ListarServicoAdapter(getActivity(), prestarLista);
+							mAdapter.setUrl(getString(R.string.ip_servidor_servicebox));
 							list.setAdapter(mAdapter);
 							mAdapter.notifyDataSetChanged();
 						}						

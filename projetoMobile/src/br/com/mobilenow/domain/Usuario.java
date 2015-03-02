@@ -206,6 +206,15 @@ public class Usuario implements Parcelable{
 		this.amigos = amigos;
 	}
 
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 	public Usuario(String login, String password, String nome,
 			String sobreNome, String sexo, String apelido) {
 		super();
