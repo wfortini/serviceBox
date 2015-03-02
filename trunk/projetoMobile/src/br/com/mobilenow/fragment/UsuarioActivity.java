@@ -463,9 +463,10 @@ public class UsuarioActivity extends CommonActivity{
 						}
 						
 						usuario = new Usuario(edLogin.getText().toString(), edSenha.getText().toString(), 
-								           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, null);
+								           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, "");
 										
-				 
+				        usuario.setTelefone(edTelefone.getText().toString());
+				        
 		            if (mUploadImageFile != null) {
 		            	
 		            	new RequisicaoTask().execute();
@@ -601,6 +602,8 @@ public class UsuarioActivity extends CommonActivity{
 					 map.add("sobrenome", usuario.getSobreNome());
 					 map.add("senha", usuario.getPassword());
 					 map.add("sexo", usuario.getSexo());
+					 map.add("apelido", usuario.getApelido());
+					 map.add("telefone", usuario.getTelefone());
 					 map.add("imagemPerfil", mUploadImageFile.getName());
 					 
 		             map.add("file", new FileSystemResource(mUploadImageFile));
