@@ -132,7 +132,9 @@ public class AutorizarController {
             @RequestParam(value = "nome") String nome, 
             @RequestParam(value = "sobrenome") String sobrenome, 
             @RequestParam(value = "senha") String senha, 
-            @RequestParam(value = "sexo") String sexo, 
+            @RequestParam(value = "sexo") String sexo,
+            @RequestParam(value = "apelido") String apelido,
+            @RequestParam(value = "telefone") String telefone,
             @RequestParam(value = "imagemPerfil") String imagemPerfil) 
     
     {
@@ -140,7 +142,9 @@ public class AutorizarController {
     	try {
     		if(foto.getSize() <= 0) throw new UsuarioException("Imagem inválida");
     		
-	    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,null);
+	    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,apelido);
+	    	usuario.setTelefone(telefone);
+	    	
 	    	usuario.setDataCadastro(new Date());
 	    	          // não estou tratando se o arquivo da foto já exite
 	    	usuario = FileUtil.salvarArquivoLocal(usuario, foto);    	

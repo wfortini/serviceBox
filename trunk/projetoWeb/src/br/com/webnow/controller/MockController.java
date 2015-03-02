@@ -48,9 +48,9 @@ public class MockController {
 	        	
 	        	
 	        	
-	        	Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");
-	        	usuario = usuarioRepository.registrar(usuario);
-	        	Usuario u = usuarioRepository.findByLogin("wellington");        	
+	        	//Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");
+	        	//usuario = usuarioRepository.registrar(usuario);
+	        	//Usuario u = usuarioRepository.findByLogin("wellington");        	
 	        	
 	        	
 	        	Carona c = new Carona();
@@ -77,13 +77,13 @@ public class MockController {
 	        	Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
 	        	Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
 	        	
-	        	servicoService.addServico(u, servicoc);
-	        	servicoService.addServico(u, servicor);
-	        	servicoService.addServico(u, servicoe);
+	        	//servicoService.addServico(u, servicoc);
+	        	//servicoService.addServico(u, servicor);
+	        	//servicoService.addServico(u, servicoe);
 	        	
 	        	
 	        	// registrar serviço
-	        	
+	        	/**
 	        	PrestarServicoRequest request = new PrestarServicoRequest();
 	        	request.setDistanciaMaxima(0d);
 	        	request.setDistanciaPartidaDestino(0d);
@@ -124,6 +124,7 @@ public class MockController {
 	        	
 	        	
 	        	prestarServicoService.addNoAoIndex();
+	        	**/
 	        	
 	        	return  "/home";
 	        } catch(Exception e) {
