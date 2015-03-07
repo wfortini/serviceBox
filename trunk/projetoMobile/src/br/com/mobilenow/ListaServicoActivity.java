@@ -11,8 +11,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -126,11 +126,11 @@ public class ListaServicoActivity extends CommonActivity {
 						
 					}catch(ResourceAccessException rae){
 						CommonUtils.error(TAG, rae.getMessage());
-						response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+						response = new Response(false, "Falha na listagem das Prestações de serviço \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
 						progressDialog.dismiss();
 					} catch (Exception e) {
 						Log.e(TAG, e.getMessage());
-						response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+						response = new Response(false, "FFalha na listagem das Prestações de serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
 						progressDialog.dismiss();
 					}
 					
@@ -193,11 +193,31 @@ public class ListaServicoActivity extends CommonActivity {
 		 @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
            
-            Activity activity = getSupportActivity();
+			PrestarServico servicoSelecionad = mAdapter.getItem(position);
+			Intent intent = new Intent(getActivity(), InfoActivity.class);
+            intent.putExtra(InfoActivity.INFO_SERVICO, servicoSelecionad);
+            getActivity().startActivity(intent);
+            
+            /**  usar da forma abaixo como no exemplo
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                if (savedInstanceState != null) {
+                    mCredentials = savedInstanceState.getParcelableArrayList(CREDENTIALS);
+                } else {
+                    mCredentials = getActivity().getIntent().getParcelableArrayListExtra(CREDENTIALS);
+                }
+            }
            
         } 
-		 
+        
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            outState.putParcelableArrayList(CREDENTIALS, mCredentials);
+        }
+		**/ 
 	 }
 
-	
+	}
 }
