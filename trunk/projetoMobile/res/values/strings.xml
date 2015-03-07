@@ -12,8 +12,7 @@
     <string name="telefone">Telefone</string>
     <string name="senha">Senha</string>
     <string name="confirma">Confirma</string>
-    <string name="title_activity_tabbed">TabbedActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tabbed">TabbedActivity</string>    
     <string name="action_settings">Settings</string>
     <string name="load_directions">Carregar</string>
     <string name="action_config">Carregar</string>
@@ -35,6 +34,17 @@
 
     <!-- Generico -->
     <string name="item_menu_prestar">Prestar Serviço</string>
+    <string name="dados_planejamento">Dados do planejamento</string>
+    <string name="label_confirmar">Confirmar</string>
+    
+    <string name="label_dom">DOM</string>
+    <string name="label_seg">SEG</string>
+    <string name="label_ter">TER</string>
+    <string name="label_qua">QUA</string>
+    <string name="label_qui">QUI</string>
+    <string name="label_sex">SEX</string>
+    <string name="label_sab">SAB</string>
+    <string name="label_horario">Horário</string>
 
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
