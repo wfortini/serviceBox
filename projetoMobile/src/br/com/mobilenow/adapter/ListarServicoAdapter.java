@@ -85,14 +85,16 @@ public class ListarServicoAdapter extends ArrayAdapter<PrestarServico>{
 		NetworkImageView thumbNail = (NetworkImageView) convertView
 				.findViewById(R.id.thumbnail);
 		
+		// thumbnail image
+				thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
+						getUrl(), usuario.getFotoPerfil(), usuario.getLogin()), imageLoader);
+		
 		TextView descricao = (TextView) convertView.findViewById(R.id.descricao);
 		TextView classificacao = (TextView) convertView.findViewById(R.id.classificacao);
 		TextView aceitacao = (TextView) convertView.findViewById(R.id.aceitacao);
 		TextView data = (TextView) convertView.findViewById(R.id.dataCriacao);
 		
-		// thumbnail image
-		thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
-				getUrl(), usuario.getFotoPerfil(), usuario.getLogin()), imageLoader);
+		
 		
 		PrestarServico p = lista.get(position);	
 		descricao.setText(p.getDescricao());

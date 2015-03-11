@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.os.Parcel;
@@ -59,12 +60,12 @@ public class Usuario implements Parcelable{
 		dest.writeString(fotoPerfil);
 		dest.writeLong(dataCadastro.getTime());
 		dest.writeString(telefone);
-		dest.writeTypedList(new ArrayList<Usuario>(amigos));
-		dest.writeTypedList(new ArrayList<Servico>(servicosDisponiveis));
+		//dest.writeTypedList(new ArrayList<Usuario>(getAmigos()));
+		//dest.writeTypedList(new ArrayList<Servico>(servicosDisponiveis));
 		
 	}
 	
-	private Usuario(Parcel in) {
+	public void readFromParcel(Parcel in) {
 		
 		nodeId = in.readLong();
 		login = in.readString();
@@ -76,11 +77,23 @@ public class Usuario implements Parcelable{
 		dataCadastro = new Date(in.readLong());
 		telefone = in.readString();
 		
-		this.amigos = new HashSet<Usuario>();
-        in.readTypedList(new ArrayList<Usuario>(amigos), Usuario.CREATOR);
+		/**
+		if(amigos == null)
+			amigos = new HashSet<Usuario>();
+		
+        in.readTypedList(new ArrayList<Usuario>(amigos), Usuario.CREATOR);        
         
-        this.servicosDisponiveis = new HashSet<Servico>();
+        if(servicosDisponiveis == null)
+        	servicosDisponiveis = new HashSet<Servico>();
+        
         in.readTypedList(new ArrayList<Servico>(servicosDisponiveis), Servico.CREATOR);
+		**/
+		
+	}
+	
+	private Usuario(Parcel in) {
+		readFromParcel(in);
+		
     }
 	
 	 public static final Parcelable.Creator<Usuario> CREATOR = new Parcelable.Creator<Usuario>() {
@@ -123,8 +136,12 @@ public class Usuario implements Parcelable{
     
 
 	public Set<Servico> getServicosDisponiveis() {
-		return servicosDisponiveis;
+		if(servicosDisponiveis != null)
+		  return servicosDisponiveis;
+		else
+			return new HashSet<Servico>();
 	}
+	
 	
 	public Long getNodeId() {
 		return nodeId;
@@ -198,14 +215,32 @@ public class Usuario implements Parcelable{
 		this.dataCadastro = dataCadastro;
 	}
 
+    
+	public boolean addAmigo(Usuario amigo){
+		if(this.amigos != null){
+			return this.amigos.add(amigo);
+		}else{
+			this.amigos = new HashSet<Usuario>();
+			return this.amigos.add(amigo);
+		}
+	}
+	
+	public boolean addAllAmigo(List<Usuario> amigo){
+		if(this.amigos != null){
+			return this.amigos.addAll(amigo);
+		}else{
+			this.amigos = new HashSet<Usuario>();
+			return this.amigos.addAll(amigo);
+		}
+	}
+
 	public Set<Usuario> getAmigos() {
-		return amigos;
+		if(amigos != null)
+		 return this.amigos;
+		else
+			return new HashSet<Usuario>();
 	}
-
-	public void setAmigos(Set<Usuario> amigos) {
-		this.amigos = amigos;
-	}
-
+     
 	
 	public String getTelefone() {
 		return telefone;

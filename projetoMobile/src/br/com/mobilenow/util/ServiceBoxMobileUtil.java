@@ -3,9 +3,11 @@ package br.com.mobilenow.util;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -23,6 +25,7 @@ import br.com.mobilenow.domain.Planejamento;
 import br.com.mobilenow.domain.PrestarServico;
 import br.com.mobilenow.domain.Reboque;
 import br.com.mobilenow.domain.Usuario;
+import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.TipoServico;
 import br.com.servicebox.common.json.PrestarServicoJSON;
@@ -129,6 +132,7 @@ public class ServiceBoxMobileUtil {
   	 usuario.setNodeId(response.getNodeId());
   	 usuario.setFotoPerfil(response.getFotoPerfil());
   	 usuario.setTelefone(response.getTelefone());
+  	 usuario.setDataCadastro(response.getDataCadastro());
   	 
   	 if (response.getServicoJSONs() != null){
                
@@ -187,6 +191,7 @@ public class ServiceBoxMobileUtil {
 		   servico.setDescricao(json.getDescricao());
 		   servico.setAtiva(json.isAtivo());
 		   servico.setData(json.getData());
+		   servico.setNodeId(json.getNodeId());
 		   
 		   Itinerario itinerario = new Itinerario();
 		   GeoPartida partida = new GeoPartida();
@@ -246,4 +251,17 @@ public class ServiceBoxMobileUtil {
 		}
 		return urlTemp;
 	}
+   
+   public static Date stringToTime(String time){
+	   Date date = null;
+	   Locale enLocale = new Locale("pt", "BR");
+	  try{       
+	   DateFormat sdf = new SimpleDateFormat("hh:mm:ss", enLocale);
+	   date = sdf.parse(time);
+	  }catch(ParseException e){
+		  CommonUtils.error(TAG, "Erro parse string para Hora"); 
+	  }
+	   
+	  return date; 
+   }
 }

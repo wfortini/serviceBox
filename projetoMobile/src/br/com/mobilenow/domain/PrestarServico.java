@@ -19,8 +19,7 @@ public class PrestarServico implements Parcelable{
 	private String descricao;
 	private Planejamento planejamento;	
 	private Itinerario itinerario;
-	private Usuario usuario;
-	
+		
 	public PrestarServico() {
 		// TODO Auto-generated constructor stub
 	}
@@ -45,7 +44,7 @@ public class PrestarServico implements Parcelable{
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(usuario, flags);
+		
 		dest.writeParcelable(planejamento, flags);
 		dest.writeParcelable(itinerario, flags);
 		dest.writeByte((byte) (ativa ? 1 : 0));
@@ -56,7 +55,7 @@ public class PrestarServico implements Parcelable{
 	}
 	
 	private PrestarServico(Parcel in) {
-		usuario = in.readParcelable(getClass().getClassLoader());
+		
 		planejamento = in.readParcelable(getClass().getClassLoader());
 		itinerario = in.readParcelable(getClass().getClassLoader());        
         ativa = in.readByte() == 1;
@@ -125,13 +124,7 @@ public class PrestarServico implements Parcelable{
 		this.itinerario = itinerario;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	
 	
 	
 	
