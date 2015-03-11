@@ -36,6 +36,7 @@
     <string name="item_menu_prestar">Prestar Serviço</string>
     <string name="dados_planejamento">Dados do planejamento</string>
     <string name="label_confirmar">Confirmar</string>
+    <string name="label_informacao_extra">Informações extras</string>
     
     <string name="label_dom">DOM</string>
     <string name="label_seg">SEG</string>

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1" >
+    android:weightSum="1" 
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp">
 
     <LinearLayout
         android:layout_width="0px"
@@ -71,7 +73,7 @@
             <View
                android:id="@+id/viewPlanejamento"
                android:layout_width="wrap_content"  
-               android:layout_height="wrap_content"             
+               android:layout_height="2dp"             
                android:layout_marginTop="14dp"
                android:layout_weight="1"
                android:background="@drawable/line_separator" />
@@ -79,7 +81,8 @@
             <TextView
 		        android:id="@+id/planejamento"
 		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"		        
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="5dp"		        
 		        android:hint="@string/dados_planejamento"		        
 		        />
             
@@ -90,10 +93,11 @@
                 android:orientation="horizontal" >
 
 		            <TextView
-		                android:id="@+id/domi"
+		                android:id="@+id/dom"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_marginLeft="10dp"
+		                android:autoLink="all"		                
 		                android:hint="@string/label_dom" />
                 
 		            <TextView
@@ -101,6 +105,7 @@
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_marginLeft="10dp"
+		                android:autoLink="all"
 		                android:hint="@string/label_seg" />
 
 		            <TextView
@@ -108,20 +113,23 @@
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_marginLeft="10dp"
+		                android:autoLink="all"
 		                android:hint="@string/label_ter" />
 		            
 		            <TextView
 				        android:id="@+id/qua"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	        
+				        android:layout_marginLeft="10dp"
+				        android:autoLink="all"	        
 				        android:hint="@string/label_qua"		        
 				        />
 		            
 		            <TextView
 				        android:id="@+id/qui"
 				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
+				        android:layout_height="wrap_content"
+				        android:autoLink="all"	
 				        android:layout_marginLeft="10dp"	        
 				        android:hint="@string/label_qui"		        
 				        />
@@ -130,7 +138,8 @@
 				        android:id="@+id/sex"
 				        android:layout_width="wrap_content"
 				        android:layout_marginLeft="10dp"
-				        android:layout_height="wrap_content"		        
+				        android:layout_height="wrap_content"
+				        android:autoLink="all"		        
 				        android:hint="@string/label_sex"		        
 				        />
 		            
@@ -139,7 +148,8 @@
 				        android:id="@+id/sab"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	        
+				        android:layout_marginLeft="10dp"	
+				        android:autoLink="all"        
 				        android:hint="@string/label_sab"		        
 				        />
 			</LinearLayout>
@@ -169,7 +179,8 @@
 				        android:id="@+id/horaInicial"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	        
+				        android:layout_marginLeft="10dp"
+				        android:textStyle="bold"				        	        
 				        android:hint="00:00"		        
 				        />
                       
@@ -185,7 +196,8 @@
 				        android:id="@+id/horarioFinal"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	        
+				        android:layout_marginLeft="10dp"
+				        android:textStyle="bold"				       	        
 				        android:hint="00:00"		        
 				        />
                 
@@ -194,12 +206,140 @@
              <View
                android:id="@+id/viewPlanejamentoFim"
                android:layout_width="wrap_content"  
-               android:layout_height="wrap_content"             
-               android:layout_marginTop="14dp"
+               android:layout_height="2dp"             
+               android:layout_marginTop="10dp"
                android:layout_weight="1"
                android:background="@drawable/line_separator" />
              
-           
+                        
+                            <!-- Icone Partida -->
+                            <LinearLayout
+				                android:layout_width="match_parent"
+				                android:layout_height="wrap_content"
+				                android:orientation="horizontal" 
+				                android:baselineAligned="false">
+				
+				                <RelativeLayout
+				                    android:layout_width="60dp"
+				                    android:layout_height="60dp"
+				                    android:layout_gravity="center_vertical"
+				                    android:layout_marginRight="2dp" >
+				
+				                    <!-- Thumbnail Image -->
+								    <ImageView
+								        android:id="@+id/imagem_partida"
+								        android:layout_width="50dp"
+								        android:layout_height="50dp"
+								        android:layout_alignParentLeft="true"
+								        android:scaleType="centerCrop"
+								        android:src="@drawable/ic_action"
+								        android:layout_marginRight="2dp" />                     
+				                    
+				                </RelativeLayout>
+				
+				                <LinearLayout
+				                    android:id="@+id/linearDadosPartida"
+				                    android:layout_width="0dp"
+				                    android:layout_height="wrap_content"
+				                    android:layout_weight="1"
+				                    android:orientation="vertical" >
+				                                        
+				                    <TextView
+				                        android:id="@+id/partida"
+				                        android:layout_width="match_parent"
+				                        android:layout_height="wrap_content"
+				                        android:hint="@string/itinerario_partida"/>
+				                    
+				                    <TextView
+								        android:id="@+id/dadosPartida"
+								        android:layout_width="fill_parent"
+								        android:layout_height="wrap_content"		        
+								        android:hint="descricao"				        
+								        />
+				                </LinearLayout>
+				           </LinearLayout>       
+                               <!-- Fim icone partida -->
+		             <View
+		               android:id="@+id/viewItinerario"
+		               android:layout_width="wrap_content"  
+		               android:layout_height="2dp"             
+		               android:layout_marginTop="10dp"
+		               android:layout_weight="1"
+		               android:background="@drawable/line_separator" />
+		             
+		               <!-- Icone destino -->
+                            <LinearLayout
+				                android:layout_width="match_parent"
+				                android:layout_height="wrap_content"
+				                android:orientation="horizontal" 
+				                android:baselineAligned="false">
+				
+				                <RelativeLayout
+				                    android:layout_width="60dp"
+				                    android:layout_height="60dp"
+				                    android:layout_gravity="center_vertical"
+				                    android:layout_marginRight="2dp" >
+				
+				                    <!-- Thumbnail Image -->
+								    <ImageView
+								        android:id="@+id/imagem_destino"
+								        android:layout_width="50dp"
+								        android:layout_height="50dp"
+								        android:layout_alignParentLeft="true"
+								        android:scaleType="centerCrop"
+								        android:src="@drawable/ic_action_vermelho"
+								        android:layout_marginRight="2dp" />                     
+				                    
+				                </RelativeLayout>
+				
+				                <LinearLayout
+				                    android:id="@+id/linearDadosDestino"
+				                    android:layout_width="0dp"
+				                    android:layout_height="wrap_content"
+				                    android:layout_weight="1"
+				                    android:orientation="vertical" >
+				                                        
+				                    <TextView
+				                        android:id="@+id/destino"
+				                        android:layout_width="match_parent"
+				                        android:layout_height="wrap_content"
+				                        android:hint="@string/itinerario_destino"/>
+				                    
+				                    <TextView
+								        android:id="@+id/dadosDestino"
+								        android:layout_width="fill_parent"
+								        android:layout_height="wrap_content"		        
+								        android:hint="descricao"				        
+								        />
+				                </LinearLayout>
+                               <!-- Fim icone partida --> 	             
+                         </LinearLayout> 
+                        
+                            <View
+				               android:id="@+id/viewItinerarioFim"
+				               android:layout_width="wrap_content"  
+				               android:layout_height="2dp"             
+				               android:layout_marginTop="10dp"
+				               android:layout_weight="1"
+				               android:background="@drawable/line_separator" />
+                            
+                        
+                       <LinearLayout
+		                android:id="@+id/linearExtra"
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:orientation="horizontal" >
+				            
+		                      <TextView
+						        android:id="@+id/labelExtra"
+						        android:layout_width="wrap_content"
+						        android:layout_height="wrap_content"	
+						        android:layout_marginLeft="10dp"	        
+						        android:hint="@string/label_informacao_extra"		        
+						        />    
+		                      
+		                
+		           </LinearLayout>     
              
         </LinearLayout>
     </ScrollView>  
