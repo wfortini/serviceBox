@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import br.com.mobilenow.adapter.ListarServicoAdapter;
 import br.com.mobilenow.domain.PrestarServico;
+import br.com.mobilenow.util.Info;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
@@ -194,8 +195,9 @@ public class ListaServicoActivity extends CommonActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
            
 			PrestarServico servicoSelecionad = mAdapter.getItem(position);
+			Info info = new Info(servicoSelecionad, ServiceBoxApplication.getUsuario());			
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
-            intent.putExtra(InfoActivity.INFO_SERVICO, servicoSelecionad);
+            intent.putExtra(InfoActivity.INFO_SERVICO, info);
             getActivity().startActivity(intent);
             
             /**  usar da forma abaixo como no exemplo

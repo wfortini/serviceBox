@@ -40,7 +40,7 @@ public class Planejamento implements Parcelable{
 		dest.writeString(horaFixa);
 		dest.writeString(horaEntre);
 		dest.writeString(horaE);
-		dest.writeInt(lugares);
+		dest.writeInt(getLugares());
 		
 	}
 	
@@ -55,7 +55,7 @@ public class Planejamento implements Parcelable{
 		horaFixa = in.readString();
 		horaEntre = in.readString();
 		horaE = in.readString();
-		lugares = in.readInt();
+		setLugares(in.readInt());
     }
 	
 	 public static final Parcelable.Creator<Planejamento> CREATOR = new Parcelable.Creator<Planejamento>() {
@@ -153,12 +153,19 @@ public class Planejamento implements Parcelable{
 
 
 	public Integer getLugares() {
-		return lugares;
+		if(lugares != null)
+		   return lugares;
+		else
+			return 0;
 	}
 
 
 	public void setLugares(Integer lugares) {
-		this.lugares = lugares;
+		if (lugares == null){
+			this.lugares = 0;
+		}else{
+		   this.lugares = lugares;
+		}
 	}
 	    
 	    
