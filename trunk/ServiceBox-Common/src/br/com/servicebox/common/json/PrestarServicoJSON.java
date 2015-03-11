@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class PrestarServicoJSON {
 	
+	private Long nodeId;
 	private String descricao;
 	private Date data;
 	private boolean ativo;
@@ -252,6 +253,14 @@ public class PrestarServicoJSON {
 
 	public void setLugares(Integer lugares) {
 		this.lugares = lugares;
+	}
+
+	public Long getNodeId() {
+		return nodeId;
+	}
+
+	public void setNodeId(Long nodeId) {
+		this.nodeId = nodeId;
 	}
 	
 	
