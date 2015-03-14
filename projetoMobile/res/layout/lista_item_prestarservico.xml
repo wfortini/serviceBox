@@ -4,53 +4,199 @@
     android:background="@drawable/list_row_selector"
     android:padding="8dp" >
 
-    <!-- Thumbnail Image -->
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="8dp" />
- 
-    <!-- Movie Title -->
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:baselineAligned="false">
+
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp" >
+
+                    <!-- Thumbnail Image -->
+				    <com.android.volley.toolbox.NetworkImageView
+				        android:id="@+id/imagem_perfil"
+				        android:layout_width="85dp"
+				        android:layout_height="85dp"
+				        android:layout_alignParentLeft="true"
+				        android:scaleType="centerCrop"
+				        android:layout_marginRight="8dp" />                     
+                    
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearDados"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                                        
+                    <TextView
+				        android:id="@+id/nomeUsuario"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_alignLeft="@+id/descricao"
+				        android:layout_alignTop="@+id/thumbnail"
+				        android:text="Nome"
+				        android:textStyle="bold" />
+				
+				    <TextView
+				        android:id="@+id/descricao"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_alignLeft="@+id/classificacao"
+				        android:layout_below="@+id/nomeUsuario"
+				        android:text="Descricao da prestacao"
+				        android:textSize="@dimen/listview_prestarservico_titulo"
+				        android:textStyle="bold" />
+				
+				    <TextView
+				        android:id="@+id/classificacao"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_below="@+id/descricao"
+				        android:layout_toRightOf="@+id/thumbnail"
+				        android:text="classificacao" />
+				    
+				    
+				    <TextView
+				        android:id="@+id/recomendacoes"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_alignBottom="@+id/thumbnail"
+				        android:layout_toRightOf="@+id/thumbnail"
+				        android:text="100 vezes recomendado. 100" />
+
+				    <TextView
+				        android:id="@+id/dataCriacao"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="17dp"
+				        android:text="00/00/0000" />
+
+                </LinearLayout>
+                
+            </LinearLayout> 
+       
+
+    <ImageView
+        android:id="@+id/imagem_seta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/listview_prestarservico_titulo"
-        android:textStyle="bold" />
-
-    <!-- Rating -->
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textSize="@dimen/listview_prestarservico_classificacao" />
-    
-    <!-- Genre -->
-    <TextView
-        android:id="@+id/genre"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rating"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="@color/genero"
-        android:textSize="@dimen/listview_prestarservico_genero" />
-
-    <!-- Release Year -->
-    <TextView
-        android:id="@+id/releaseYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/ano"
-        android:textSize="@dimen/listview_prestarservico_ano" />
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow" />                   
+           <View
+             android:id="@+id/viewItinerario"
+             android:layout_width="wrap_content"  
+             android:layout_height="2dp"             
+             android:layout_marginTop="10dp"
+             android:layout_weight="1"
+             android:background="@drawable/line_separator" />
+           
+             <!-- Icone destino -->
+                        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:baselineAligned="false">
 
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp" >
+
+                    <!-- Thumbnail Image -->
+				    <ImageView
+				        android:id="@+id/imagem_destino"
+				        android:layout_width="50dp"
+				        android:layout_height="50dp"
+				        android:layout_alignParentLeft="true"
+				        android:scaleType="centerCrop"
+				        android:src="@drawable/ic_action_vermelho"
+				        android:layout_marginRight="2dp" />                     
+                    
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearDadosDestino"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                                        
+                    <TextView
+                        android:id="@+id/destino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/itinerario_destino"/>
+                    
+                    <TextView
+				        android:id="@+id/dadosDestino"
+				        android:layout_width="fill_parent"
+				        android:layout_height="wrap_content"		        
+				        android:hint="descricao"				        
+				        />
+                </LinearLayout>
+                           	             
+                     </LinearLayout>    
+                     <!-- Fim icone Destino --> 
+                    
+                        <!-- Icone Partida -->
+                        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" 
+                android:baselineAligned="false">
+
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp" >
+
+                    <!-- Thumbnail Image -->
+				    <ImageView
+				        android:id="@+id/imagem_partida"
+				        android:layout_width="50dp"
+				        android:layout_height="50dp"
+				        android:layout_alignParentLeft="true"
+				        android:scaleType="centerCrop"
+				        android:src="@drawable/ic_action"
+				        android:layout_marginRight="2dp" />                     
+                    
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearDadosPartida"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+                                        
+                    <TextView
+                        android:id="@+id/partida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/itinerario_partida"/>
+                    
+                    <TextView
+				        android:id="@+id/dadosPartida"
+				        android:layout_width="fill_parent"
+				        android:layout_height="wrap_content"		        
+				        android:hint="descricao"				        
+				        />
+                </LinearLayout>
+           </LinearLayout>       
+           <!-- Fim icone partida -->
+   </LinearLayout>
 </RelativeLayout>

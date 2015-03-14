@@ -39,8 +39,8 @@
                     <!-- Thumbnail Image -->
 				    <com.android.volley.toolbox.NetworkImageView
 				        android:id="@+id/imagem_perfil"
-				        android:layout_width="80dp"
-				        android:layout_height="80dp"
+				        android:layout_width="85dp"
+				        android:layout_height="85dp"
 				        android:layout_alignParentLeft="true"
 				        android:scaleType="centerCrop"
 				        android:layout_marginRight="8dp" />                     
@@ -93,65 +93,14 @@
                 android:orientation="horizontal" >
 
 		            <TextView
-		                android:id="@+id/dom"
+		                android:id="@+id/diasDaSemana"
 		                android:layout_width="wrap_content"
 		                android:layout_height="wrap_content"
 		                android:layout_marginLeft="10dp"
 		                android:autoLink="all"		                
 		                android:hint="@string/label_dom" />
                 
-		            <TextView
-		                android:id="@+id/seg"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_marginLeft="10dp"
-		                android:autoLink="all"
-		                android:hint="@string/label_seg" />
-
-		            <TextView
-		                android:id="@+id/ter"
-		                android:layout_width="wrap_content"
-		                android:layout_height="wrap_content"
-		                android:layout_marginLeft="10dp"
-		                android:autoLink="all"
-		                android:hint="@string/label_ter" />
 		            
-		            <TextView
-				        android:id="@+id/qua"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"
-				        android:autoLink="all"	        
-				        android:hint="@string/label_qua"		        
-				        />
-		            
-		            <TextView
-				        android:id="@+id/qui"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:autoLink="all"	
-				        android:layout_marginLeft="10dp"	        
-				        android:hint="@string/label_qui"		        
-				        />
-		            
-		            <TextView
-				        android:id="@+id/sex"
-				        android:layout_width="wrap_content"
-				        android:layout_marginLeft="10dp"
-				        android:layout_height="wrap_content"
-				        android:autoLink="all"		        
-				        android:hint="@string/label_sex"		        
-				        />
-		            
-		            
-		            <TextView
-				        android:id="@+id/sab"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	
-				        android:autoLink="all"        
-				        android:hint="@string/label_sab"		        
-				        />
 			</LinearLayout>
             
             <TextView
@@ -168,38 +117,14 @@
                 android:orientation="horizontal" >
 		            
                       <TextView
-				        android:id="@+id/labelEntre"
+				        android:id="@+id/horarioPlanejado"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"	
 				        android:layout_marginLeft="10dp"	        
 				        android:hint="@string/entre_faixa"		        
 				        />
                       
-                      <TextView
-				        android:id="@+id/horaInicial"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"
-				        android:textStyle="bold"				        	        
-				        android:hint="00:00"		        
-				        />
-                      
-                      <TextView
-				        android:id="@+id/labelE"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"	        
-				        android:hint="@string/e_faixa"		        
-				        />
-                      
-                      <TextView
-				        android:id="@+id/horarioFinal"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"	
-				        android:layout_marginLeft="10dp"
-				        android:textStyle="bold"				       	        
-				        android:hint="00:00"		        
-				        />
+                     
                 
            </LinearLayout>
            
