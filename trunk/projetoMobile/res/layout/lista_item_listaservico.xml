@@ -1,29 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/list_row_selector"
     android:padding="8dp" >
-    
+
     <!-- Thumbnail Image -->
+
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/thumbnail"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
-        android:scaleType="centerCrop"
-        android:layout_marginRight="8dp" />
-
-    <TextView
-        android:id="@+id/dataCriacao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/ano"
-        android:text="00/00/0000"
-        android:textSize="@dimen/listview_prestarservico_ano" />
+        android:layout_marginRight="8dp"
+        android:scaleType="centerCrop" />
+    <!-- android:textSize="@dimen/listview_prestarservico_ano" /> -->
 
     <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -31,22 +24,20 @@
         android:src="@drawable/arrow" />
 
     <TextView
-        android:id="@+id/aceitacao"
-        android:layout_width="fill_parent"
+        android:id="@+id/nomeUsuario"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/classificacao"
-        android:layout_below="@+id/classificacao"
-        android:layout_marginTop="23dp"
-        android:textColor="@color/genero"
-        android:text="aceitacao 100"
-        android:textSize="@dimen/listview_prestarservico_genero" />
+        android:layout_alignLeft="@+id/descricao"
+        android:layout_alignTop="@+id/thumbnail"
+        android:text="Nome"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/descricao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_alignLeft="@+id/classificacao"
+        android:layout_below="@+id/nomeUsuario"
         android:text="Descricao da prestacao"
         android:textSize="@dimen/listview_prestarservico_titulo"
         android:textStyle="bold" />
@@ -55,10 +46,26 @@
         android:id="@+id/classificacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/descricao"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="classificacao" />
+
+    <TextView
+        android:id="@+id/recomendacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/thumbnail"
-        android:layout_alignLeft="@+id/descricao"
-        android:layout_marginBottom="15dp"
-        android:text="classificacao"
-        android:textSize="@dimen/listview_prestarservico_classificacao" />
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="100 vezes recomendado. 100" />
+
+    <TextView
+        android:id="@+id/dataCriacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_below="@+id/recomendacoes"
+        android:layout_marginTop="17dp"
+        android:text="00/00/0000"
+         />
 
 </RelativeLayout>
