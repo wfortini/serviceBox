@@ -51,6 +51,23 @@
                 android:layout_height="wrap_content"
                 android:completionThreshold="3"
                 android:ems="10" />
+            
+            <LinearLayout
+                android:id="@+id/layout_com_seedbar"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+                
+                <SeekBar
+		            android:id="@+id/distancia_localizacao"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_margin="10dp"
+		            android:progress="0"
+		            android:secondaryProgress="0" />
+                
+                
+           </LinearLayout>     
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,21 +80,11 @@
                     android:layout_height="30dp" />
 
                 <org.holoeverywhere.widget.Switch
-                    android:id="@+id/todos_switch"
-                    style="@style/SimNaoSwitch"
-                    android:layout_width="283dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="31dp"
-                    android:checked="true"
-                    android:text="@string/prestar_servico_todos"
-                    android:visibility="visible" />
-
-                <org.holoeverywhere.widget.Switch
                     android:id="@+id/soAmigos_switch"
                     style="@style/SimNaoSwitch"
                     android:layout_width="284dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="10dp"
                     android:checked="true"
                     android:text="@string/prestar_servico_so_amigo"
                     android:visibility="visible" />
@@ -87,9 +94,19 @@
                     style="@style/SimNaoSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="14dp"
+                    android:layout_marginBottom="10dp"
                     android:checked="true"
                     android:text="@string/prestar_servico_so_amigos_do_amigos"
+                    android:visibility="visible" />
+
+                <org.holoeverywhere.widget.Switch
+                    android:id="@+id/todos_switch"
+                    style="@style/SimNaoSwitch"
+                    android:layout_width="283dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:checked="true"
+                    android:text="@string/prestar_servico_todos"
                     android:visibility="visible" />
 
             </LinearLayout>
