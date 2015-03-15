@@ -43,26 +43,34 @@ public class ServiceBoxMobileUtil {
 			         Planejamento planejamento){
 		
 		PrestarServicoRequest request = new PrestarServicoRequest();
-		request.setDomingo(planejamento.isDomingo());
-		request.setSegunda(planejamento.isSegunda());
-		request.setTerca(planejamento.isTerca());
-		request.setQuarta(planejamento.isQuarta());
-		request.setQuinta(planejamento.isQuinta());
-		request.setSexta(planejamento.isSexta());
-		request.setSabado(planejamento.isSabado());
-		request.setHoraFixa(planejamento.getHoraFixa());
-		request.setHoraEntre(planejamento.getHoraEntre());
-		request.setHoraE(planejamento.getHoraE());
+		if(planejamento != null){
+				request.setDomingo(planejamento.isDomingo());
+				request.setSegunda(planejamento.isSegunda());
+				request.setTerca(planejamento.isTerca());
+				request.setQuarta(planejamento.isQuarta());
+				request.setQuinta(planejamento.isQuinta());
+				request.setSexta(planejamento.isSexta());
+				request.setSabado(planejamento.isSabado());
+				request.setHoraFixa(planejamento.getHoraFixa());
+				request.setHoraEntre(planejamento.getHoraEntre());
+				request.setHoraE(planejamento.getHoraE());
+				request.setLugares(planejamento.getLugares());
+		}
 		
-		request.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
-		request.setLatitudeDestino(itinerario.getDestino().getLatitude());
-		request.setLongitudeDestino(itinerario.getDestino().getLongitude());
-		
-		request.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
-		request.setLatitudePartida(itinerario.getPartida().getLatitude());
-		request.setLongitudePartida(itinerario.getPartida().getLongitude());
-		request.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
-		request.setDistanciaMaxima(itinerario.getDistanciaMaxima());
+		if(itinerario != null){
+				request.setEnderecoDestino(itinerario.getDestino().getEnderecoDestino());
+				request.setLatitudeDestino(itinerario.getDestino().getLatitude());
+				request.setLongitudeDestino(itinerario.getDestino().getLongitude());
+				request.setTodos(itinerario.isTodos());
+				request.setSoAmigos(itinerario.isSoAmigos());
+				request.setSoAmigosDosAmigos(itinerario.isSoAmigosDosAmigos());
+				
+				request.setEnderecoPartida(itinerario.getPartida().getEnderecoPartida());
+				request.setLatitudePartida(itinerario.getPartida().getLatitude());
+				request.setLongitudePartida(itinerario.getPartida().getLongitude());
+				request.setDistanciaPartidaDestino(itinerario.getDistanciaPartidaDestino());
+				request.setDistanciaMaxima(itinerario.getDistanciaMaxima());
+		}
 		
 		return request;
 		
