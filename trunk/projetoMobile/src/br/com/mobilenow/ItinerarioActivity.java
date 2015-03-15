@@ -116,8 +116,9 @@ public class ItinerarioActivity extends CommonActivity {
      		todos = (Switch) v.findViewById(R.id.todos_switch);
    		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
    		    amigosDosAmigos = (Switch) v.findViewById(R.id.soAmigosDoAmigos_switch);
-     		 
-             confirmaItinerariodBtn.setOnClickListener(new OnClickListener() {
+     		
+   		    /** click botao confirma **/
+           confirmaItinerariodBtn.setOnClickListener(new OnClickListener() {
 
                  @Override
                  public void onClick(View v) {
@@ -186,10 +187,10 @@ public class ItinerarioActivity extends CommonActivity {
 
     		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
     			 Intent intent = new Intent(getActivity(), ListarPrestacaoServicoActivity.class);
-    	         intent.putExtra(InfoActivity.INFO_SERVICO, itinerario);
+    	         intent.putExtra(ListarPrestacaoServicoActivity.LOCALIZAR_POR_ITINERARIO, itinerario);
     	         getActivity().startActivity(intent);
     	         getActivity().finish();
-    		 }else{
+    		 }else{ // vou criar uma prestação aqui
     			 Intent data = new Intent();
                  data.putExtra(ITINERARIO, itinerario);
                  getActivity().setResult(RESULT_CODE, data);

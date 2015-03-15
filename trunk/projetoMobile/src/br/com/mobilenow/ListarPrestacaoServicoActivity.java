@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import br.com.mobilenow.adapter.PrestarServicoListAdapter;
+import br.com.mobilenow.domain.Itinerario;
 import br.com.mobilenow.util.Info;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
@@ -31,9 +32,12 @@ import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.Response;
 
+import com.android.volley.toolbox.ImageLoader;
+
 public class ListarPrestacaoServicoActivity extends CommonActivity {
 	
 	public static final String TAG = ListarPrestacaoServicoActivity.class.getSimpleName();
+	public static final String LOCALIZAR_POR_ITINERARIO = "LOCALIZAR_POR_ITINERARIO";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,26 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		private ProgressDialog progressDialog;
 		private List<Info> prestarLista = new ArrayList<Info>();
 		private ListView listaPrestacaoServico;
+        private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();  	
+    	
+    	private Info info;
+    	private Itinerario itinerario;
+		
+		@Override
+    	public void onCreate(Bundle savedInstanceState) {
+    		super.onCreate(savedInstanceState);
+    		if (savedInstanceState != null) {
+    			itinerario = savedInstanceState.getParcelable(LOCALIZAR_POR_ITINERARIO);
+            } else {
+            	itinerario = getActivity().getIntent().getParcelableExtra(LOCALIZAR_POR_ITINERARIO);
+            }
+    	}
+		
+		 @Override
+         public void onSaveInstanceState(Bundle outState) {
+             super.onSaveInstanceState(outState);
+             outState.putParcelable(LOCALIZAR_POR_ITINERARIO, itinerario);
+         }
 		
 		@Override
 		public View onCreateView(org.holoeverywhere.LayoutInflater inflater,
@@ -175,11 +199,6 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		} // Fim	
 			
 		
-		@Override
-		public void onSaveInstanceState(Bundle outState) {
-		  super.onSaveInstanceState(outState);
-		  
-		}
 		
 		@Override
 		public void onDestroy() {
