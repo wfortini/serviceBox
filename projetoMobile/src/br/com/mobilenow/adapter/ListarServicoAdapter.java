@@ -90,16 +90,19 @@ public class ListarServicoAdapter extends ArrayAdapter<PrestarServico>{
 						getUrl(), usuario.getFotoPerfil(), usuario.getLogin()), imageLoader);
 		
 		TextView descricao = (TextView) convertView.findViewById(R.id.descricao);
+		
+		//TODO: classificação sera estrelas, tera uma regra de a cada 10 recmoendações recebera uma estrala
 		TextView classificacao = (TextView) convertView.findViewById(R.id.classificacao);
-		TextView aceitacao = (TextView) convertView.findViewById(R.id.aceitacao);
+		TextView recomendacao = (TextView) convertView.findViewById(R.id.recomendacoes);
 		TextView data = (TextView) convertView.findViewById(R.id.dataCriacao);
-		
-		
+		TextView nomeUsuario = (TextView) convertView.findViewById(R.id.nomeUsuario);
+			
 		
 		PrestarServico p = lista.get(position);	
-		descricao.setText(p.getDescricao());
+		descricao.setText(p.getDescricao() != null ? p.getDescricao() : "Descrição default");
 		classificacao.setText("Text fixo  no código");
-		aceitacao.setText("Texto fixo no código");
+		recomendacao.setText("100 vezes recomendado!");
+		nomeUsuario.setText(usuario.getNome());
 		data.setText(ServiceBoxMobileUtil.dateToString(p.getData(), DateFormat.FULL));
 		
 		

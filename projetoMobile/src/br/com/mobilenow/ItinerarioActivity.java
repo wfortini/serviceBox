@@ -21,6 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Toast;
 import br.com.mobilenow.domain.GeoDestino;
 import br.com.mobilenow.domain.GeoPartida;
 import br.com.mobilenow.domain.Itinerario;
@@ -48,6 +51,9 @@ public class ItinerarioActivity extends CommonActivity {
 	public static final String TAG = ItinerarioActivity.class.getSimpleName();
     public static final String ITINERARIO = "ITINERARIO"; 
     public static final int RESULT_CODE = 123;
+    public static final String OFERECER_CARONA = "OFERECER";
+    public static final String LOCALIZAR_CARONA = "LOCALIZAR";
+    public static final String QUAL_OPERACAO = "QUAL_OPERACAO";
    
 
     @Override
@@ -81,6 +87,8 @@ public class ItinerarioActivity extends CommonActivity {
     	private Switch todos;
     	private Switch soAmigos;
     	private Switch amigosDosAmigos;
+    	private String operacaoEmAbndamento;
+    	private SeekBar distanciaLocalizacao;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -99,16 +107,17 @@ public class ItinerarioActivity extends CommonActivity {
     	 
     	 void init(View v)
          {
-             // (getActivity().getIntent().getStringExtra(ITINERARIO));
-             Button uploadBtn = (Button) v.findViewById(R.id.confirmar_itinerario);
+    		 operacaoEmAbndamento = getActivity().getIntent().getStringExtra(QUAL_OPERACAO);
+             Button confirmaItinerariodBtn = (Button) v.findViewById(R.id.confirmar_itinerario);
              partida = (AutoCompleteTextView) v.findViewById(R.id.partida);
      		 destino = (AutoCompleteTextView) v.findViewById(R.id.destino);
+     		 distanciaLocalizacao = (SeekBar) v.findViewById(R.id.distancia_localizacao);
      		 
      		todos = (Switch) v.findViewById(R.id.todos_switch);
    		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
    		    amigosDosAmigos = (Switch) v.findViewById(R.id.soAmigosDoAmigos_switch);
      		 
-             uploadBtn.setOnClickListener(new OnClickListener() {
+             confirmaItinerariodBtn.setOnClickListener(new OnClickListener() {
 
                  @Override
                  public void onClick(View v) {
@@ -147,7 +156,24 @@ public class ItinerarioActivity extends CommonActivity {
                 	 
                 	 
                  }
-             }); // fim classe interna 
+             }); // fim classe interna botao
+             
+           /** barra de distancia evendo **/  
+           distanciaLocalizacao.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+     			int progressChanged = 0;
+
+     			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+     				progressChanged = progress;
+     			}
+
+     			public void onStartTrackingTouch(SeekBar seekBar) {
+     				
+     			}
+
+     			public void onStopTrackingTouch(SeekBar seekBar) {
+     				
+     			}
+     		});
              
              
             partida.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line));
@@ -158,10 +184,18 @@ public class ItinerarioActivity extends CommonActivity {
     	 
     	 public void finishedClicked() {
 
-             Intent data = new Intent();
-             data.putExtra(ITINERARIO, itinerario);
-             getActivity().setResult(RESULT_CODE, data);
-             getActivity().finish();
+    		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
+    			 Intent intent = new Intent(getActivity(), ListarPrestacaoServicoActivity.class);
+    	         intent.putExtra(InfoActivity.INFO_SERVICO, itinerario);
+    	         getActivity().startActivity(intent);
+    	         getActivity().finish();
+    		 }else{
+    			 Intent data = new Intent();
+                 data.putExtra(ITINERARIO, itinerario);
+                 getActivity().setResult(RESULT_CODE, data);
+                 getActivity().finish();
+    		 }
+             
 
          }
     	 
@@ -229,7 +263,7 @@ public class ItinerarioActivity extends CommonActivity {
 
     	 
     	 
-    	 private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+     private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
  		    private ArrayList<String> resultList;
  		    
  		    public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
