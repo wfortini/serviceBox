@@ -6,6 +6,7 @@ import java.util.Date;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.EndNode;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
@@ -50,9 +51,11 @@ public class PrestarServico extends BaseEntity implements Serializable {
 	private boolean soAmigosDosAmigos;
 	private boolean todos;
 	
+	@Fetch
 	@RelatedTo(type = "VEM_DE", direction = Direction.OUTGOING, elementClass = GeoPartida.class)
 	private GeoPartida partida;
 	
+	@Fetch
 	@RelatedTo(type = "VAI_PARA", direction = Direction.OUTGOING, elementClass = GeoDestino.class)
 	private GeoDestino destino;	
 	
