@@ -12,7 +12,7 @@
     <string name="telefone">Telefone</string>
     <string name="senha">Senha</string>
     <string name="confirma">Confirma</string>
-    <string name="title_activity_tabbed">TabbedActivity</string>    
+    <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="action_settings">Settings</string>
     <string name="load_directions">Carregar</string>
     <string name="action_config">Carregar</string>
@@ -37,7 +37,6 @@
     <string name="dados_planejamento">Dados do planejamento</string>
     <string name="label_confirmar">Confirmar</string>
     <string name="label_informacao_extra">Informações extras</string>
-    
     <string name="label_dom">DOM</string>
     <string name="label_seg">SEG</string>
     <string name="label_ter">TER</string>
@@ -117,5 +116,7 @@
     <string name="ip_servidor_servicebox">http://192.168.1.15</string>
     <string name="title_activity_lista_servico">ListaServicoActivity</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_listar_prestacao_servico">ListarPrestacaoServicoActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
