@@ -35,7 +35,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-`    
+`    
     <application
         android:name=".ServiceBoxApplication"
         android:allowBackup="true"
@@ -95,6 +95,10 @@
         <activity
             android:name=".InfoActivity"
             android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".ListarPrestacaoServicoActivity"
+            android:label="@string/title_activity_listar_prestacao_servico" >
         </activity>
     </application>
 
