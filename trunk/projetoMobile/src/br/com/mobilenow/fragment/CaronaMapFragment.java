@@ -195,11 +195,14 @@ public class CaronaMapFragment extends SherlockMapFragment{
 		public boolean onOptionsItemSelected(MenuItem item) {
 			  if (item.getItemId() == R.id.item_menu_oferecr_carona) {
 				  
-				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
+				  startActivityForResult(new Intent(getActivity(), 
+						  ItinerarioActivity.class), ItinerarioActivity.RESULT_CODE);
 				  
 			  } else if (item.getItemId() == R.id.item_menu_pegar_carona) {
 				  
-				  startActivityForResult(new Intent(getActivity(), ItinerarioActivity.class), ItinerarioActivity.RESULT_CODE);
+				  Intent i = new Intent(getActivity(), ItinerarioActivity.class); 
+				  i.putExtra(ItinerarioActivity.QUAL_OPERACAO, ItinerarioActivity.LOCALIZAR_CARONA);
+                  startActivity(i);
 				  
 			  } else if (item.getItemId() == R.id.item_menu_motorista_rodada_carona) {
 				  

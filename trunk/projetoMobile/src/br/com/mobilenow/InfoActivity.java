@@ -5,6 +5,8 @@ import org.holoeverywhere.widget.TextView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,18 +44,9 @@ public class InfoActivity extends CommonActivity {
     	private TextView tvPartida;
     	private TextView tvDestino;
     	
-    	private TextView tvDom;
-    	private TextView tvSeg;
-    	private TextView tvTer; 
-    	private TextView tvQua; 
-    	private TextView tvQui; 
-    	private TextView tvSex; 
-    	private TextView tvSab;
+    	private TextView tvDiasDaSemana;    	
+    	private TextView tvHorarioPlanejado;
     	
-    	private TextView labelEntre;
-    	private TextView labelE;
-    	private TextView tvHoraInicial;
-    	private TextView tvHoraFinal;
     	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
     	
     	
@@ -93,30 +86,27 @@ public class InfoActivity extends CommonActivity {
          }
     	 
     	private void init(View v){
-    		 
-    		tvDom =(TextView) v.findViewById(R.id.dom);
-        	tvSeg =(TextView) v.findViewById(R.id.seg);
-        	tvTer =(TextView) v.findViewById(R.id.ter);
-        	tvQua =(TextView) v.findViewById(R.id.qua); 
-        	tvQui =(TextView) v.findViewById(R.id.qui);
-        	tvSex =(TextView) v.findViewById(R.id.sex); 
-        	tvSab =(TextView) v.findViewById(R.id.sab);
+    		
+    		StringBuilder html = retornaDiasSemana();    		 
+    		
+    		Spanned result = Html.fromHtml(html.toString());
+    		
+    		tvDiasDaSemana =(TextView) v.findViewById(R.id.diasDaSemana);
+        	
         	tvNome = (TextView) v.findViewById(R.id.nome);
         	tvDescricao = (TextView) v.findViewById(R.id.descricao);
         	
-        	tvHoraInicial = (TextView) v.findViewById(R.id.horaInicial);
-        	tvHoraFinal = (TextView) v.findViewById(R.id.horarioFinal);
-        	labelEntre = (TextView) v.findViewById(R.id.labelEntre);
-        	labelE = (TextView) v.findViewById(R.id.labelE);
+        	tvHorarioPlanejado = (TextView) v.findViewById(R.id.horarioPlanejado);
+        	
         	
         	tvPartida = (TextView) v.findViewById(R.id.dadosPartida);
-        	tvDestino = (TextView) v.findViewById(R.id.dadosDestino);
+        	tvDestino = (TextView) v.findViewById(R.id.dadosDestino);        	
         	
-        	if(info.getPlanejamento().isDomingo())
-        		tvDom.setLinkTextColor(Color.BLUE);
+        	tvDiasDaSemana.setText(result);
+        	tvDiasDaSemana.setTextColor(Color.BLUE);        		
         	
-        	tvHoraInicial.setText(info.getPlanejamento().getHoraEntre());
-        	tvHoraFinal.setText(info.getPlanejamento().getHoraE());
+        	Spanned resultHorario = retornaHorarios();
+        	tvHorarioPlanejado.setText(resultHorario);
         	
         	tvNome.setText(info.getNomeUsuario());
         	tvDescricao.setText(info.getDescricao());
@@ -142,7 +132,41 @@ public class InfoActivity extends CommonActivity {
 			});
     		 
     		 
-      }   	 
+      }
+
+		private Spanned retornaHorarios() {
+			StringBuilder htmlHorario = new StringBuilder("&nbsp;");
+        	if(info.getPlanejamento().getHoraFixa() != null && 
+        			!info.getPlanejamento().getHoraFixa().equals("00:00")){
+        		htmlHorario.append("<b>").append(info.getPlanejamento().getHoraFixa());
+        		htmlHorario.append("</b>");
+        	}else{
+        		htmlHorario.append("entre&nbsp;<b>").append(info.getPlanejamento().getHoraEntre());
+        		htmlHorario.append("</b>&nbsp;e&nbsp;<b>").append(info.getPlanejamento().getHoraE());
+        		htmlHorario.append("</b>");
+        	}
+        	Spanned resultHorario = Html.fromHtml(htmlHorario.toString());
+			return resultHorario;
+		}
+
+		private StringBuilder retornaDiasSemana() {
+			StringBuilder html = new StringBuilder("&nbsp;");
+    		if(info.getPlanejamento().isDomingo())
+    			html.append("<b>DOM</b>&nbsp;");
+    		if(info.getPlanejamento().isSegunda())
+    			html.append("<b>SEG</b>&nbsp;");
+    		if(info.getPlanejamento().isTerca())
+    			html.append("<b>TER</b>&nbsp;");
+    		if(info.getPlanejamento().isQuarta())
+    			html.append("<b>QUA</b>&nbsp;");
+    		if(info.getPlanejamento().isQuinta())
+    			html.append("<b>QUI</b>&nbsp;");
+    		if(info.getPlanejamento().isSexta())
+    			html.append("<b>SEX</b>&nbsp;");
+    		if(info.getPlanejamento().isSabado())
+    			html.append("<b>SAB</b>&nbsp;");
+			return html;
+		}   	 
     	 
     	 /**
           * Confirma que prestar o serviço
