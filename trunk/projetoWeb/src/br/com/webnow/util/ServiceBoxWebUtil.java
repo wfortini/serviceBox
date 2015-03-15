@@ -134,6 +134,7 @@ public class ServiceBoxWebUtil {
 				
 				PrestarServicoJSON json = new PrestarServicoJSON();
 				
+				json.setNodeId(p.getId());
 				json.setAtivo(p.isAtiva());
 				json.setData(p.getData());
 				json.setDescricao(p.getDescricao());
