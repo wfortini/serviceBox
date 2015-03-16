@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.net.LoginResponse;
+import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.exception.UsuarioException;
@@ -43,7 +43,7 @@ public class AutorizarController {
 		 
 		 String login = "wellington";
 		 String pwd = "12345";
-		 LoginResponse loginResponse = new LoginResponse();
+		 UsuarioResponse loginResponse = new UsuarioResponse();
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
 			
@@ -66,7 +66,7 @@ public class AutorizarController {
 			return "/home";
 		} catch (Exception e) {
 			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
-			loginResponse = new LoginResponse();
+			loginResponse = new UsuarioResponse();
 			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
 			loginResponse.setMessage("Erro ao autenticar o usuário");			
 			loginResponse.setSucesso(false);
@@ -77,17 +77,17 @@ public class AutorizarController {
 	 }
 	 
 	 @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
-	 public @ResponseBody LoginResponse autenticar(
+	 public @ResponseBody UsuarioResponse autenticar(
 			 @RequestParam(value = "login") String login,
 	         @RequestParam(value = "pwd") String pwd){
 		
-		 LoginResponse loginResponse = new LoginResponse();
+		 UsuarioResponse loginResponse = new UsuarioResponse();
 		 try {
 			Usuario usuario = autenticarRepository.autenticar(login, pwd);		
 			
 			if (usuario != null && usuario.getId() != null){						
 				
-				loginResponse = new LoginResponse();
+				loginResponse = new UsuarioResponse();
 				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
 				loginResponse.setNodeId(usuario.getId());
 				loginResponse.setNome(usuario.getNome());
@@ -114,7 +114,7 @@ public class AutorizarController {
 			}
 		} catch (Exception e) {
 			logger.error("Erro ao tentar autenticar usuario Android: ", e);
-			loginResponse = new LoginResponse();
+			loginResponse = new UsuarioResponse();
 			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
 			loginResponse.setMessage("Erro ao autenticar o usuário");			
 			loginResponse.setSucesso(false);

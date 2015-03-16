@@ -16,6 +16,8 @@ import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
 import br.com.servicebox.common.net.Response;
+import br.com.webnow.domain.GeoDestino;
+import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
@@ -70,10 +72,17 @@ public class PrestarServicoController {
 	 public @ResponseBody PrestarServicoResponse buscarServicosPorCoordenadasComDistancia(
 			 @RequestBody PrestarServicoRequest request){
 		 
+		 GeoPartida partida = new GeoPartida();
+		 GeoDestino destino = new GeoDestino();
+		 
 		 try {
+			partida.setLatitude(request.getLatitudePartida());
+			partida.setLongitude(request.getLongitudePartida());
+			destino.setLatitude(request.getLatitudeDestino());
+			destino.setLongitude(request.getLongitudeDestino());
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 		
 		 return null;
