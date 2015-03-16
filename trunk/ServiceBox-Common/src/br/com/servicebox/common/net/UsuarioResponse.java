@@ -13,7 +13,7 @@ import br.com.servicebox.common.json.ServicoJSON;
  * @author wpn0510
  *
  */
-public class LoginResponse extends Response{
+public class UsuarioResponse extends Response{
 	
 	private static final long serialVersionUID = -2114605692059685414L;	
 	
@@ -31,7 +31,7 @@ public class LoginResponse extends Response{
 	 
 	 private ServicoJSON[] servicoJSONs;
 	
-	public LoginResponse() {
+	public UsuarioResponse() {
 		
 	} 
    
