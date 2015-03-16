@@ -67,6 +67,8 @@
     <string name="prestar_servico_so_amigo">só Amigos</string>
     <string name="prestar_servico_so_amigos_do_amigos">só Amigos dos Amigos</string>
     <string name="prestar_servico_todos">Todos</string>
+    <string name="label_buscar_para">Buscar itinerário de:</string>
+    <string name="label_exibir_para">Exibir meu itinerário para:</string>
 
     <!-- Activity Planejamento -->
     <string name="domingo">Domingo</string>

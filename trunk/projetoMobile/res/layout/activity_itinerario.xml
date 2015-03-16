@@ -58,6 +58,19 @@
 	            android:layout_height="wrap_content"
 	            android:orientation="vertical" >
                 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="25dp" />
+                
+                <TextView
+	                android:id="@+id/label_distancia"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:text="Buscar à 100 m do meu ponto de partida."
+	                android:gravity="center_horizontal" 
+	                android:textStyle="bold"
+	                android:textColor="?android:textColorSecondary" />
+                
                 <SeekBar
 		            android:id="@+id/distancia_localizacao"
 		            android:layout_width="fill_parent"
@@ -77,7 +90,20 @@
                 
                 <View
                     android:layout_width="0dp"
-                    android:layout_height="30dp" />
+                    android:layout_height="20dp" />
+                
+                <TextView
+	                android:id="@+id/label_buscar_em"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:text="Buscar itinerário de:."
+	                android:gravity="left" 
+	                android:textStyle="bold"
+	                android:textColor="?android:textColorSecondary" />
+                
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="20dp" />
 
                 <org.holoeverywhere.widget.Switch
                     android:id="@+id/soAmigos_switch"
