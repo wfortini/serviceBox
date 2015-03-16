@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.servicebox.common.net.ListaPrestarServicoResponse;
 import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.PrestarServicoResponse;
@@ -69,23 +70,33 @@ public class PrestarServicoController {
 	 }
 	 
 	 @RequestMapping(value = "/buscarServicosPorCoordenadasComDistancia", method = RequestMethod.POST)
-	 public @ResponseBody PrestarServicoResponse buscarServicosPorCoordenadasComDistancia(
+	 public @ResponseBody ListaPrestarServicoResponse buscarServicosPorCoordenadasComDistancia(
 			 @RequestBody PrestarServicoRequest request){
 		 
 		 GeoPartida partida = new GeoPartida();
 		 GeoDestino destino = new GeoDestino();
+		 ListaPrestarServicoResponse response =  new ListaPrestarServicoResponse();
+		 
 		 
 		 try {
 			partida.setLatitude(request.getLatitudePartida());
 			partida.setLongitude(request.getLongitudePartida());
 			destino.setLatitude(request.getLatitudeDestino());
 			destino.setLongitude(request.getLongitudeDestino());
+			response.setPrestacaoLocalizadas(ServiceBoxWebUtil.preencherPrestacaoLocalizada(this.prestarServicoService.buscarServicosPorCoordenadasComDistancia(
+					partida, destino, request.getServicoPrestado(), request.getDistanciaMaxima())));
+			
+			response.setCode(Response.SUCESSO);
+			response.setMessage("Sucesso");
+			response.setNodeId(0L);
+			response.setSucesso(true);
 			
 		} catch (Exception e) {
-			
+			logger.error("Erro ao adicionar prestacao servico: ", e.getMessage());
+			return new ListaPrestarServicoResponse(false, "Falha na busca de itinerário", null, Response.ERRO_DESCONHECIDO);
 		}
 		
-		 return null;
+		 return response;
 		 
 	 }
 	 

@@ -7,7 +7,9 @@ import java.util.Set;
 
 import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
+import br.com.servicebox.common.net.PrestacaoLocalizada;
 import br.com.servicebox.common.net.PrestarServicoRequest;
+import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
 import br.com.webnow.domain.GeoDestino;
@@ -19,6 +21,7 @@ import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
+import br.com.webnow.returno.cypher.ServicoLocalizado;
 
 public class ServiceBoxWebUtil {
 	
@@ -199,7 +202,76 @@ public class ServiceBoxWebUtil {
 		}
 		
 		return servicoJSONs;
-	}      
+	} 
+	
+	public static PrestacaoLocalizada[] preencherPrestacaoLocalizada(List<ServicoLocalizado> listaServico){
+		
+		PrestacaoLocalizada[] arrayPrestacao = null;
+		
+		  if(listaServico != null && listaServico.size() > 0){
+			  
+			  
+			  int cont = 0;
+			  arrayPrestacao = new PrestacaoLocalizada[listaServico.size()];
+			  for(ServicoLocalizado sl : listaServico){
+				  
+				  PrestacaoLocalizada pl = new PrestacaoLocalizada();
+				  
+				  UsuarioResponse ur = new UsuarioResponse();
+				  ur.setNodeId(sl.getUsuario().getId());
+				  ur.setNome(sl.getUsuario().getNome());
+				  ur.setLogin(sl.getUsuario().getLogin());
+				  ur.setSobreNome(sl.getUsuario().getSobreNome());
+				  ur.setApelido(sl.getUsuario().getApelido());
+				  ur.setDataCadastro(sl.getUsuario().getDataCadastro());
+				  ur.setFotoPerfil(sl.getUsuario().getFotoPerfil());
+				  ur.setSexo(sl.getUsuario().getSexo());
+				  ur.setTelefone(sl.getUsuario().getTelefone());
+				  
+				  pl.setUsuario(ur);
+				  
+				  PrestarServicoJSON json = new PrestarServicoJSON();
+				  
+				 json.setNodeId(sl.getPrestarServico().getId());
+				json.setAtivo(sl.getPrestarServico().isAtiva());
+				json.setData(sl.getPrestarServico().getData());
+				json.setDescricao(sl.getPrestarServico().getDescricao());
+				json.setDistanciaMaxima(sl.getPrestarServico().getDistanciaMaxima());
+				json.setDistanciaPartidaDestino(sl.getPrestarServico().getDistanciaPartidaDestino());
+				json.setDomingo(sl.getPrestarServico().isDomingo());
+				json.setEnderecoPartida(sl.getPrestarServico().getPartida().getEnderecoPartida());
+				json.setEnderecoDestino(sl.getPrestarServico().getDestino().getEnderecoDestino());
+				json.setHoraE(sl.getPrestarServico().getHoraE());
+				json.setHoraEntre(sl.getPrestarServico().getHoraEntre());
+				json.setHoraFixa(sl.getPrestarServico().getHoraFixa());
+				json.setLatitudeDestino(sl.getPrestarServico().getDestino().getLatitude());
+				json.setLongitudeDestino(sl.getPrestarServico().getDestino().getLongitude());
+				json.setLatitudePartida(sl.getPrestarServico().getPartida().getLatitude());
+				json.setLongitudePartida(sl.getPrestarServico().getPartida().getLongitude());
+				json.setQuarta(sl.getPrestarServico().isQuarta());
+				json.setQuinta(sl.getPrestarServico().isQuinta());
+				json.setTerca(sl.getPrestarServico().isTerca());
+				json.setSegunda(sl.getPrestarServico().isSegunda());
+				json.setSexta(sl.getPrestarServico().isSexta());
+				json.setSabado(sl.getPrestarServico().isSabado());
+				json.setSoAmigos(sl.getPrestarServico().isSoAmigos());
+				json.setSoAmigosDosAmigos(sl.getPrestarServico().isSoAmigosDosAmigos());
+				json.setTodos(sl.getPrestarServico().isTodos());
+				json.setLugares(sl.getPrestarServico().getLugares());
+				
+				pl.setPrestarServicoJSON(json);
+				  
+				arrayPrestacao[cont] = pl;
+				cont++;		  
+				  
+			  }
+			  
+			  
+		  }
+		
+		return arrayPrestacao;
+		
+	}
 		
 	
 	
