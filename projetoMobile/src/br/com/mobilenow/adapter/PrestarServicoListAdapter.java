@@ -15,6 +15,7 @@ import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.util.Info;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
+import br.com.servicebox.common.net.PrestacaoLocalizada;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -26,16 +27,16 @@ import com.android.volley.toolbox.NetworkImageView;
  * @author wpn0510
  *
  */
-public class PrestarServicoListAdapter extends ArrayAdapter<Info>{
+public class PrestarServicoListAdapter extends ArrayAdapter<PrestacaoLocalizada>{
 	
 	
 	private Activity activity;
 	private LayoutInflater inflater;
-	private List<Info> lista = new ArrayList<Info>();	
+	private List<PrestacaoLocalizada> lista = new ArrayList<PrestacaoLocalizada>();	
 	private String url;
 	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
 
-	public PrestarServicoListAdapter(Activity activity, List<Info> list) {
+	public PrestarServicoListAdapter(Activity activity, List<PrestacaoLocalizada> list) {
 		super(activity, android.R.layout.simple_list_item_1, list);
 		this.activity = activity;
 		this.lista = list;		
@@ -48,16 +49,16 @@ public class PrestarServicoListAdapter extends ArrayAdapter<Info>{
 	}
 
 	@Override
-	public Info getItem(int location) {
+	public PrestacaoLocalizada getItem(int location) {
 		return lista.get(location);
 	}
 	
 
-	public List<Info> getLista() {
+	public List<PrestacaoLocalizada> getLista() {
 		return lista;
 	}
 
-	public void setLista(List<Info> lista) {
+	public void setLista(List<PrestacaoLocalizada> lista) {
 		this.lista = lista;
 	}
 
@@ -90,10 +91,11 @@ public class PrestarServicoListAdapter extends ArrayAdapter<Info>{
 		NetworkImageView thumbNail = (NetworkImageView) convertView
 				.findViewById(R.id.imagem_perfil);
 		
-		Info info = lista.get(position);	
+		PrestacaoLocalizada localizada = lista.get(position);	
 		// thumbnail image
 				thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
-						getUrl(), info.getFotoPerfilUsuario(), info.getLoginUsuario()), imageLoader);
+						getUrl(), localizada.getUsuario().getFotoPerfil(), 
+						localizada.getUsuario().getLogin()), imageLoader);
 		
 		TextView descricao = (TextView) convertView.findViewById(R.id.descricao);
 		
@@ -106,13 +108,15 @@ public class PrestarServicoListAdapter extends ArrayAdapter<Info>{
 		TextView dadosDestino = (TextView) convertView.findViewById(R.id.dadosDestino);
 			
 		
-		dadosPartida.setText(info.getItinerario().getPartida().getEnderecoPartida());
-		dadosDestino.setText(info.getItinerario().getDestino().getEnderecoDestino());
-		descricao.setText(info.getDescricao() != null ? info.getDescricao() : "Descrição default");
+		dadosPartida.setText(localizada.getPrestarServicoJSON().getEnderecoPartida());
+		dadosDestino.setText(localizada.getPrestarServicoJSON().getEnderecoDestino());
+		descricao.setText(localizada.getPrestarServicoJSON().getDescricao() != null ? 
+				               localizada.getPrestarServicoJSON().getDescricao() : "Descrição default");
 		classificacao.setText("Text fixo  no código");
 		recomendacao.setText("100 vezes recomendado!");
-		nomeUsuario.setText(info.getNomeUsuario());
-		data.setText("Data de criação: "+ServiceBoxMobileUtil.dateToString(info.getData(), DateFormat.FULL));
+		nomeUsuario.setText(localizada.getUsuario().getNome());
+		data.setText("Data de criação: "+ServiceBoxMobileUtil.dateToString(localizada.getPrestarServicoJSON().
+				getData(), DateFormat.FULL));
 		
 		
 

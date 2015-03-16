@@ -13,7 +13,7 @@ import br.com.mobilenow.TabbedActivity;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.ObjectAccessor;
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.net.LoginResponse;
+import br.com.servicebox.common.net.UsuarioResponse;
 
 public class LoginUtils
 {
@@ -52,7 +52,7 @@ public class LoginUtils
      * @param finishActivity whether to finish activity after the MainActivity
      *            started
      */
-    public static void onLoggedIn(Activity activity, boolean finishActivity, LoginResponse response) {
+    public static void onLoggedIn(Activity activity, boolean finishActivity, UsuarioResponse response) {
         // iniciar nova activity e adiciono o usuario logado na application
     	ServiceBoxApplication.setUsuario(ServiceBoxMobileUtil.preencherUsuario(response));
         activity.startActivity(new Intent(activity, TabbedActivity.class));
@@ -69,7 +69,7 @@ public class LoginUtils
      * @param fragmentAccessor
      * @param activity
      */
-    public static void processarSucessoLoginResultado(LoginResponse resultado,
+    public static void processarSucessoLoginResultado(UsuarioResponse resultado,
             ObjectAccessor<? extends LoginActionHandler> fragmentAccessor, Activity activity) {
         Credenciais[] credenciais = resultado.getmCredenciais();
         if (credenciais.length == 1) {
@@ -86,7 +86,7 @@ public class LoginUtils
     }
 
     private static void performLogin(ObjectAccessor<? extends LoginActionHandler> loginActionHandlerAccessor,
-            Credenciais credentials, LoginResponse response) {
+            Credenciais credentials, UsuarioResponse response) {
         LoginActionHandler handler = loginActionHandlerAccessor.run();
         if (handler != null) {
             handler.processLoginCredentials(credentials, response);
@@ -103,6 +103,6 @@ public class LoginUtils
      */
     public static interface LoginActionHandler
     {
-        void processLoginCredentials(Credenciais credenciais, LoginResponse response);
+        void processLoginCredentials(Credenciais credenciais, UsuarioResponse response);
     }
 }

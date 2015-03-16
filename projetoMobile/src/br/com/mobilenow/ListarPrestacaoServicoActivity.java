@@ -1,6 +1,7 @@
 package br.com.mobilenow;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpEntity;
@@ -29,7 +30,11 @@ import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
+import br.com.servicebox.common.domain.TipoServico;
+import br.com.servicebox.common.net.ListaPrestarServicoResponse;
 import br.com.servicebox.common.net.ListaServicoResponse;
+import br.com.servicebox.common.net.PrestacaoLocalizada;
+import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -56,11 +61,11 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 
 		private PrestarServicoListAdapter mAdapter;		
 		private ProgressDialog progressDialog;
-		private List<Info> prestarLista = new ArrayList<Info>();
+		private List<PrestacaoLocalizada> prestarLista = new ArrayList<PrestacaoLocalizada>();
 		private ListView listaPrestacaoServico;
         private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();  	
     	
-    	private Info info;
+    	private PrestacaoLocalizada prestacaoLocalizada;
     	private Itinerario itinerario;
 		
 		@Override
@@ -124,27 +129,23 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 					
 					try {
 						url = getString(R.string.ip_servidor_servicebox)
-				 				   .concat(":8080/projetoWeb/listarPrestarServicoOferecidos.json");  
+				 				   .concat(":8080/projetoWeb/buscarServicosPorCoordenadasComDistancia.json");  
 						
 						RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
 						
-						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		               
-						 map.add("idUsuario", ServiceBoxApplication.getUsuario().getNodeId().toString());						 			
-			             
-			             HttpHeaders headers = new HttpHeaders();
-			             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-		
-			             HttpEntity<MultiValueMap<String, Object>> entity = 
-			            		     new HttpEntity<MultiValueMap<String, Object>>(map, headers);
-		
+						PrestarServicoRequest request = ServiceBoxMobileUtil.
+								preencheObjetoPrestarServicoRequest(itinerario, null);    
+						request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());
+						request.setLogin(ServiceBoxApplication.getUsuario().getLogin());
+						request.setServicoPrestado(TipoServico.CARONA.getCodigo());
 						
 			             Response response = null;
 			             if (GuiUtils.checkOnline()){
-						         response = restTemplate.postForObject(url, entity, ListaServicoResponse.class);
+						         response = restTemplate.postForObject(url, request, ListaPrestarServicoResponse.class);
 			             }
 			             
 			             return response;
+			           
 						
 					}catch(ResourceAccessException rae){
 						CommonUtils.error(TAG, rae.getMessage());
@@ -163,9 +164,9 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 						
 					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
 						
-						if(response instanceof ListaServicoResponse){							
-							ListaServicoResponse lstResponse = (ListaServicoResponse) response;
-							//prestarLista = ServiceBoxMobileUtil.preencherServico(lstResponse);
+						if(response instanceof ListaPrestarServicoResponse){							
+							ListaPrestarServicoResponse lstResponse = (ListaPrestarServicoResponse) response;
+							prestarLista = Arrays.asList(lstResponse.getPrestacaoLocalizadas());
 							mAdapter = new PrestarServicoListAdapter(getActivity(), prestarLista);
 							mAdapter.setUrl(getString(R.string.ip_servidor_servicebox));
 							listaPrestacaoServico.setAdapter(mAdapter);
@@ -210,10 +211,10 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 		 
-			Info info = mAdapter.getItem(position);
+			//Info info = mAdapter.getItem(position);
 					
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
-		    intent.putExtra(InfoActivity.INFO_SERVICO, info);
+		    //intent.putExtra(InfoActivity.INFO_SERVICO, info);
 		    getActivity().startActivity(intent);
 		  
 		  /**  usar da forma abaixo como no exemplo
