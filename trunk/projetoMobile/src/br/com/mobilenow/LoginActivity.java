@@ -30,7 +30,7 @@ import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.android.common.util.ObjectAccessor;
 import br.com.servicebox.common.domain.Credenciais;
-import br.com.servicebox.common.net.LoginResponse;
+import br.com.servicebox.common.net.UsuarioResponse;
 
 public class LoginActivity extends CommonActivity {
 	
@@ -99,7 +99,7 @@ public class LoginActivity extends CommonActivity {
 		};
 		
 		boolean mDelayedLoginProcessing = false;
-		LoginResponse mLastResponse;
+		UsuarioResponse mLastResponse;
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -135,7 +135,7 @@ public class LoginActivity extends CommonActivity {
 		 * Implementação da Interface LoginActionHandler presente na classe LoginUtil
 		 */
 		@Override  
-		public void processLoginCredentials(Credenciais credentials, LoginResponse response) {
+		public void processLoginCredentials(Credenciais credentials, UsuarioResponse response) {
 		    Activity activity = getSupportActivity();
 		    //CredentialsUtils.saveCredentials(activity, credentials);
 		    LoginUtils.onLoggedIn(activity, false,response);
@@ -156,7 +156,7 @@ public class LoginActivity extends CommonActivity {
 		}
 		class LogInUsuarioTask extends RetainedTask {
 		    private Credencial credencial;
-		    LoginResponse responseResult = null;
+		    UsuarioResponse responseResult = null;
 		
 		    public LogInUsuarioTask(Credencial credencial) {
 		        this.credencial = credencial;
@@ -184,7 +184,7 @@ public class LoginActivity extends CommonActivity {
 	                
 		            if (GuiUtils.checkOnline()){
 		               
-		            	responseResult = restTemplate.postForObject(url, imageEntity, LoginResponse.class);		            	
+		            	responseResult = restTemplate.postForObject(url, imageEntity, UsuarioResponse.class);		            	
 		                return  ServiceBoxMobileUtil.checkResponseValido(responseResult);
 		            }		         
 		        

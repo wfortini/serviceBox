@@ -31,7 +31,7 @@ import br.com.servicebox.common.domain.TipoServico;
 import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.ListaServicoResponse;
-import br.com.servicebox.common.net.LoginResponse;
+import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
 
@@ -133,7 +133,7 @@ public class ServiceBoxMobileUtil {
     * Monta o Objeto Usuario com seus respectivos atributos List, Set, etc
     * @return Objeto Usuario da pacore br.com.servicebox.common.domain
     */
-   public static Usuario preencherUsuario(LoginResponse response){
+   public static Usuario preencherUsuario(UsuarioResponse response){
   	 
   	 Usuario usuario = new Usuario(response.getLogin(), response.getPassword(),
   			 response.getNome(), response.getSobreNome(), response.getSexo(), response.getApelido());
