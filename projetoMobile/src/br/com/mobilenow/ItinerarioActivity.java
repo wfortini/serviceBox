@@ -8,6 +8,8 @@ import java.util.List;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.AutoCompleteTextView;
+import org.holoeverywhere.widget.SeekBar;
+import org.holoeverywhere.widget.SeekBar.OnSeekBarChangeListener;
 import org.holoeverywhere.widget.Switch;
 
 import android.content.Context;
@@ -21,9 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Toast;
+import android.widget.TextView;
 import br.com.mobilenow.domain.GeoDestino;
 import br.com.mobilenow.domain.GeoPartida;
 import br.com.mobilenow.domain.Itinerario;
@@ -89,6 +89,7 @@ public class ItinerarioActivity extends CommonActivity {
     	private Switch amigosDosAmigos;
     	private String operacaoEmAbndamento;
     	private SeekBar distanciaLocalizacao;
+    	private TextView labelBUscarEm;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -112,6 +113,8 @@ public class ItinerarioActivity extends CommonActivity {
              partida = (AutoCompleteTextView) v.findViewById(R.id.partida);
      		 destino = (AutoCompleteTextView) v.findViewById(R.id.destino);
      		 distanciaLocalizacao = (SeekBar) v.findViewById(R.id.distancia_localizacao);
+     		 labelBUscarEm = (TextView) v.findViewById(R.id.label_buscar_em); 
+     	
      		 
      		todos = (Switch) v.findViewById(R.id.todos_switch);
    		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
@@ -165,6 +168,8 @@ public class ItinerarioActivity extends CommonActivity {
 
      			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
      				progressChanged = progress;
+     				 double value = ((double)progress / 10.0);
+     				 labelBUscarEm.setText(String.valueOf(value));
      			}
 
      			public void onStartTrackingTouch(SeekBar seekBar) {
