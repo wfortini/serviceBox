@@ -69,6 +69,9 @@
     <string name="prestar_servico_todos">Todos</string>
     <string name="label_buscar_para">Buscar itinerário de:</string>
     <string name="label_exibir_para">Exibir meu itinerário para:</string>
+    <string name="buscar_a">Buscar à </string>
+    <string name="metro_ponto_partida">metros do meu ponto de partida</string>
+    <string name="km_ponto_partida">kilômetros do meu ponto de partida</string>
 
     <!-- Activity Planejamento -->
     <string name="domingo">Domingo</string>

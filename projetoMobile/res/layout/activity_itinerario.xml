@@ -51,16 +51,16 @@
                 android:layout_height="wrap_content"
                 android:completionThreshold="3"
                 android:ems="10" />
-            
+           
+            <View
+                android:layout_width="0dp"
+                android:layout_height="20dp" />
+
             <LinearLayout
-                android:id="@+id/layout_com_seedbar"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:orientation="vertical" >
-                
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="25dp" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.24"
+                android:orientation="vertical" >
                 
                 <TextView
 	                android:id="@+id/label_distancia"
@@ -69,6 +69,7 @@
 	                android:text="Buscar à 100 m do meu ponto de partida."
 	                android:gravity="center_horizontal" 
 	                android:textStyle="bold"
+	                android:visibility="invisible"
 	                android:textColor="?android:textColorSecondary" />
                 
                 <SeekBar
@@ -77,16 +78,9 @@
 		            android:layout_height="wrap_content"
 		            android:layout_margin="10dp"
 		            android:progress="0"
+		            android:visibility="invisible"
 		            android:secondaryProgress="0" />
                 
-                
-           </LinearLayout>     
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.24"
-                android:orientation="vertical" >
                 
                 <View
                     android:layout_width="0dp"
