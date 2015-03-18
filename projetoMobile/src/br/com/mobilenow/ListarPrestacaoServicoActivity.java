@@ -101,7 +101,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		
 		void init(View v, Bundle savedInstanceState){			
 			
-			listaPrestacaoServico = (ListView) v.findViewById(R.id.list);            
+			listaPrestacaoServico = (ListView) v.findViewById(R.id.listaPrestacaoServico);            
 			listaPrestacaoServico.setOnItemClickListener(this);            
 		   new RequisicaoTask().execute();      
 		 
@@ -166,7 +166,9 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 						
 						if(response instanceof ListaPrestarServicoResponse){							
 							ListaPrestarServicoResponse lstResponse = (ListaPrestarServicoResponse) response;
-							prestarLista = Arrays.asList(lstResponse.getPrestacaoLocalizadas());
+							if(lstResponse.getPrestacaoLocalizadas() != null)
+							     prestarLista = Arrays.asList(lstResponse.getPrestacaoLocalizadas());
+							
 							mAdapter = new PrestarServicoListAdapter(getActivity(), prestarLista);
 							mAdapter.setUrl(getString(R.string.ip_servidor_servicebox));
 							listaPrestacaoServico.setAdapter(mAdapter);
