@@ -47,6 +47,8 @@ public class Usuario extends BaseEntity implements Serializable{
 	@RelatedTo(type = "PRESTA_SERVICO", direction = INCOMING)	
 	private Set<PrestarServico> prestarServicos;
 		
+	@RelatedTo(type = "FOI_RECOMENDADO", direction = INCOMING)
+	private Set<Recomentacao> recomendacoes;
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
@@ -166,5 +168,15 @@ public class Usuario extends BaseEntity implements Serializable{
 		
 		return "Node Id: " + this.getId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
 	}
+
+	public Set<Recomentacao> getRecomendacoes() {
+		return recomendacoes;
+	}
+
+	public void setRecomendacoes(Set<Recomentacao> recomendacoes) {
+		this.recomendacoes = recomendacoes;
+	}
+	
+	
 
 }

@@ -117,26 +117,7 @@ public class PrestarServicoService {
 				          destino, servico, distancia);
 		
 		
-	}
-	
-	@Deprecated
-	public Iterable<ServicoLocalizado> buscarServicoPorCoordenadasDistancia(){
-		GraphDatabaseService graphDatabaseService = this.neo4jTemplate.getGraphDatabaseService();
-		Transaction tx = graphDatabaseService.beginTx();
-		Iterable<ServicoLocalizado> lista = null;
-		try {
-		//	lista = this.prestarServicoRepository.buscarServicoPorCoordenadasDistancia(partida, destino, servico, distancia)();	
-			tx.success();
-			return lista;
-		} catch (Exception e) {
-			tx.close();
-	   }
-	
-		return lista;
-		
-	}
-	
-	
+	}	
 	
 	@Transactional
 	public void addNoAoIndex(){
