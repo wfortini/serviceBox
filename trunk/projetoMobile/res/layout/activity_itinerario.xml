@@ -66,7 +66,7 @@
 	                android:id="@+id/label_distancia"
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:text="Buscar à 100 m do meu ponto de partida."
+	                android:text="@string/msg_distancia_default"
 	                android:gravity="center_horizontal" 
 	                android:textStyle="bold"
 	                android:visibility="invisible"
@@ -90,7 +90,7 @@
 	                android:id="@+id/label_buscar_em"
 	                android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
-	                android:text="Buscar itinerário de:."
+	                android:text="@string/label_buscar_para"
 	                android:gravity="left" 
 	                android:textStyle="bold"
 	                android:textColor="?android:textColorSecondary" />
