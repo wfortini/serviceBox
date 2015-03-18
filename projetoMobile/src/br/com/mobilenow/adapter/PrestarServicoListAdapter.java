@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
@@ -100,7 +101,7 @@ public class PrestarServicoListAdapter extends ArrayAdapter<PrestacaoLocalizada>
 		TextView descricao = (TextView) convertView.findViewById(R.id.descricao);
 		
 		//TODO: classificação sera estrelas, tera uma regra de a cada 10 recmoendações recebera uma estrala
-		TextView classificacao = (TextView) convertView.findViewById(R.id.classificacao);
+		RatingBar classificacao = (RatingBar) convertView.findViewById(R.id.classificacao);
 		TextView recomendacao = (TextView) convertView.findViewById(R.id.recomendacoes);
 		TextView data = (TextView) convertView.findViewById(R.id.dataCriacao);
 		TextView nomeUsuario = (TextView) convertView.findViewById(R.id.nomeUsuario);
@@ -112,11 +113,11 @@ public class PrestarServicoListAdapter extends ArrayAdapter<PrestacaoLocalizada>
 		dadosDestino.setText(localizada.getPrestarServicoJSON().getEnderecoDestino());
 		descricao.setText(localizada.getPrestarServicoJSON().getDescricao() != null ? 
 				               localizada.getPrestarServicoJSON().getDescricao() : "Descrição default");
-		classificacao.setText("Text fixo  no código");
+		classificacao.setRating(1f);
 		recomendacao.setText("100 vezes recomendado!");
 		nomeUsuario.setText(localizada.getUsuario().getNome());
-		data.setText("Data de criação: "+ServiceBoxMobileUtil.dateToString(localizada.getPrestarServicoJSON().
-				getData(), DateFormat.FULL));
+		data.setText("Criação em: "+ServiceBoxMobileUtil.dateToString(localizada.getPrestarServicoJSON().
+				getData(), DateFormat.SHORT));
 		
 		
 

@@ -92,6 +92,8 @@ public class ItinerarioActivity extends CommonActivity {
     	private TextView labelBUscarEm;
     	private TextView labelDistancia;
     	
+    	private double distanciaMaxima = 0.0;
+    	
     	@Override
         public View onCreateView(LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState)
@@ -175,8 +177,8 @@ public class ItinerarioActivity extends CommonActivity {
 
      			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
      				progressChanged = progress;
-     				 double value = ((double)progress / 10.0);
-     				 labelDistancia.setText(getMensagem(value));
+     				distanciaMaxima = ((double)progress / 10.0);
+     				labelDistancia.setText(getMensagem(distanciaMaxima));
      			}
 
      			public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -277,7 +279,7 @@ public class ItinerarioActivity extends CommonActivity {
 	       		    
 		       		itinerario.setDestino(enderecoDestino);
 	            	itinerario.setPartida(enderecoPartida); 
-	            	itinerario.setDistanciaMaxima(0.0);
+	            	itinerario.setDistanciaMaxima(distanciaMaxima);
 	            	itinerario.setDistanciaPartidaDestino(SphericalUtil.computeDistanceBetween(de, para));
 	            	itinerario.setTodos(todos.isChecked());
 	            	itinerario.setSoAmigos(soAmigos.isChecked());
