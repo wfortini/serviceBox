@@ -45,6 +45,7 @@
     <string name="label_sex">SEX</string>
     <string name="label_sab">SAB</string>
     <string name="label_horario">Horário</string>
+    <string name="lebel_icone_notificacao">Notificação</string>
 
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
@@ -72,6 +73,7 @@
     <string name="buscar_a">Buscar à </string>
     <string name="metro_ponto_partida">metros do meu ponto de partida</string>
     <string name="km_ponto_partida">kilômetros do meu ponto de partida</string>
+    <string name="msg_distancia_default">Buscar à distâmcia de:</string>
 
     <!-- Activity Planejamento -->
     <string name="domingo">Domingo</string>
