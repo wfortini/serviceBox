@@ -56,11 +56,11 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
 			
 			ServicoLocalizado servicoLocalizado = new ServicoLocalizado();
 			
-            for (Map.Entry<String, Object> e : m.entrySet()) {
-            	
-            	Node nodeUsuario = (Node) e.getValue();            	
+            for (Map.Entry<String, Object> e : m.entrySet()) {           	           	
             	
             	if(e.getKey().equals("(Usuario)")){
+            		
+            		Node nodeUsuario = (Node) e.getValue(); 
             		
             		Usuario u = new Usuario();
             		u.setId(nodeUsuario.getId()); 
@@ -73,8 +73,11 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
             		u.setSexo( (String) nodeUsuario.getProperty("sexo") );
             		if(nodeUsuario.hasProperty("fotoPerfil") && nodeUsuario.getProperty("fotoPerfil") != null)
             		   u.setFotoPerfil( (String) nodeUsuario.getProperty("fotoPerfil") );
-            		if(nodeUsuario.hasProperty("dataCadastro") && nodeUsuario.getProperty("dataCadastro") != null)
-            		  u.setDataCadastro((Date) nodeUsuario.getProperty("dataCadastro") );
+            		if(nodeUsuario.hasProperty("dataCadastro") && nodeUsuario.getProperty("dataCadastro") != null){
+            			String data = (String) nodeUsuario.getProperty("dataCadastro");
+            			u.setDataCadastro(new Date(new Long(data)));
+            		}
+            		 
             		if(nodeUsuario.hasProperty("telefone") && nodeUsuario.getProperty("telefone") != null){
             			u.setTelefone((String) nodeUsuario.getProperty("telefone") );	
             		}            		
@@ -82,8 +85,8 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
             		
             	}else if(e.getKey().equals("PrestarServico")){
             		
-            		//TODO: este código está errado o node aqui e PrestarServico
-            		PrestarServico prestar = this.prestarServicoRepository.findById(nodeUsuario.getId());
+            		Node nodePrestar = (Node) e.getValue();             		
+            		PrestarServico prestar = this.prestarServicoRepository.findById(nodePrestar.getId());
             		servicoLocalizado.setPrestarServico(prestar);
             		
             	}            
