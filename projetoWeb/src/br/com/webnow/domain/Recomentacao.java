@@ -2,19 +2,29 @@ package br.com.webnow.domain;
 
 import java.util.Date;
 
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 @TypeAlias("recomendacao")
 public class Recomentacao extends BaseEntity{
 	
+	
+	@RelatedTo(type = "RECOMENDOU_ALGUEM", direction = Direction.BOTH)
 	private Usuario usuarioQueRecomenda;
+	
+	@RelatedTo(type = "RECOMENDOU_ALGO", direction = Direction.BOTH)
 	private Servico servicoRecomendado;
+	
 	private Date dataRecomendacao;
 	private String recomendacao;
 	
 	
+	public Recomentacao() {
+		
+	}
 	
 	
 	public Usuario getUsuarioQueRecomenda() {
