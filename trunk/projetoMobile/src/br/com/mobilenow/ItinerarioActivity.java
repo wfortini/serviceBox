@@ -90,6 +90,7 @@ public class ItinerarioActivity extends CommonActivity {
     	private String operacaoEmAbndamento;
     	private SeekBar distanciaLocalizacao;
     	private TextView labelBUscarEm;
+    	private TextView labelDistancia;
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -114,11 +115,17 @@ public class ItinerarioActivity extends CommonActivity {
      		 destino = (AutoCompleteTextView) v.findViewById(R.id.destino);
      		 distanciaLocalizacao = (SeekBar) v.findViewById(R.id.distancia_localizacao);
      		 labelBUscarEm = (TextView) v.findViewById(R.id.label_buscar_em); 
-     	
+     	     labelDistancia = (TextView) v.findViewById(R.id.label_distancia);
      		 
      		todos = (Switch) v.findViewById(R.id.todos_switch);
    		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
    		    amigosDosAmigos = (Switch) v.findViewById(R.id.soAmigosDoAmigos_switch);
+   		    
+   		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
+   			distanciaLocalizacao.setVisibility(View.VISIBLE);
+   			labelDistancia.setVisibility(View.VISIBLE);
+   			
+   		 }
      		
    		    /** click botao confirma **/
            confirmaItinerariodBtn.setOnClickListener(new OnClickListener() {
@@ -169,16 +176,12 @@ public class ItinerarioActivity extends CommonActivity {
      			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
      				progressChanged = progress;
      				 double value = ((double)progress / 10.0);
-     				 labelBUscarEm.setText(String.valueOf(value));
+     				 labelDistancia.setText(getMensagem(value));
      			}
 
-     			public void onStartTrackingTouch(SeekBar seekBar) {
-     				
-     			}
+     			public void onStartTrackingTouch(SeekBar seekBar) {}
 
-     			public void onStopTrackingTouch(SeekBar seekBar) {
-     				
-     			}
+     			public void onStopTrackingTouch(SeekBar seekBar) {}
      		});
              
              
@@ -188,7 +191,27 @@ public class ItinerarioActivity extends CommonActivity {
              
          }
     	 
-    	 public void finishedClicked() {
+    	 /**
+    	  * Retorna uma mensagem conforme a distancia
+    	  * @param value
+    	  * @return
+    	  */
+    	 private String getMensagem(double value){    		 
+    		 String retorno = null;    		 
+    		 if (value > 1){
+    			 retorno = getString(R.string.buscar_a).concat(" ") + value + " ".concat(
+    					 getString(R.string.km_ponto_partida));
+    			 
+    		 }else{
+    			 retorno = getString(R.string.buscar_a).concat(" ") + value +" ".concat(
+    					 getString(R.string.metro_ponto_partida)); 
+    		 }
+    		 
+    		 return retorno;
+    		 
+    	 }
+    	 
+    	 private void finishedClicked() {
 
     		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
     			 Intent intent = new Intent(getActivity(), ListarPrestacaoServicoActivity.class);
