@@ -213,10 +213,10 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		@Override
 		public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 		 
-			//Info info = mAdapter.getItem(position);
-					
+			PrestacaoLocalizada localizada = mAdapter.getItem(position);
+			Info info = ServiceBoxMobileUtil.preencherObjetoInfo(localizada);					
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
-		    //intent.putExtra(InfoActivity.INFO_SERVICO, info);
+		    intent.putExtra(InfoActivity.INFO_SERVICO, info);
 		    getActivity().startActivity(intent);
 		  
 		  /**  usar da forma abaixo como no exemplo
