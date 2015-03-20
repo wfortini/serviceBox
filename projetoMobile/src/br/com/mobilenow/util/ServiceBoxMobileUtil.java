@@ -31,6 +31,7 @@ import br.com.servicebox.common.domain.TipoServico;
 import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.ListaServicoResponse;
+import br.com.servicebox.common.net.PrestacaoLocalizada;
 import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
@@ -271,5 +272,65 @@ public class ServiceBoxMobileUtil {
 	  }
 	   
 	  return date; 
+   }
+   
+   public static Info preencherObjetoInfo(PrestacaoLocalizada localizada){
+	   
+	          Info info = new Info();
+	      
+	         info.setDescricao(localizada.getPrestarServicoJSON().getDescricao());
+	         info.setAtiva(localizada.getPrestarServicoJSON().isAtivo());
+	        info.setData(localizada.getPrestarServicoJSON().getData());
+	        info.setNodeId(localizada.getPrestarServicoJSON().getNodeId());
+		   
+		   Itinerario itinerario = new Itinerario();
+		   GeoPartida partida = new GeoPartida();
+		   GeoDestino destino = new GeoDestino();
+		   
+			partida.setEnderecoPartida(localizada.getPrestarServicoJSON().getEnderecoPartida());
+			partida.setLatitude(localizada.getPrestarServicoJSON().getLatitudePartida());
+			partida.setLongitude(localizada.getPrestarServicoJSON().getLongitudePartida());
+			
+			destino.setEnderecoDestino(localizada.getPrestarServicoJSON().getEnderecoDestino());
+			destino.setLatitude(localizada.getPrestarServicoJSON().getLatitudeDestino());
+			destino.setLongitude(localizada.getPrestarServicoJSON().getLongitudeDestino());
+			
+			itinerario.setPartida(partida);
+			itinerario.setDestino(destino);
+			itinerario.setSoAmigos(localizada.getPrestarServicoJSON().isSoAmigos());
+			itinerario.setSoAmigosDosAmigos(localizada.getPrestarServicoJSON().isSoAmigosDosAmigos());
+			itinerario.setTodos(localizada.getPrestarServicoJSON().isTodos());
+			itinerario.setDistanciaMaxima(localizada.getPrestarServicoJSON().getDistanciaMaxima());
+			itinerario.setDistanciaPartidaDestino(localizada.getPrestarServicoJSON().getDistanciaPartidaDestino());
+			
+			info.setItinerario(itinerario);
+			
+			Planejamento planejamento = new Planejamento();
+			planejamento.setDomingo(localizada.getPrestarServicoJSON().isDomingo());
+			planejamento.setSegunda(localizada.getPrestarServicoJSON().isSegunda());
+			planejamento.setTerca(localizada.getPrestarServicoJSON().isTerca());
+			planejamento.setQuarta(localizada.getPrestarServicoJSON().isQuarta());
+			planejamento.setQuinta(localizada.getPrestarServicoJSON().isQuinta());
+			planejamento.setSexta(localizada.getPrestarServicoJSON().isSexta());
+			planejamento.setSabado(localizada.getPrestarServicoJSON().isSabado());
+			planejamento.setHoraFixa(localizada.getPrestarServicoJSON().getHoraFixa());
+			planejamento.setHoraEntre(localizada.getPrestarServicoJSON().getHoraEntre());
+			planejamento.setHoraE(localizada.getPrestarServicoJSON().getHoraE());
+			planejamento.setLugares(localizada.getPrestarServicoJSON().getLugares());
+			
+			info.setApelidoUsuario(localizada.getUsuario().getApelido());
+			info.setDataCadastroUsuario(localizada.getUsuario().getDataCadastro());
+			info.setFotoPerfilUsuario(localizada.getUsuario().getFotoPerfil());
+			info.setLoginUsuario(localizada.getUsuario().getLogin());
+			info.setNodeIdUsuario(localizada.getUsuario().getNodeId());
+			info.setNomeUsuario(localizada.getUsuario().getNome());
+			info.setSobreNomeUsuario(localizada.getUsuario().getSobreNome());
+			info.setSexoUsuario(localizada.getUsuario().getSexo());
+			info.setTelefoneUsuario(localizada.getUsuario().getTelefone());
+			
+			info.setPlanejamento(planejamento);
+			
+			return info;
+	   
    }
 }
