@@ -35,7 +35,8 @@ public class Usuario extends BaseEntity implements Serializable{
 	private String apelido;
 	private String fotoPerfil;
 	private Date dataCadastro;
-	private String telefone;	
+	private String telefone;
+	private String regIdGCM;
 
 	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
 	private Set<Usuario> amigos;
@@ -176,6 +177,15 @@ public class Usuario extends BaseEntity implements Serializable{
 	public void setRecomendacoes(Set<Recomentacao> recomendacoes) {
 		this.recomendacoes = recomendacoes;
 	}
+
+	public String getRegIdGCM() {
+		return regIdGCM;
+	}
+
+	public void setRegIdGCM(String regIdGCM) {
+		this.regIdGCM = regIdGCM;
+	}
+	
 	
 	
 
