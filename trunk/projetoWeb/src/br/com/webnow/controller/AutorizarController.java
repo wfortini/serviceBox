@@ -135,6 +135,7 @@ public class AutorizarController {
             @RequestParam(value = "sexo") String sexo,
             @RequestParam(value = "apelido") String apelido,
             @RequestParam(value = "telefone") String telefone,
+            @RequestParam(value = "regIdGCM") String regIdGCM,
             @RequestParam(value = "imagemPerfil") String imagemPerfil) 
     
     {
@@ -144,6 +145,7 @@ public class AutorizarController {
     		
 	    	Usuario usuario = new Usuario(login,senha,nome,sobrenome,sexo,apelido);
 	    	usuario.setTelefone(telefone);
+	    	usuario.setRegIdGCM(regIdGCM);
 	    	
 	    	usuario.setDataCadastro(new Date());
 	    	          // não estou tratando se o arquivo da foto já exite
