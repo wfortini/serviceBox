@@ -3,7 +3,6 @@ package br.com.mobilenow;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import br.com.mobilenow.fragment.UsuarioActivity;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.util.CommonUtils;
 

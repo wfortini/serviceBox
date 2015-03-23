@@ -1,4 +1,4 @@
-package br.com.mobilenow.fragment;
+package br.com.mobilenow;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +40,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.R;
-import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.domain.Usuario;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
@@ -59,7 +58,7 @@ public class UsuarioActivity extends CommonActivity{
 	static final String TAG = UsuarioActivity.class.getSimpleName();
 	private static final int REQUEST_GALLERY = 0;
 	private static final int REQUEST_CAMERA = 1;
-	protected static final int RESULT_CODE = 123;
+	public static final int RESULT_CODE = 123;
 	
 	
 		
@@ -604,6 +603,7 @@ public class UsuarioActivity extends CommonActivity{
 					 map.add("sexo", usuario.getSexo());
 					 map.add("apelido", usuario.getApelido());
 					 map.add("telefone", usuario.getTelefone());
+					 map.add("regIdGCM", usuario.getTelefone());
 					 map.add("imagemPerfil", mUploadImageFile.getName());
 					 
 		             map.add("file", new FileSystemResource(mUploadImageFile));

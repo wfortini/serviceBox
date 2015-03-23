@@ -142,6 +142,7 @@ public class ServiceBoxMobileUtil {
   	 usuario.setFotoPerfil(response.getFotoPerfil());
   	 usuario.setTelefone(response.getTelefone());
   	 usuario.setDataCadastro(response.getDataCadastro());
+  	 usuario.setRegIdGCM(response.getRegIdGCM());
   	 
   	 if (response.getServicoJSONs() != null){
                
@@ -327,6 +328,7 @@ public class ServiceBoxMobileUtil {
 			info.setSobreNomeUsuario(localizada.getUsuario().getSobreNome());
 			info.setSexoUsuario(localizada.getUsuario().getSexo());
 			info.setTelefoneUsuario(localizada.getUsuario().getTelefone());
+			info.setRegIdGCMUsuario(localizada.getUsuario().getRegIdGCM());
 			
 			info.setPlanejamento(planejamento);
 			

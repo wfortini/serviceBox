@@ -28,6 +28,7 @@ public class Info implements Parcelable{
    private String fotoPerfilUsuario;
    private Date dataCadastroUsuario;
    private String telefoneUsuario;
+   private String regIdGCMUsuario;
 
 	public Info() {
 		// TODO Auto-generated constructor stub
@@ -51,6 +52,7 @@ public class Info implements Parcelable{
 		this.fotoPerfilUsuario = usuario.getFotoPerfil();
 		this.dataCadastroUsuario = usuario.getDataCadastro();
 		this.telefoneUsuario = usuario.getTelefone();
+		this.regIdGCMUsuario = usuario.getRegIdGCM();
 	}
 	
 
@@ -80,6 +82,7 @@ public class Info implements Parcelable{
 		dest.writeByte((byte) (ativa ? 1 : 0));
 		dest.writeLong(data.getTime());
 		dest.writeString(descricao);
+		dest.writeString(regIdGCMUsuario);
 		
 	}
 	
@@ -100,6 +103,7 @@ public class Info implements Parcelable{
         ativa = in.readByte() == 1;
         data = new Date(in.readLong());
         descricao = in.readString();
+        regIdGCMUsuario = in.readString();
         
     }
 	
@@ -256,6 +260,14 @@ public class Info implements Parcelable{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getRegIdGCMUsuario() {
+		return regIdGCMUsuario;
+	}
+
+	public void setRegIdGCMUsuario(String regIdGCMUsuario) {
+		this.regIdGCMUsuario = regIdGCMUsuario;
 	}
 	
 	
