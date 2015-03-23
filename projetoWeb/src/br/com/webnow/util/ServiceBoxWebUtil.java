@@ -227,6 +227,8 @@ public class ServiceBoxWebUtil {
 				  ur.setFotoPerfil(sl.getUsuario().getFotoPerfil());
 				  ur.setSexo(sl.getUsuario().getSexo());
 				  ur.setTelefone(sl.getUsuario().getTelefone());
+				  ur.setRegIdGCM(sl.getUsuario().getRegIdGCM());
+				  
 				  
 				  pl.setUsuario(ur);
 				  
