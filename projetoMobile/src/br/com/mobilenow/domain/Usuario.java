@@ -31,6 +31,7 @@ public class Usuario implements Parcelable{
 	private String fotoPerfil;
 	private Date dataCadastro;
 	private String telefone;
+	private String regIdGCM;
 	
 	private Set<Usuario> amigos;	
 	private Set<Servico> servicosDisponiveis;	
@@ -60,6 +61,7 @@ public class Usuario implements Parcelable{
 		dest.writeString(fotoPerfil);
 		dest.writeLong(dataCadastro.getTime());
 		dest.writeString(telefone);
+		dest.writeString(regIdGCM);
 		//dest.writeTypedList(new ArrayList<Usuario>(getAmigos()));
 		//dest.writeTypedList(new ArrayList<Servico>(servicosDisponiveis));
 		
@@ -76,6 +78,7 @@ public class Usuario implements Parcelable{
 		apelido = in.readString();
 		dataCadastro = new Date(in.readLong());
 		telefone = in.readString();
+		regIdGCM = in.readString();
 		
 		/**
 		if(amigos == null)
@@ -248,6 +251,16 @@ public class Usuario implements Parcelable{
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	
+	
+
+	public String getRegIdGCM() {
+		return regIdGCM;
+	}
+
+	public void setRegIdGCM(String regIdGCM) {
+		this.regIdGCM = regIdGCM;
 	}
 
 	public Usuario(String login, String password, String nome,

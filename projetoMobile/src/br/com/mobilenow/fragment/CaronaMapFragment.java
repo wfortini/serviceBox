@@ -22,6 +22,7 @@ import br.com.mobilenow.PlanejamentoActivity;
 import br.com.mobilenow.PrestarServicoActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
+import br.com.mobilenow.UsuarioActivity;
 import br.com.mobilenow.componente.SherlockMapFragment;
 import br.com.mobilenow.domain.Itinerario;
 import br.com.mobilenow.domain.Planejamento;
