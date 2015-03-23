@@ -28,6 +28,7 @@ public class UsuarioResponse extends Response{
 	 private String fotoPerfil;
 	 private Date dataCadastro;
 	 private String telefone;
+	 private String regIdGCM;
 	 
 	 private ServicoJSON[] servicoJSONs;
 	
@@ -119,7 +120,21 @@ public class UsuarioResponse extends Response{
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	} 
+	}
+
+
+
+	public String getRegIdGCM() {
+		return regIdGCM;
+	}
+
+
+
+	public void setRegIdGCM(String regIdGCM) {
+		this.regIdGCM = regIdGCM;
+	}
+	
+	
 	
 
 }
