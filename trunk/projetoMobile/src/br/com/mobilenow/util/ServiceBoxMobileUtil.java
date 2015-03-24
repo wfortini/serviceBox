@@ -14,7 +14,11 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.text.TextUtils;
+import android.util.Log;
 import br.com.mobilenow.R;
 import br.com.mobilenow.domain.Carona;
 import br.com.mobilenow.domain.Estacionamento;
@@ -32,9 +36,9 @@ import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.ListaServicoResponse;
 import br.com.servicebox.common.net.PrestacaoLocalizada;
-import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.servicebox.common.net.Response;
+import br.com.servicebox.common.net.UsuarioResponse;
 
 public class ServiceBoxMobileUtil {
 	
@@ -335,4 +339,16 @@ public class ServiceBoxMobileUtil {
 			return info;
 	   
    }
+   
+   public static int getAppVersion(Context context) {
+		try {
+			PackageInfo packageInfo = context.getPackageManager()
+					.getPackageInfo(context.getPackageName(), 0);
+			return packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			Log.d("RegisterActivity",
+					"I never expected this! Going down, going down!" + e);
+			throw new RuntimeException(e);
+		}
+	}
 }
