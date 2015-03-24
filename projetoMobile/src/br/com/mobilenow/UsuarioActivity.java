@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
-import java.nio.charset.Charset;
 import java.util.Date;
 
 import org.holoeverywhere.LayoutInflater;
@@ -15,15 +14,13 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -39,7 +36,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import br.com.mobilenow.R;
 import br.com.mobilenow.domain.Usuario;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
@@ -53,12 +49,17 @@ import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.android.common.util.ImageUtils;
 import br.com.servicebox.common.net.Response;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 public class UsuarioActivity extends CommonActivity{
 	
 	static final String TAG = UsuarioActivity.class.getSimpleName();
 	private static final int REQUEST_GALLERY = 0;
 	private static final int REQUEST_CAMERA = 1;
 	public static final int RESULT_CODE = 123;
+	
+	private static final String PROJETO_ID = "994547673653";
+
 	
 	
 		
@@ -96,6 +97,10 @@ public class UsuarioActivity extends CommonActivity{
 		private RadioGroup rgSexo;
 		private Usuario usuario;
 		private ProgressDialog progressDialog;
+		
+		private GoogleCloudMessaging gcm;
+		private Context context;
+		private String regId;
 		
 		private SelectImageDialogFragment imageSelectionFragment;
 		/**
@@ -180,7 +185,7 @@ public class UsuarioActivity extends CommonActivity{
 		
 		void init(View v, Bundle savedInstanceState)
 		{
-
+            this.context = ServiceBoxApplication.getContext();
 		    edLogin = (EditText) getView().findViewById(R.id.login);
 			edNome = (EditText) getView().findViewById(R.id.nome);
 			edSobrenome = (EditText) getView().findViewById(R.id.sobrenome);
@@ -196,7 +201,7 @@ public class UsuarioActivity extends CommonActivity{
 			
 			Button btRegistrar = (Button) getView().findViewById(R.id.registrar);
 			btRegistrar.setOnClickListener(this);		    
-		    v.findViewById(R.id.image_upload).setOnClickListener(this);		    
+		    v.findViewById(R.id.image_upload).setOnClickListener(this);	   
 		
 		    Intent intent = getActivity().getIntent();
 		    boolean showOptions = true;
@@ -464,7 +469,7 @@ public class UsuarioActivity extends CommonActivity{
 						usuario = new Usuario(edLogin.getText().toString(), edSenha.getText().toString(), 
 								           edNome.getText().toString(), edSobrenome.getText().toString(), sexo, "");
 										
-				        usuario.setTelefone(edTelefone.getText().toString());
+				        usuario.setTelefone(edTelefone.getText().toString());				        
 				        
 		            if (mUploadImageFile != null) {
 		            	
@@ -593,6 +598,8 @@ public class UsuarioActivity extends CommonActivity{
 					final String url = getString(R.string.ip_servidor_servicebox).
 							                   concat(":8080/projetoWeb/registrarUsuario.json");
 					
+					registrarDispositivoGCM();
+					
 					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
                      
@@ -603,7 +610,7 @@ public class UsuarioActivity extends CommonActivity{
 					 map.add("sexo", usuario.getSexo());
 					 map.add("apelido", usuario.getApelido());
 					 map.add("telefone", usuario.getTelefone());
-					 map.add("regIdGCM", usuario.getTelefone());
+					 map.add("regIdGCM", usuario.getRegIdGCM());
 					 map.add("imagemPerfil", mUploadImageFile.getName());
 					 
 		             map.add("file", new FileSystemResource(mUploadImageFile));
@@ -625,7 +632,7 @@ public class UsuarioActivity extends CommonActivity{
 					CommonUtils.error(TAG, rae.getMessage());
 					response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
 				} catch (Exception e) {
-					Log.e("UsuarioActivity", e.getMessage());
+					Log.e(TAG, e.getMessage());
 					response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
 				}
 				
@@ -666,7 +673,21 @@ public class UsuarioActivity extends CommonActivity{
 			}
 			
 		} 
-
+	
+	private void registrarDispositivoGCM() throws Exception{
+		String msg = "";
+		
+			if (gcm == null) {
+				gcm = GoogleCloudMessaging.getInstance(context);
+			}
+			regId = gcm.register(PROJETO_ID);
+			this.usuario.setRegIdGCM(regId);
+			Log.d(TAG, "Registro em segundo plano realizado: "
+					+ regId);
+			msg = "Dispositivo registrado, ID=" + regId;		
+		
+		
+	}	
 		
 		
 	}
