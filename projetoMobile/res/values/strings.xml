@@ -46,6 +46,7 @@
     <string name="label_sab">SAB</string>
     <string name="label_horario">Horário</string>
     <string name="lebel_icone_notificacao">Notificação</string>
+    <string name="serviceBox_notificacao">ServiceBox Notificação</string>
 
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
