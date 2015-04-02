@@ -37,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import br.com.mobilenow.domain.Usuario;
+import br.com.mobilenow.exception.GCMException;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonClosableOnRestoreDialogFragment;
@@ -58,10 +59,7 @@ public class UsuarioActivity extends CommonActivity{
 	private static final int REQUEST_CAMERA = 1;
 	public static final int RESULT_CODE = 123;
 	
-	private static final String PROJETO_ID = "994547673653";
-
-	
-	
+	private static final String PROJETO_ID = "994547673653";	
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -620,7 +618,6 @@ public class UsuarioActivity extends CommonActivity{
 
 		             HttpEntity<MultiValueMap<String, Object>> imageEntity = new HttpEntity<MultiValueMap<String, Object>>(map, imageHeaders);
 
-	                //restTemplate.exchange(url, HttpMethod.POST, imageEntity, Usuario.class);
 		             Response response = null;
 		             if (GuiUtils.checkOnline()){
 					         response = restTemplate.postForObject(url, imageEntity, Response.class);
@@ -631,6 +628,9 @@ public class UsuarioActivity extends CommonActivity{
 				}catch(ResourceAccessException rae){
 					CommonUtils.error(TAG, rae.getMessage());
 					response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+				}catch(GCMException ge){
+					CommonUtils.error(TAG, "Falha no registro GCM " + ge.getMessage());
+					response = new Response(false, "Falha no cadastro do usuário, \n falha ao tenta registrar dispositivo no servidor GCM", null, Response.ERRO_DESCONHECIDO);		
 				} catch (Exception e) {
 					Log.e(TAG, e.getMessage());
 					response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
@@ -674,9 +674,14 @@ public class UsuarioActivity extends CommonActivity{
 			
 		} 
 	
-	private void registrarDispositivoGCM() throws Exception{
+	
+	/**
+	 * Registrar Dispositivo android no GCM e setar o id na variavel RegId
+	 * @throws GCMException
+	 */
+	private void registrarDispositivoGCM() throws GCMException{
 		String msg = "";
-		
+		try{
 			if (gcm == null) {
 				gcm = GoogleCloudMessaging.getInstance(context);
 			}
@@ -685,7 +690,10 @@ public class UsuarioActivity extends CommonActivity{
 			Log.d(TAG, "Registro em segundo plano realizado: "
 					+ regId);
 			msg = "Dispositivo registrado, ID=" + regId;		
-		
+		}catch(Exception e){
+			Log.e(TAG, e.getMessage());
+			throw new GCMException(e.getMessage());
+		}
 		
 	}	
 		

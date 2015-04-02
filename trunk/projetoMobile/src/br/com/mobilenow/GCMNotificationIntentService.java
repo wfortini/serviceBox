@@ -1,4 +1,4 @@
-package br.com.mobilenow.service;
+package br.com.mobilenow;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -8,9 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import br.com.mobilenow.MainActivity;
 import br.com.mobilenow.R;
-import br.com.mobilenow.broadcast.GcmBroadcastReceiver;
+import br.com.servicebox.android.common.util.CommonUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -20,7 +19,7 @@ public class GCMNotificationIntentService extends IntentService {
 	private NotificationManager mNotificationManager;
 	NotificationCompat.Builder builder;
 	
-	static final String GOOGLE_PROJECT_ID = "512218038480";
+	static final String GOOGLE_PROJECT_ID = "994547673653";
 	static final String MESSAGE_KEY = "mensagem";
 
 	public GCMNotificationIntentService() {
@@ -31,6 +30,8 @@ public class GCMNotificationIntentService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		
+		CommonUtils.debug(TAG, "Iniciando GCMNotificationIntentService");
 		
 		Bundle extras = intent.getExtras();
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
@@ -60,6 +61,8 @@ public class GCMNotificationIntentService extends IntentService {
 			}
 		}
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
+		
+		CommonUtils.debug(TAG, "Finalizando GCMNotificationIntentService");
 	}
 
 	/**
