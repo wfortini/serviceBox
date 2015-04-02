@@ -137,7 +137,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 								preencheObjetoPrestarServicoRequest(itinerario, null);    
 						request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());
 						request.setLogin(ServiceBoxApplication.getUsuario().getLogin());
-						request.setServicoPrestado(TipoServico.CARONA.getCodigo());
+						request.setServicoPrestado(TipoServico.CARONA.getCodigo()); //TODO: aqui tenho que alterar pra obetr serviço dinamicamente
 						
 			             Response response = null;
 			             if (GuiUtils.checkOnline()){
