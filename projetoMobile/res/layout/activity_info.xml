@@ -267,13 +267,32 @@
 		           </LinearLayout>     
              
         </LinearLayout>
-    </ScrollView>  
-
-    <Button
-        android:id="@+id/registrar"
-        style="@style/ServiceBox.YellowButton"
+    </ScrollView> 
+    
+    <LinearLayout
+        android:id="@+id/linear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bt_registra"  />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_solicitar"
+            style="@style/ServiceBox.YellowButton"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.52"
+            android:text="@string/solicitar_carona"
+            android:textSize="@dimen/bt_solicitar" />
+
+        <Button
+            android:id="@+id/bt_visualizar"
+            style="@style/ServiceBox.YellowButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.11"
+            android:text="@string/bt_registra"
+            android:textSize="@dimen/bt_visualizar" />
+
+    </LinearLayout>
 
 </LinearLayout>

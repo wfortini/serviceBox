@@ -12,5 +12,10 @@
     <dimen name="listview_prestarservico_genero">13dip</dimen>
     <dimen name="listview_prestarservico_ano">12dip</dimen>
     
+    <dimen name="bt_solicitar">16dp</dimen>
+    <dimen name="bt_visualizar">16dp</dimen>
+    
+    
+    
 
 </resources>
