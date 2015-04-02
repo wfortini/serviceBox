@@ -26,6 +26,9 @@ public class Solicitacao extends BaseEntity implements Serializable{
 	private Boolean ativa;
 	private Integer statusSolicitacao;
 	
+	@RelatedTo(type = "SOLICITOU_PARA", direction = INCOMING)
+	private PrestarServico prestarServico;
+	
 	public Solicitacao() {
 		// TODO Auto-generated constructor stub
 	}
@@ -73,6 +76,18 @@ public class Solicitacao extends BaseEntity implements Serializable{
 	public void setStatusSolicitacao(Integer statusSolicitacao) {
 		this.statusSolicitacao = statusSolicitacao;
 	}
+
+
+	public PrestarServico getPrestarServico() {
+		return prestarServico;
+	}
+
+
+	public void setPrestarServico(PrestarServico prestarServico) {
+		this.prestarServico = prestarServico;
+	}
+	
+	
 	
 	
 	
