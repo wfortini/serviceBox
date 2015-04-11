@@ -28,6 +28,7 @@ import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.TipoServico;
+import br.com.servicebox.common.domain.TipoSolicitacao;
 import br.com.servicebox.common.net.Response;
 import br.com.servicebox.common.net.ServicoResponse;
 
@@ -38,6 +39,8 @@ public class InfoActivity extends CommonActivity {
 	
 	public static final String TAG = InfoActivity.class.getSimpleName();
 	public static final String INFO_SERVICO = "INFO_SERVICO";
+	public static final String INFO_MODO_SOLICITAR = "INFO_MODO_SOLICITAR";
+	public static final String EXIBIR_INFO_NO_MODO = "EXIBIR_INFO_NO_MODO";
     public static final int RESULT_CODE = 456;   
 	
     @Override
@@ -62,13 +65,15 @@ public class InfoActivity extends CommonActivity {
     	
     	private TextView tvDiasDaSemana;    	
     	private TextView tvHorarioPlanejado;
+    	private String exibirNoModo;
     	
     	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
     	
     	
     	private Info info;
     	
-    	private Button btConfirma;
+    	private Button btSolicitar;
+    	private Button btVisualizar;
     	
     	@Override
     	public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +107,8 @@ public class InfoActivity extends CommonActivity {
          }
     	 
     	private void init(View v){
+    		
+    		exibirNoModo = getActivity().getIntent().getStringExtra(EXIBIR_INFO_NO_MODO);
     		
     		StringBuilder html = retornaDiasSemana();    		 
     		
@@ -137,8 +144,16 @@ public class InfoActivity extends CommonActivity {
     				getString(R.string.ip_servidor_servicebox), info.getFotoPerfilUsuario(), 
     				info.getLoginUsuario()), imageLoader);
     		 
-    		 btConfirma = (Button) v.findViewById(R.id.bt_solicitar);
-    		 btConfirma.setOnClickListener(new OnClickListener() {
+    		 btSolicitar = (Button) v.findViewById(R.id.bt_solicitar);
+    		 btVisualizar = (Button) v.findViewById(R.id.bt_visualizar);
+    		 
+    		 if(exibirNoModo != null && exibirNoModo.equals(INFO_MODO_SOLICITAR)){
+    			 btSolicitar.setVisibility(View.VISIBLE);
+    			 btVisualizar.setVisibility(View.VISIBLE);
+    		 }
+    		 
+    		 
+    		 btSolicitar.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -198,9 +213,9 @@ public class InfoActivity extends CommonActivity {
          
          
          /** processamento assincrono **/	
-     	private class RequisicaoTask extends AsyncTask<Void, Void, ServicoResponse>{
+     	private class RequisicaoTask extends AsyncTask<Void, Void, Response>{
      			
-     		ServicoResponse response = null;
+     		Response response = null;
      			
      			@Override
      	        protected void onPreExecute() {
@@ -213,18 +228,20 @@ public class InfoActivity extends CommonActivity {
      			}
 
      			@Override
-     			protected ServicoResponse doInBackground(Void... params) {    				
+     			protected Response doInBackground(Void... params) {    				
      				
      				try {
      					final String url = getString(R.string.ip_servidor_servicebox)
-     							   .concat(":8080/projetoWeb/adicionarServico.json");
+     							   .concat(":8080/projetoWeb/solicitarServico.json");
      					
      					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
      					
      					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();                   
      					
-     					 map.add("login", ServiceBoxApplication.getUsuario().getLogin());     					
-     					 map.add("tipoServico", TipoServico.CARONA.getCodigo().toString());
+     					 map.add("idUsuarioSolicitante", ServiceBoxApplication.getUsuario().getNodeId().toString());     					
+     					 map.add("idUsuarioSolicitado", info.getNodeIdUsuario().toString());
+     					 map.add("tipoSolicitacao", TipoSolicitacao.CARONA.getCodigo().toString());
+     					 map.add("idPrestacao", info.getNodeId().toString());     					 
      					 
      		             HttpHeaders headers = new HttpHeaders();
      		             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -232,17 +249,17 @@ public class InfoActivity extends CommonActivity {
      		             HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map, headers);
      	                    		            
      		             if (GuiUtils.checkOnline()){
-     					         response = restTemplate.postForObject(url, entity, ServicoResponse.class);
+     					         response = restTemplate.postForObject(url, entity, Response.class);
      		             }
      		             
      		             return response;
      					
      				}catch(ResourceAccessException rae){
      					CommonUtils.error(TAG, rae.getMessage());
-     					response = new ServicoResponse(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+     					response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
      				} catch (Exception e) {
      					Log.e(TAG, e.getMessage());
-     					response = new ServicoResponse(false, "Fallha na inclusão do serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+     					response = new Response(false, "Fallha na inclusão do serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
      				}
      				
      				return response;
@@ -266,7 +283,7 @@ public class InfoActivity extends CommonActivity {
      			}
      			
      			@Override
-     			protected void onPostExecute(ServicoResponse result) {				
+     			protected void onPostExecute(Response result) {				
      				super.onPostExecute(result);
      				progressDialog.dismiss();
      				this.retornoRegistro(result);

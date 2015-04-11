@@ -202,7 +202,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			  } else if (item.getItemId() == R.id.item_menu_pegar_carona) {
 				  
 				  Intent i = new Intent(getActivity(), ItinerarioActivity.class); 
-				  i.putExtra(ItinerarioActivity.QUAL_OPERACAO, ItinerarioActivity.LOCALIZAR_CARONA);
+				  i.putExtra(ItinerarioActivity.QUAL_OPERACAO, ItinerarioActivity.LOCALIZAR_ITINERARIO);
                   startActivity(i);
 				  
 			  } else if (item.getItemId() == R.id.item_menu_motorista_rodada_carona) {
