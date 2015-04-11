@@ -217,6 +217,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 			Info info = ServiceBoxMobileUtil.preencherObjetoInfo(localizada);					
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
 		    intent.putExtra(InfoActivity.INFO_SERVICO, info);
+		    intent.putExtra(InfoActivity.EXIBIR_INFO_NO_MODO, InfoActivity.INFO_MODO_SOLICITAR);
 		    getActivity().startActivity(intent);
 		  
 		  /**  usar da forma abaixo como no exemplo

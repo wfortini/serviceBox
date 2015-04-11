@@ -51,8 +51,8 @@ public class ItinerarioActivity extends CommonActivity {
 	public static final String TAG = ItinerarioActivity.class.getSimpleName();
     public static final String ITINERARIO = "ITINERARIO"; 
     public static final int RESULT_CODE = 123;
-    public static final String OFERECER_CARONA = "OFERECER";
-    public static final String LOCALIZAR_CARONA = "LOCALIZAR";
+    public static final String OFERECER_ITINERARIO = "OFERECER";
+    public static final String LOCALIZAR_ITINERARIO = "LOCALIZAR";
     public static final String QUAL_OPERACAO = "QUAL_OPERACAO";
    
 
@@ -87,7 +87,7 @@ public class ItinerarioActivity extends CommonActivity {
     	private Switch todos;
     	private Switch soAmigos;
     	private Switch amigosDosAmigos;
-    	private String operacaoEmAbndamento;
+    	private String operacaoEmAndamento;
     	private SeekBar distanciaLocalizacao;
     	private TextView labelBUscarEm;
     	private TextView labelDistancia;
@@ -111,7 +111,8 @@ public class ItinerarioActivity extends CommonActivity {
     	 
     	 void init(View v)
          {
-    		 operacaoEmAbndamento = getActivity().getIntent().getStringExtra(QUAL_OPERACAO);
+    		 operacaoEmAndamento = getActivity().getIntent().getStringExtra(QUAL_OPERACAO);
+    		 
              Button confirmaItinerariodBtn = (Button) v.findViewById(R.id.confirmar_itinerario);
              partida = (AutoCompleteTextView) v.findViewById(R.id.partida);
      		 destino = (AutoCompleteTextView) v.findViewById(R.id.destino);
@@ -123,7 +124,7 @@ public class ItinerarioActivity extends CommonActivity {
    		    soAmigos = (Switch) v.findViewById(R.id.soAmigos_switch);
    		    amigosDosAmigos = (Switch) v.findViewById(R.id.soAmigosDoAmigos_switch);
    		    
-   		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
+   		 if(operacaoEmAndamento != null && operacaoEmAndamento.equals(LOCALIZAR_ITINERARIO)){
    			distanciaLocalizacao.setVisibility(View.VISIBLE);
    			labelDistancia.setVisibility(View.VISIBLE);
    			
@@ -187,8 +188,10 @@ public class ItinerarioActivity extends CommonActivity {
      		});
              
              
-            partida.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line));
-     		destino.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line));
+            partida.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), 
+            		android.R.layout.simple_dropdown_item_1line));
+     		destino.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), 
+     				android.R.layout.simple_dropdown_item_1line));
              
              
          }
@@ -215,7 +218,7 @@ public class ItinerarioActivity extends CommonActivity {
     	 
     	 private void finishedClicked() {
 
-    		 if(operacaoEmAbndamento != null && operacaoEmAbndamento.equals(LOCALIZAR_CARONA)){
+    		 if(operacaoEmAndamento != null && operacaoEmAndamento.equals(LOCALIZAR_ITINERARIO)){
     			 Intent intent = new Intent(getActivity(), ListarPrestacaoServicoActivity.class);
     	         intent.putExtra(ListarPrestacaoServicoActivity.LOCALIZAR_POR_ITINERARIO, itinerario);
     	         getActivity().startActivity(intent);
@@ -231,7 +234,7 @@ public class ItinerarioActivity extends CommonActivity {
          }
     	 
 
-    /** processamento assincrono **/	
+    /** processamento assincrono para obter coordenadas **/	
 	private class RequisicaoTask extends AsyncTask<String, Void, LatLng>{
 			
 			String obterCoordenadasPara = "";
