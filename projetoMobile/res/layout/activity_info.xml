@@ -282,6 +282,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.52"
             android:text="@string/solicitar_carona"
+            android:visibility="invisible"
             android:textSize="@dimen/bt_solicitar" />
 
         <Button
@@ -290,6 +291,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.11"
+            android:visibility="invisible"
             android:text="@string/bt_registra"
             android:textSize="@dimen/bt_visualizar" />
 
