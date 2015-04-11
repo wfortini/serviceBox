@@ -68,6 +68,10 @@ public class SolicitacaoService {
 			
 	}
 	
+	public Solicitacao atualizar(Solicitacao solicitacao){
+		return this.solicitacaoRepository.save(solicitacao);
+	}
+	
 	@SuppressWarnings("unchecked")
 	private String getMensagem(Integer tipoSolicitacao, Usuario solicitante, Usuario solicitado){
 		

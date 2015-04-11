@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.servicebox.common.domain.StatusSolicitacao;
 import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.Solicitacao;
 import br.com.webnow.exception.SolicitacaoException;
@@ -30,7 +31,7 @@ public class SolicitacaoController {
 	@Autowired
 	private SolicitacaoService solicitacaoService;
 	
-	private String SENDER_ID = "AIzaSyAJY0OtBf3xtmU8Yf3vtZ05BO5WcJb_KpI";
+	private String SENDER_ID = "AIzaSyB5i8wHc2EaRehgBy98hKV3DlTcJ5UEQYE";
 	private String collapKey;
 	private String message;
 	private List<String> listaIdAndroids = new ArrayList<String>();
@@ -47,15 +48,18 @@ public class SolicitacaoController {
 		Solicitacao solicitacao = null;
     	
     	try {
-    		/**
+    		
     		solicitacao = this.solicitacaoService.registrarSolicitacao(Long.valueOf(idUsuarioSolicitante),
     				Long.valueOf(idUsuarioSolicitado), Long.valueOf(idPrestacao), 
     				Integer.valueOf(tipoSolicitacao));
-    	   **/
+    	   
     		
-    		String regid = "APA91bHFvBbIB2PzeweRIwswSulUs_4jSxe6jhyLyKNhMsSf5-FpyQM0YekXEutycjHV1KoVAWELCEfe0ZSmJN5xeIhzsPf1xKDTQuXnkfN8lMLjQe-z2LAUejZXkLgmCVbV3EESlP_R";
+    		//String regid = "APA91bHFvBbIB2PzeweRIwswSulUs_4jSxe6jhyLyKNhMsSf5-FpyQM0YekXEutycjHV1KoVAWELCEfe0ZSmJN5xeIhzsPf1xKDTQuXnkfN8lMLjQe-z2LAUejZXkLgmCVbV3EESlP_R";
     		
-    		this.sendGCM(regid, "Teste GCM");
+    		solicitacao.setStatusSolicitacao(this.sendGCM(solicitacao.getSolicitado().getRegIdGCM(), 
+    				solicitacao.getMensagem()));
+    		
+    		this.solicitacaoService.atualizar(solicitacao);
     		
     		return  "/home";
 	    	//return new Response(true, "Notificação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
@@ -67,32 +71,40 @@ public class SolicitacaoController {
 		}
     }
 	
-   private void sendGCM(String regId, String mensagem){
+   private Integer sendGCM(String regId, String mensagem){
   		
 		this.sender = new Sender(SENDER_ID);
 		
 		Result result = null;
+		String canonicalId = null;
+		String idMensagem = null;
 		
-		Message message = new Message.Builder()
+		Message message = new Message.Builder()	
 		.collapseKey(this.collapKey)
 		.timeToLive(30)
-		.delayWhileIdle(true)
+		.delayWhileIdle(false)
 		.addData("mensagem", mensagem)
 		.build();
 		
 		try {
-			 result = this.sender.send(message, regId, 1);
+			result = this.sender.send(message, regId, 1);
 			if(result != null){
-				String id = result.getCanonicalRegistrationId();
+				//TODO: trata canonical id ocorre quando registro foi alterado, o canonical passara a ser o atual
+				canonicalId = result.getCanonicalRegistrationId();
+				idMensagem = result.getMessageId();
+				if(idMensagem != null && !idMensagem.equals("")){
+					return StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo();
+				}
 			
         } else {
-             String error = result.getErrorCodeName();
-            System.out.println("Broadcast failure ======================: " + error);
+             return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA.getCodigo();
         }
 		} catch (Exception e) {
+			//TODO: logar aqui
 			e.printStackTrace();
 		}
 		
+		return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA.getCodigo();
 		
 	}
 	
