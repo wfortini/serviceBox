@@ -38,7 +38,7 @@ public class SolicitacaoController {
 	private Sender sender;
 	
 	@RequestMapping(value = "/solicitarServico", method = RequestMethod.POST)
-    public String solicitarServico(            
+    public @ResponseBody Response solicitarServico(            
             @RequestParam(value = "idUsuarioSolicitante", required=false) String idUsuarioSolicitante, 
             @RequestParam(value = "idUsuarioSolicitado", required=false) String idUsuarioSolicitado, 
             @RequestParam(value = "tipoSolicitacao", required=false) String tipoSolicitacao, 
@@ -61,16 +61,22 @@ public class SolicitacaoController {
     		
     		this.solicitacaoService.atualizar(solicitacao);
     		
-    		return  "/home";
-	    	//return new Response(true, "Notificação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
+    		return new Response(true, "Notificação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
+	    	
     	}catch(SolicitacaoException ux){
-    		return "/home";// new Response(false, ux.getMessage(), null, ux.getCode());
+    		return new Response(false, ux.getMessage(), null, ux.getCode());
 		} catch (Exception e) {
-			logger.error("Erro ao tentar registrar usuario Android: ", e.getMessage());
-			return "/home"; //new Response(false, "Falha no cadastro do usuário", null, Response.ERRO_DESCONHECIDO);
+			logger.error("Erro ao Solicitar serviço: ", e.getMessage());			
+			return new Response(false, "Erro ao solicitar serviço.", null, Response.ERRO_DESCONHECIDO);
 		}
     }
 	
+	/**
+	 * Envia solicitação para seridor Google GCM
+	 * @param regId String com registro do dispositivo que ira receber a mensagem
+	 * @param mensagem String mensagem que sera enviada
+	 * @return código que especifica se mensagem foi enviada.
+	 */
    private Integer sendGCM(String regId, String mensagem){
   		
 		this.sender = new Sender(SENDER_ID);
@@ -100,7 +106,7 @@ public class SolicitacaoController {
              return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA.getCodigo();
         }
 		} catch (Exception e) {
-			//TODO: logar aqui
+			logger.error("Erro no google GCM serviço: ", e.getMessage());
 			e.printStackTrace();
 		}
 		
