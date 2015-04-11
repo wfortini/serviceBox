@@ -13,7 +13,7 @@ import br.com.servicebox.android.common.util.CommonUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class GCMNotificationIntentService extends IntentService {	
+public class GcmIntentService extends IntentService {	
 	  
 	public static final int NOTIFICATION_ID = 1;
 	private NotificationManager mNotificationManager;
@@ -21,9 +21,10 @@ public class GCMNotificationIntentService extends IntentService {
 	
 	static final String GOOGLE_PROJECT_ID = "994547673653";
 	static final String MESSAGE_KEY = "mensagem";
+	private String msg;
 
-	public GCMNotificationIntentService() {
-		super("GcmIntentService");
+	public GcmIntentService() {
+		super(GOOGLE_PROJECT_ID);
 	}
 
 	public static final String TAG = "GCMNotificationIntentService";
@@ -37,6 +38,8 @@ public class GCMNotificationIntentService extends IntentService {
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
 		String messageType = gcm.getMessageType(intent);
+		
+		 msg = extras.getString("title");
 
 		if (!extras.isEmpty()) {
 			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
