@@ -4,7 +4,8 @@ public enum StatusSolicitacao {
 	
 	 SOLICITACAO_ENVIADA("Solicitação enviada", 1),
 	 SOLICITACAO_ACEITA("solicitação aceita", 2),
-	 SOLICITACAO_NEGADA("Solicitação negada", 3);
+	 SOLICITACAO_NEGADA("Solicitação negada", 3),
+	 SOLICITACAO_NAO_ENVIADA("Solicitação não enviada.", 4);
 	 
 	 
 	 private final String descricao;
