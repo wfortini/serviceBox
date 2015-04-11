@@ -19,6 +19,7 @@
 
     <!-- Network connectivity permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     
     <!-- GCM -->
@@ -60,20 +61,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDoVHJSVoHh355sgJ6WBTXoEwGtWibIDms" />
-
-         <receiver
-            android:name=".GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="br.com.mobilenow.broadcast" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".GCMNotificationIntentService" />
+            android:value="AIzaSyDoVHJSVoHh355sgJ6WBTXoEwGtWibIDms" />         
         
         <activity
             android:name=".TabbedActivity"
@@ -126,6 +114,20 @@
             android:name=".ListarPrestacaoServicoActivity"
             android:label="@string/title_activity_listar_prestacao_servico" >
         </activity>
+        
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.GCM_RECEIVED_ACTION" />
+
+                <category android:name="br.com.mobilenow" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GcmIntentService" />
     </application>
 
 </manifest>
