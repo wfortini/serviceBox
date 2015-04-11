@@ -3,10 +3,13 @@ package br.com.webnow.service.prestarservico;
 import java.util.Date;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.servicebox.common.domain.StatusSolicitacao;
+import br.com.webnow.controller.AutorizarController;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Solicitacao;
 import br.com.webnow.domain.Usuario;
@@ -17,6 +20,8 @@ import br.com.webnow.repository.prestarservico.PrestarServicoRepository;
 
 @Service
 public class SolicitacaoService {
+	
+	private final static Logger logger = LoggerFactory.getLogger(SolicitacaoService.class);
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
