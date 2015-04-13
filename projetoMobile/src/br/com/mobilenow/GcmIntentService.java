@@ -1,5 +1,9 @@
 package br.com.mobilenow;
 
+import java.util.Date;
+
+import org.json.JSONObject;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,13 +12,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import br.com.mobilenow.R;
+import br.com.mobilenow.dao.NotificacaoDAO;
+import br.com.mobilenow.domain.Notificacao;
 import br.com.servicebox.android.common.util.CommonUtils;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 public class GcmIntentService extends IntentService {	
 	  
+	static final String TAG = GcmIntentService.class.getSimpleName();
 	public static final int NOTIFICATION_ID = 1;
 	private NotificationManager mNotificationManager;
 	NotificationCompat.Builder builder;
@@ -22,24 +28,23 @@ public class GcmIntentService extends IntentService {
 	static final String GOOGLE_PROJECT_ID = "994547673653";
 	static final String MESSAGE_KEY = "mensagem";
 	private String msg;
+	private JSONObject json;
+	private Bundle extras;
 
 	public GcmIntentService() {
 		super(GOOGLE_PROJECT_ID);
-	}
-
-	public static final String TAG = "GCMNotificationIntentService";
+	}	
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		
 		CommonUtils.debug(TAG, "Iniciando GCMNotificationIntentService");
 		
-		Bundle extras = intent.getExtras();
+		extras = intent.getExtras();
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
 		String messageType = gcm.getMessageType(intent);
 		
-		 msg = extras.getString("title");
 
 		if (!extras.isEmpty()) {
 			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR
@@ -53,14 +58,11 @@ public class GcmIntentService extends IntentService {
 				sendNotification("Deletado: " + extras.toString());
 				
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
-					.equals(messageType)) {
-
-				
-				Log.i(TAG, "Mensagem " + extras.get(MESSAGE_KEY));
-
-				sendNotification("Message Received from Google GCM Server: "
-						+ extras.get(MESSAGE_KEY));
-				Log.i(TAG, "Received: " + extras.toString());
+					.equals(messageType)) {				
+			
+				Notificacao notificacao = this.processarNotificacao();
+				if(new NotificacaoDAO(this).incluir(notificacao))
+				     sendNotification(notificacao.getMensagem());			
 			}
 		}
 		GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -92,6 +94,33 @@ public class GcmIntentService extends IntentService {
 		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 		
 		Log.d(TAG, "Mensagem de notificação processada com sucesso.");
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private Notificacao processarNotificacao() {
+		
+		Notificacao notificacao = new Notificacao();
+		
+		try {
+			json = new JSONObject(extras.get(MESSAGE_KEY).toString());
+			notificacao.setMensagem(json.getString("mensagem"));;
+			notificacao.setIdSolicitante(json.getInt("idSolicitante"));
+			notificacao.setIdSolicitado(json.getInt("idSolicitado"));
+			notificacao.setIdPrestacao(json.getInt("idPrestacao"));
+			notificacao.setFotoPerfil(json.getString("imagemPefil"));
+			notificacao.setTipoSolicitacao(json.getInt("tipoSolicitacao"));
+			notificacao.setDataSolicitacao(new Date());			
+			
+			return notificacao;
+		} catch (Exception e) {
+			CommonUtils.error(TAG, "Erro parde Json for notificação: " + e.getMessage());
+		}
+		
+		return notificacao;
+		
 	}
 
 
