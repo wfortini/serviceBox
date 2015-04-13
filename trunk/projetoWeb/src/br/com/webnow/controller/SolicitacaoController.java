@@ -64,7 +64,7 @@ public class SolicitacaoController {
     		return new Response(true, "Notificação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
 	    	
     	}catch(SolicitacaoException ux){
-    		return new Response(false, ux.getMessage(), null, ux.getCode());
+    		return new Response(false, ux.getMessage(), null, Response.FALHA);
 		} catch (Exception e) {
 			logger.error("Erro ao Solicitar serviço: ", e.getMessage());			
 			return new Response(false, "Erro ao solicitar serviço.", null, Response.ERRO_DESCONHECIDO);

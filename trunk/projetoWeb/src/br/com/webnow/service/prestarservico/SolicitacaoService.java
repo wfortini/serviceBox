@@ -51,7 +51,7 @@ public class SolicitacaoService {
 					
 			prestarServico = this.prestarServicoRepository.findById(idPrestacao);
 			if(prestarServico == null)
-				throw new SolicitacaoException("O Serviço não foi localizado");
+				throw new SolicitacaoException("O Serviço não foi localizado");			
 			
 			solicitacao.setSolicitante(solicitante);
 			solicitacao.setSolicitado(solicitado);
@@ -60,13 +60,13 @@ public class SolicitacaoService {
 			solicitacao.setAtiva(true);
 			solicitacao.setStatusSolicitacao(StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo());
 			solicitacao.setTipoSolicitacao(tipoSolicitacao);
-			solicitacao.setMensagem(this.getMensagem(tipoSolicitacao, solicitante, solicitado));
+			solicitacao.setMensagem(this.getMensagem(tipoSolicitacao, solicitacao));
 			
 			this.solicitacaoRepository.save(solicitacao);		
 			
 			return solicitacao;
 		} catch (Exception e) {
-			//TODO: log aqui
+			logger.error("Erro ao Solicitar serviço: ", e.getMessage());
 			e.printStackTrace();
 			throw new SolicitacaoException(e.getMessage());
 		}
@@ -78,16 +78,18 @@ public class SolicitacaoService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private String getMensagem(Integer tipoSolicitacao, Usuario solicitante, Usuario solicitado){
+	private String getMensagem(Integer tipoSolicitacao, Solicitacao solicitacao){
 		
 		JSONObject json = new JSONObject();
-		
-		String msg = "O usuário " + solicitante.getNome() + ", está pedindo uma carona, você aceita " +
+				
+		String msg = "O usuário " + solicitacao.getSolicitante().getNome() + ", está pedindo uma carona, você aceita " +
 		" este pedido?";
 		json.put("mensagem", msg);
-		json.put("idSolicitante", solicitante.getId());
-		json.put("idSolicitado", solicitado.getId());
-		json.put("imagemPefil", solicitante.getFotoPerfil());
+		json.put("idSolicitante", solicitacao.getSolicitante().getId());
+		json.put("idSolicitado", solicitacao.getSolicitado().getId());
+		json.put("imagemPefil", solicitacao.getSolicitante().getFotoPerfil());
+		json.put("idPrestacao", solicitacao.getPrestarServico().getId());
+		json.put("tipoSolicitacao", tipoSolicitacao);
 		
 		return json.toJSONString();
 	}
