@@ -205,8 +205,7 @@ public class InfoActivity extends CommonActivity {
           */
          public void confirmar() {
         	 
-             getActivity().finish();
-        	 
+             new RequisicaoTask().execute();        	 
         	 
          	
          }
