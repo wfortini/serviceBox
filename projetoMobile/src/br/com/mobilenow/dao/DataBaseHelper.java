@@ -1,6 +1,6 @@
 package br.com.mobilenow.dao;
 
-import br.com.mobilenow.GcmIntentService;
+import br.com.servicebox.android.common.util.CommonUtils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,7 +9,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 	
 	private static final String TAG = DataBaseHelper.class.getSimpleName();
 	private static final String BANCO_DADOS = "ServiceBoxDB";
-	private static int VERSAO = 1;
+	private static int VERSAO = 2;
 	
 	
 	public DataBaseHelper(Context context) {
@@ -26,8 +26,10 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 		
+		db.execSQL("ALTER TABLE " + NotificacaoDAO.TABELA_NOTIFICACAO +  " ADD COLUMN statusNotificacao INTEGER");
+		
+		CommonUtils.debug(TAG, " Tabela alterada com sucessoo ============= ");
 	}
 
 }
