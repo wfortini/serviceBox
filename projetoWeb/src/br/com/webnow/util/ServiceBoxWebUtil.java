@@ -5,6 +5,7 @@ package br.com.webnow.util;
 import java.util.List;
 import java.util.Set;
 
+import br.com.servicebox.common.domain.StatusSolicitacao;
 import br.com.servicebox.common.json.PrestarServicoJSON;
 import br.com.servicebox.common.json.ServicoJSON;
 import br.com.servicebox.common.net.PrestacaoLocalizada;
@@ -19,6 +20,7 @@ import br.com.webnow.domain.Planejamento;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
 import br.com.webnow.domain.Servico;
+import br.com.webnow.domain.Solicitacao;
 import br.com.webnow.domain.TipoServico;
 import br.com.webnow.domain.Usuario;
 import br.com.webnow.returno.cypher.ServicoLocalizado;
@@ -272,6 +274,22 @@ public class ServiceBoxWebUtil {
 		  }
 		
 		return arrayPrestacao;
+		
+	}
+	
+	
+	public static String getRegIDGCMConformeStatusSolicitacao(Solicitacao solicitacao){
+		
+		StatusSolicitacao status = StatusSolicitacao.getStatusSolicitacao(solicitacao.getStatusSolicitacao());
+		
+		String descStatus = status.getDescricao();
+		
+		if(descStatus.contains("solicitante")){
+			return solicitacao.getSolicitante().getRegIdGCM();
+		}else{
+			return solicitacao.getSolicitado().getRegIdGCM();
+		}		
+		
 		
 	}
 		
