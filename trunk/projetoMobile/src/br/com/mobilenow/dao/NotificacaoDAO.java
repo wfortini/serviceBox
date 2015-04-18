@@ -41,6 +41,8 @@ public class NotificacaoDAO {
 		values.put("fotoPrefil", notificacao.getFotoPerfil());
 		values.put("tipoSolicitacao", notificacao.getTipoSolicitacao());
 		values.put("dataSolicitacao", notificacao.getDataSolicitacao().getTime());
+		values.put("statusNotificacao", notificacao.getStatusNotificacao());	
+		values.put("idSolicitacao", notificacao.getIdSolicitacao());
 		
 		long resultado = db.insert(TABELA_NOTIFICACAO, null, values);
 		CommonUtils.debug(TAG, "Registro inserido ============= " + resultado);
@@ -53,7 +55,8 @@ public class NotificacaoDAO {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Cursor cursor =
 		db.rawQuery("SELECT _id, mensagem, idSolicitante, " +
-				"idSolicitado, idPrestacao, fotoPrefil, tipoSolicitacao, dataSolicitacao" +
+				"idSolicitado, idPrestacao, fotoPrefil, tipoSolicitacao, dataSolicitacao, statusNotificacao," +
+				" idSolicitacao" +
 				" FROM " + TABELA_NOTIFICACAO, null);
 		
 				cursor.moveToFirst();
@@ -70,6 +73,8 @@ public class NotificacaoDAO {
 					n.setFotoPerfil(cursor.getString(5));
 					n.setTipoSolicitacao(cursor.getInt(6));
 					n.setDataSolicitacao(new Date(cursor.getLong(7)));
+					n.setStatusNotificacao(cursor.getInt(8));
+					n.setIdSolicitacao(cursor.getInt(9));
 					
 					notificacoes.add(n);	
 					cursor.moveToNext();

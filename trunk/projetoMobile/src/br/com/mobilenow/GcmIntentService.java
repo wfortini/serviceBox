@@ -15,6 +15,7 @@ import android.util.Log;
 import br.com.mobilenow.dao.NotificacaoDAO;
 import br.com.mobilenow.domain.Notificacao;
 import br.com.servicebox.android.common.util.CommonUtils;
+import br.com.servicebox.common.domain.StatusSolicitacao;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -112,7 +113,9 @@ public class GcmIntentService extends IntentService {
 			notificacao.setIdPrestacao(json.getInt("idPrestacao"));
 			notificacao.setFotoPerfil(json.getString("imagemPefil"));
 			notificacao.setTipoSolicitacao(json.getInt("tipoSolicitacao"));
-			notificacao.setDataSolicitacao(new Date());			
+			notificacao.setDataSolicitacao(new Date());
+			notificacao.setStatusNotificacao(StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo());
+			notificacao.setIdSolicitacao(json.getInt("idSolicitacao"));
 			
 			return notificacao;
 		} catch (Exception e) {

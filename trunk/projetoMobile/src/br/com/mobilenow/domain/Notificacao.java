@@ -13,6 +13,8 @@ public class Notificacao {
 	private Integer tipoSolicitacao;
 	private String fotoPerfil;
 	private Date dataSolicitacao;
+	private Integer statusNotificacao;
+	private Integer idSolicitacao;
 	
 	
 	public Notificacao() {
@@ -98,6 +100,28 @@ public class Notificacao {
 	public void setDataSolicitacao(Date dataSolicitacao) {
 		this.dataSolicitacao = dataSolicitacao;
 	}
+
+
+	public Integer getIdSolicitacao() {
+		return idSolicitacao;
+	}
+
+
+	public void setIdSolicitacao(Integer idSolicitacao) {
+		this.idSolicitacao = idSolicitacao;
+	}
+
+
+	public Integer getStatusNotificacao() {
+		return statusNotificacao;
+	}
+
+
+	public void setStatusNotificacao(Integer statusNotificacao) {
+		this.statusNotificacao = statusNotificacao;
+	}
+	
+	
 	
 	
 

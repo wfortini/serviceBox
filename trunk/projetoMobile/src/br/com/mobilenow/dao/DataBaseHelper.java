@@ -9,7 +9,7 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 	
 	private static final String TAG = DataBaseHelper.class.getSimpleName();
 	private static final String BANCO_DADOS = "ServiceBoxDB";
-	private static int VERSAO = 2;
+	private static int VERSAO = 3;
 	
 	
 	public DataBaseHelper(Context context) {
@@ -20,14 +20,15 @@ public class DataBaseHelper extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE " + NotificacaoDAO.TABELA_NOTIFICACAO + " (_id INTEGER PRIMARY KEY," +
 				" mensagem TEXT, idSolicitante INTEGER, idSolicitado INTEGER, " +
-				" idPrestacao INTEGER, fotoPrefil TEXT, tipoSolicitacao INTEGER, dataSolicitacao DATE );");
+				" idPrestacao INTEGER, fotoPrefil TEXT, tipoSolicitacao INTEGER, dataSolicitacao DATE, " +
+				" statusNotificacao INTEGER, idSolicitacao INTEGER );");
 		
 	}
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		
-		db.execSQL("ALTER TABLE " + NotificacaoDAO.TABELA_NOTIFICACAO +  " ADD COLUMN statusNotificacao INTEGER");
+		db.execSQL("ALTER TABLE " + NotificacaoDAO.TABELA_NOTIFICACAO +  " ADD COLUMN idSolicitacao INTEGER");
 		
 		CommonUtils.debug(TAG, " Tabela alterada com sucessoo ============= ");
 	}
