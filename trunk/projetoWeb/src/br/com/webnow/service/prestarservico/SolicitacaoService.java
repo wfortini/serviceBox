@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.servicebox.common.domain.StatusSolicitacao;
+import br.com.servicebox.common.domain.TipoSolicitacao;
 import br.com.webnow.controller.AutorizarController;
 import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Solicitacao;
@@ -58,9 +59,9 @@ public class SolicitacaoService {
 			solicitacao.setPrestarServico(prestarServico);
 			solicitacao.setDataSolicitacao(new Date());
 			solicitacao.setAtiva(true);
-			solicitacao.setStatusSolicitacao(StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo());
+			solicitacao.setStatusSolicitacao(StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo());
 			solicitacao.setTipoSolicitacao(tipoSolicitacao);
-			solicitacao.setMensagem(this.getMensagem(tipoSolicitacao, solicitacao));
+			solicitacao.setMensagem(this.getMensagem(solicitacao));
 			
 			this.solicitacaoRepository.save(solicitacao);		
 			
@@ -73,25 +74,68 @@ public class SolicitacaoService {
 			
 	}
 	
+	
+	public Solicitacao responderSolicitacao(Long id, Integer status){
+		Solicitacao solicitacao = null;
+		
+		try {
+		     solicitacao = this.solicitacaoRepository.findById(id);
+			if(solicitacao == null)
+				throw new SolicitacaoException("Solicitação não encontrado");
+			
+			solicitacao.setStatusSolicitacao(status);
+			solicitacao.setMensagem(this.getMensagem(solicitacao));
+			this.solicitacaoRepository.save(solicitacao);
+			return solicitacao;
+		} catch (Exception e) {
+			logger.error("Erro ao atualizar status da solicitacao: ", e.getMessage());
+			e.printStackTrace();
+			throw new SolicitacaoException(e.getMessage());
+		}		
+		
+	}
+	
 	public Solicitacao atualizar(Solicitacao solicitacao){
 		return this.solicitacaoRepository.save(solicitacao);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private String getMensagem(Integer tipoSolicitacao, Solicitacao solicitacao){
+	private String getMensagem(Solicitacao solicitacao){
 		
 		JSONObject json = new JSONObject();
-				
-		String msg = "O usuário " + solicitacao.getSolicitante().getNome() + ", está pedindo uma carona, você aceita " +
-		" este pedido?";
-		json.put("mensagem", msg);
+		
+		json.put("mensagem", this.getMsgPorTipoEStatusSolicitacao(solicitacao));
 		json.put("idSolicitante", solicitacao.getSolicitante().getId());
 		json.put("idSolicitado", solicitacao.getSolicitado().getId());
 		json.put("imagemPefil", solicitacao.getSolicitante().getFotoPerfil());
 		json.put("idPrestacao", solicitacao.getPrestarServico().getId());
-		json.put("tipoSolicitacao", tipoSolicitacao);
+		json.put("tipoSolicitacao", solicitacao.getTipoSolicitacao());
+		json.put("idSolicitacao", solicitacao.getId());
 		
 		return json.toJSONString();
+	}
+	
+	private String getMsgPorTipoEStatusSolicitacao(Solicitacao solicitacao){
+		
+		String msg = "";
+		
+		if(solicitacao.getTipoSolicitacao().equals(TipoSolicitacao.CARONA)){
+			
+			if(solicitacao.getStatusSolicitacao().equals(
+					StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO)){
+				msg = "O usuário " + solicitacao.getSolicitante().getNome() + ", está pedindo uma carona, você aceita " +
+						" este pedido?";				
+			}else if(solicitacao.getStatusSolicitacao().equals(
+					StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO)){
+				msg = "O usuário " + solicitacao.getSolicitado().getNome() + ", aceitou seu pedido este pedido.";
+			}
+			
+			
+		}
+		
+		return null;
+		
+		
 	}
 
 }

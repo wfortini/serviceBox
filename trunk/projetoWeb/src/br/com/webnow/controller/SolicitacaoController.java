@@ -17,6 +17,7 @@ import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.Solicitacao;
 import br.com.webnow.exception.SolicitacaoException;
 import br.com.webnow.service.prestarservico.SolicitacaoService;
+import br.com.webnow.util.ServiceBoxWebUtil;
 
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
@@ -56,12 +57,11 @@ public class SolicitacaoController {
     		
     		//String regid = "APA91bHFvBbIB2PzeweRIwswSulUs_4jSxe6jhyLyKNhMsSf5-FpyQM0YekXEutycjHV1KoVAWELCEfe0ZSmJN5xeIhzsPf1xKDTQuXnkfN8lMLjQe-z2LAUejZXkLgmCVbV3EESlP_R";
     		
-    		solicitacao.setStatusSolicitacao(this.sendGCM(solicitacao.getSolicitado().getRegIdGCM(), 
-    				solicitacao.getMensagem()));
+    		solicitacao.setStatusSolicitacao(this.sendGCM(solicitacao));
     		
     		this.solicitacaoService.atualizar(solicitacao);
     		
-    		return new Response(true, "Notificação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
+    		return new Response(true, "Solicitação enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
 	    	
     	}catch(SolicitacaoException ux){
     		return new Response(false, ux.getMessage(), null, Response.FALHA);
@@ -71,13 +71,35 @@ public class SolicitacaoController {
 		}
     }
 	
+	@RequestMapping(value = "/responderSolicitacao", method = RequestMethod.POST)
+    public @ResponseBody Response responderSolicitacao(            
+            @RequestParam(value = "idSolicitacao", required=true) String idSolicitacao, 
+            @RequestParam(value = "respostaSolicitacao", required=true) String respostaSolicitacao)
+            {
+		
+		try {
+			Solicitacao solicitacao = this.solicitacaoService.responderSolicitacao(Long.valueOf(idSolicitacao),
+					  Integer.valueOf(respostaSolicitacao));
+			solicitacao.setStatusSolicitacao(this.sendGCM(solicitacao));
+			this.solicitacaoService.atualizar(solicitacao);
+			return new Response(true, "Solicita~]ao respondida  enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
+			
+		} catch (Exception e) {
+			
+		}
+		
+		return null;
+		
+	}
+    
+	
 	/**
 	 * Envia solicitação para seridor Google GCM
 	 * @param regId String com registro do dispositivo que ira receber a mensagem
 	 * @param mensagem String mensagem que sera enviada
 	 * @return código que especifica se mensagem foi enviada.
 	 */
-   private Integer sendGCM(String regId, String mensagem){
+   private Integer sendGCM(Solicitacao solicitacao){
   		
 		this.sender = new Sender(SENDER_ID);
 		
@@ -89,28 +111,36 @@ public class SolicitacaoController {
 		.collapseKey(this.collapKey)
 		.timeToLive(30)
 		.delayWhileIdle(false)
-		.addData("mensagem", mensagem)
+		.addData("mensagem", solicitacao.getMensagem())
 		.build();
 		
 		try {
-			result = this.sender.send(message, regId, 1);
+			result = this.sender.send(message, 
+					ServiceBoxWebUtil.getRegIDGCMConformeStatusSolicitacao(solicitacao), 1);
 			if(result != null){
 				//TODO: trata canonical id ocorre quando registro foi alterado, o canonical passara a ser o atual
 				canonicalId = result.getCanonicalRegistrationId();
 				idMensagem = result.getMessageId();
-				if(idMensagem != null && !idMensagem.equals("")){
-					return StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo();
-				}
-			
+				// se a mensagem voi enviada eu simplesmente mantenho o status de enviado
+				if(idMensagem != null && !idMensagem.equals("")){					
+					return solicitacao.getStatusSolicitacao();
+				}			
         } else {
-             return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA.getCodigo();
+        	
+        	if(solicitacao.getStatusSolicitacao().equals(
+        	  		StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO)){
+        		return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA_PARA_SOLICITADO.getCodigo();
+        	}else{
+        		return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA_PARA_SOLICITANTE.getCodigo();
+        	}
+             
         }
 		} catch (Exception e) {
 			logger.error("Erro no google GCM serviço: ", e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return StatusSolicitacao.SOLICITACAO_NAO_ENVIADA.getCodigo();
+		return solicitacao.getStatusSolicitacao();
 		
 	}
 	
