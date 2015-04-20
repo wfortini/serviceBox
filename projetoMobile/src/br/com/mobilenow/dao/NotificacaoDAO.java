@@ -84,6 +84,62 @@ public class NotificacaoDAO {
 				return notificacoes;
 	}
 	
+    public Notificacao buscarNotificacao(Integer idSolicitante, Integer idSolicitado, Integer idPrestacao){
+		
+    	String[] param = new String[3];
+    	
+    	if(idSolicitante != null)
+    		param[0] = String.valueOf(idSolicitante);
+    	
+    	if(idSolicitado != null)
+    		param[1] = String.valueOf(idSolicitado);
+    	
+    	if(idPrestacao != null)
+    		param[2] = String.valueOf(idPrestacao);
+    	
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor =
+		db.rawQuery("SELECT _id, mensagem, idSolicitante, " +
+				"idSolicitado, idPrestacao, fotoPrefil, tipoSolicitacao, dataSolicitacao, statusNotificacao," +
+				" idSolicitacao FROM " + TABELA_NOTIFICACAO + " WHERE idSolicitante = ? AND" +
+						" idSolicitado = ? AND idPrestacao = ?" , param);
+		
+		        Notificacao n = null;
+		        
+				if(cursor != null && cursor.getCount() > 0){
+					cursor.moveToFirst();
+					
+					n = new Notificacao();
+					n.set_id(cursor.getInt(0));
+					n.setMensagem(cursor.getString(1));
+					n.setIdSolicitante(cursor.getInt(2));
+					n.setIdSolicitado(cursor.getInt(3));
+					n.setIdPrestacao(cursor.getInt(4));
+					n.setFotoPerfil(cursor.getString(5));
+					n.setTipoSolicitacao(cursor.getInt(6));
+					n.setDataSolicitacao(new Date(cursor.getLong(7)));
+					n.setStatusNotificacao(cursor.getInt(8));
+					n.setIdSolicitacao(cursor.getInt(9));
+					
+					cursor.close();						
+				}
+							
+				return n;
+	}
+    
+    public boolean atualizarNotificacao(Notificacao notificacao){
+    	
+         SQLiteDatabase db = helper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put("statusNotificacao", notificacao.getStatusNotificacao());
+		values.put("mensagem", notificacao.getMensagem());	
+		
+		return (db.update(TABELA_NOTIFICACAO, values, "idSolicitacao" + " = ?",
+                new String[] { String.valueOf(notificacao.getIdSolicitacao())})) != -1;		
+    	
+    }
+	
 	
 
 }
