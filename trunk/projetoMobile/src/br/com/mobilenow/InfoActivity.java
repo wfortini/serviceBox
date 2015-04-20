@@ -1,5 +1,7 @@
 package br.com.mobilenow;
 
+import java.util.Date;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.TextView;
@@ -21,16 +23,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import br.com.mobilenow.dao.NotificacaoDAO;
+import br.com.mobilenow.domain.Notificacao;
 import br.com.mobilenow.util.Info;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
-import br.com.servicebox.common.domain.TipoServico;
+import br.com.servicebox.common.domain.StatusSolicitacao;
 import br.com.servicebox.common.domain.TipoSolicitacao;
 import br.com.servicebox.common.net.Response;
-import br.com.servicebox.common.net.ServicoResponse;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -268,7 +271,20 @@ public class InfoActivity extends CommonActivity {
  					
  					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
  						GuiUtils.alert(response.getMessage());
- 						// getActivity().finish();					
+ 						NotificacaoDAO dao = null;
+ 						try {
+ 							dao = new NotificacaoDAO(getActivity());
+							Notificacao noti = new Notificacao();
+							noti.setDataSolicitacao(new Date());
+							noti.setIdPrestacao(info.getNodeId().intValue());
+							noti.setIdSolicitante(ServiceBoxApplication.getUsuario().getNodeId().intValue());
+							noti.setIdSolicitacao(info.getNodeIdUsuario().intValue());
+							noti.setTipoSolicitacao(TipoSolicitacao.CARONA.getCodigo());
+							noti.setStatusNotificacao(
+									StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo());
+						} finally {
+							dao.close();
+						}					
  					}else{
  						GuiUtils.alert(response.getMessage());
  					}			

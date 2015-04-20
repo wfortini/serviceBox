@@ -61,8 +61,8 @@ public class GcmIntentService extends IntentService {
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE
 					.equals(messageType)) {				
 			
-				Notificacao notificacao = this.processarNotificacao();
-				if(new NotificacaoDAO(this).incluir(notificacao))
+				Notificacao notificacao = this.getNotificacao(extras.get(MESSAGE_KEY).toString());
+				if(this.processarNotificacao(notificacao))
 				     sendNotification(notificacao.getMensagem());			
 			}
 		}
@@ -97,16 +97,38 @@ public class GcmIntentService extends IntentService {
 		Log.d(TAG, "Mensagem de notificação processada com sucesso.");
 	}
 	
+	public boolean processarNotificacao(Notificacao notificacao){
+		
+		NotificacaoDAO dao = new NotificacaoDAO(this);
+		boolean retorno = false;
+		
+		Notificacao not = dao.buscarNotificacao(notificacao.getIdSolicitante(),
+				notificacao.getIdSolicitado(), notificacao.getIdPrestacao());
+		
+		if(not != null && not.getIdSolicitacao() != null){
+		   retorno = dao.atualizarNotificacao(notificacao);	
+		   dao.close();
+		   return retorno;
+			
+		}else{
+			retorno = dao.incluir(notificacao);
+			dao.close();
+			return retorno;
+		}
+		
+		
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
-	private Notificacao processarNotificacao() {
+	private Notificacao getNotificacao(String strJSON) {
 		
 		Notificacao notificacao = new Notificacao();
 		
 		try {
-			json = new JSONObject(extras.get(MESSAGE_KEY).toString());
+			json = new JSONObject(strJSON);
 			notificacao.setMensagem(json.getString("mensagem"));;
 			notificacao.setIdSolicitante(json.getInt("idSolicitante"));
 			notificacao.setIdSolicitado(json.getInt("idSolicitado"));
@@ -114,12 +136,12 @@ public class GcmIntentService extends IntentService {
 			notificacao.setFotoPerfil(json.getString("imagemPefil"));
 			notificacao.setTipoSolicitacao(json.getInt("tipoSolicitacao"));
 			notificacao.setDataSolicitacao(new Date());
-			notificacao.setStatusNotificacao(StatusSolicitacao.SOLICITACAO_ENVIADA.getCodigo());
+			notificacao.setStatusNotificacao(json.getInt("status"));
 			notificacao.setIdSolicitacao(json.getInt("idSolicitacao"));
 			
 			return notificacao;
 		} catch (Exception e) {
-			CommonUtils.error(TAG, "Erro parde Json for notificação: " + e.getMessage());
+			CommonUtils.error(TAG, "Erro parse Json for notificação: " + e.getMessage());
 		}
 		
 		return notificacao;
