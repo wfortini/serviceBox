@@ -61,9 +61,9 @@ public class SolicitacaoService {
 			solicitacao.setAtiva(true);
 			solicitacao.setStatusSolicitacao(StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo());
 			solicitacao.setTipoSolicitacao(tipoSolicitacao);
+			solicitacao.setMensagem(this.getMensagem(solicitacao));			
+			this.solicitacaoRepository.save(solicitacao);
 			solicitacao.setMensagem(this.getMensagem(solicitacao));
-			
-			this.solicitacaoRepository.save(solicitacao);		
 			
 			return solicitacao;
 		} catch (Exception e) {
@@ -83,9 +83,11 @@ public class SolicitacaoService {
 			if(solicitacao == null)
 				throw new SolicitacaoException("Solicitação não encontrado");
 			
-			solicitacao.setStatusSolicitacao(status);
+			solicitacao.setStatusSolicitacao(status); // uso status vindo do android para gerar mensagem
 			solicitacao.setMensagem(this.getMensagem(solicitacao));
-			this.solicitacaoRepository.save(solicitacao);
+			solicitacao.setStatusSolicitacao(StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITANTE.getCodigo());
+			this.solicitacaoRepository.save(solicitacao);		
+			
 			return solicitacao;
 		} catch (Exception e) {
 			logger.error("Erro ao atualizar status da solicitacao: ", e.getMessage());
@@ -111,6 +113,7 @@ public class SolicitacaoService {
 		json.put("idPrestacao", solicitacao.getPrestarServico().getId());
 		json.put("tipoSolicitacao", solicitacao.getTipoSolicitacao());
 		json.put("idSolicitacao", solicitacao.getId());
+		json.put("status", solicitacao.getStatusSolicitacao());
 		
 		return json.toJSONString();
 	}
@@ -119,21 +122,21 @@ public class SolicitacaoService {
 		
 		String msg = "";
 		
-		if(solicitacao.getTipoSolicitacao().equals(TipoSolicitacao.CARONA)){
+		if(solicitacao.getTipoSolicitacao().equals(TipoSolicitacao.CARONA.getCodigo())){
 			
 			if(solicitacao.getStatusSolicitacao().equals(
-					StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO)){
+					StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo())){
 				msg = "O usuário " + solicitacao.getSolicitante().getNome() + ", está pedindo uma carona, você aceita " +
 						" este pedido?";				
 			}else if(solicitacao.getStatusSolicitacao().equals(
-					StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO)){
+					StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO.getCodigo())){
 				msg = "O usuário " + solicitacao.getSolicitado().getNome() + ", aceitou seu pedido este pedido.";
 			}
 			
 			
 		}
 		
-		return null;
+		return msg;
 		
 		
 	}
