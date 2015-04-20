@@ -2,10 +2,15 @@ package br.com.servicebox.common.domain;
 
 public enum StatusSolicitacao {
 	
-	 SOLICITACAO_ENVIADA("Solicitação enviada", 1),
-	 SOLICITACAO_ACEITA("solicitação aceita", 2),
-	 SOLICITACAO_NEGADA("Solicitação negada", 3),
-	 SOLICITACAO_NAO_ENVIADA("Solicitação não enviada.", 4);
+	 SOLICITACAO_ENVIADA_PARA_SOLICITADO("Solicitação enviada para o solicitado", 1),
+	 SOLICITACAO_ACEITA_PELO_SOLICITADO("solicitação aceita pelo solicitado", 2),
+	 SOLICITACAO_NEGADA_PELO_SOLICITADO("Solicitação negada pelo solicitado", 3),
+	 SOLICITACAO_NAO_ENVIADA_PARA_SOLICITADO("Solicitação não enviada para o solicitado.", 4),
+	 
+	 SOLICITACAO_ENVIADA_PARA_SOLICITANTE("Solicitação enviada para o solicitante", 5),
+	 SOLICITACAO_ACEITA_PELO_SOLICITANTE("solicitação aceita pelo solicitante", 6),
+	 SOLICITACAO_NEGADA_PELO_SOLICITANTE("Solicitação negada pelo solicitante", 7),
+	 SOLICITACAO_NAO_ENVIADA_PARA_SOLICITANTE("Solicitação não enviada para o solicitante.", 8);	
 	 
 	 
 	 private final String descricao;
