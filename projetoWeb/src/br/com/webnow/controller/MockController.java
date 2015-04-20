@@ -73,9 +73,9 @@ public class MockController {
 	        	e.setTipoServico(TipoServico.ESTACIONAMENTO.getCodigo());
 	        	servicoRepository.save(e);
 	        	
-	        	Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
-	        	Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
-	        	Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
+	        	//Servico servicoc = servicoRepository.findByPropertyValue("tipoServico", TipoServico.CARONA.getCodigo());
+	        	//Servico servicor = servicoRepository.findByPropertyValue("tipoServico", TipoServico.REBOQUE.getCodigo());
+	        	//Servico servicoe = servicoRepository.findByPropertyValue("tipoServico", TipoServico.ESTACIONAMENTO.getCodigo());
 	        	
 	        	//servicoService.addServico(u, servicoc);
 	        	//servicoService.addServico(u, servicor);

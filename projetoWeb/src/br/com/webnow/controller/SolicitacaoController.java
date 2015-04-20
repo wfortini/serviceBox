@@ -84,12 +84,13 @@ public class SolicitacaoController {
 			this.solicitacaoService.atualizar(solicitacao);
 			return new Response(true, "Solicita~]ao respondida  enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
 			
+		}catch(SolicitacaoException ux){
+    		return new Response(false, ux.getMessage(), null, Response.FALHA);	
 		} catch (Exception e) {
-			
-		}
-		
-		return null;
-		
+			logger.error("Erro ao responder solicitação: ", e.getMessage());			
+			return new Response(false, "Erro ao responder solicitação.", null, Response.ERRO_DESCONHECIDO);
+		}		
+	
 	}
     
 	
