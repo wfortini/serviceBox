@@ -11,6 +11,10 @@
         android:layout_height="wrap_content"
         android:divider="@color/list_divider"
         android:dividerHeight="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"        
         android:listSelector="@drawable/list_row_selector" />
     
 </RelativeLayout>
