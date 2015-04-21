@@ -7,15 +7,20 @@ import org.holoeverywhere.app.ProgressDialog;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 import br.com.mobilenow.ItinerarioActivity;
 import br.com.mobilenow.ListaServicoActivity;
 import br.com.mobilenow.PlanejamentoActivity;
@@ -44,9 +49,12 @@ public class CaronaMapFragment extends SherlockMapFragment{
 	 static final String TAG = CaronaMapFragment.class.getSimpleName();
 	
 	private Handler handler = new Handler();
+	private Handler handlerNotificacao = new Handler();
 	private Itinerario itinerario;	
 	private ProgressDialog progressDialog;
 	private ArrayList<? extends Parcelable> prestarLista = new ArrayList<PrestarServico>();
+	private int hot_number = 2;
+	private TextView ui_hot = null;
 	
 	
 	private Planejamento planejamento;
@@ -87,7 +95,76 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			menu.clear();
 			inflater.inflate(R.menu.carona_menu, menu);
 			
+			final View menu_hotlist = menu.findItem(R.id.menu_notificacao).getActionView();
+		    ui_hot = (TextView) menu_hotlist.findViewById(R.id.lbl_notificao);
+		    updateHotCount(hot_number);
+		    new MyMenuItemStuffListener(menu_hotlist, "Show hot message") {
+		        @Override
+		        public void onClick(View v) {
+		          //  onHotlistSelected();
+		        }
+		    };
+			
 		}
+		
+		private void runOnUiThread(Runnable runna){
+			handlerNotificacao.post(runna);
+		}
+		
+		
+		public void updateHotCount(final int new_hot_number) {
+		    hot_number = new_hot_number;
+		    if (ui_hot == null) return;
+		    runOnUiThread(new Runnable() {
+		        @Override
+		        public void run() {
+		            if (new_hot_number == 0)
+		                ui_hot.setVisibility(View.INVISIBLE);
+		            else {
+		                ui_hot.setVisibility(View.VISIBLE);
+		                ui_hot.setText(Integer.toString(new_hot_number));
+		            }
+		        }
+		    });
+		}
+		
+		static abstract class MyMenuItemStuffListener implements View.OnClickListener, View.OnLongClickListener {
+		    private String hint;
+		    private View view;
+
+		    MyMenuItemStuffListener(View view, String hint) {
+		        this.view = view;
+		        this.hint = hint;
+		        view.setOnClickListener(this);
+		        view.setOnLongClickListener(this);
+		    }
+
+		    @Override abstract public void onClick(View v);
+
+		    @Override public boolean onLongClick(View v) {
+		        final int[] screenPos = new int[2];
+		        final Rect displayFrame = new Rect();
+		        view.getLocationOnScreen(screenPos);
+		        view.getWindowVisibleDisplayFrame(displayFrame);
+		        final Context context = view.getContext();
+		        final int width = view.getWidth();
+		        final int height = view.getHeight();
+		        final int midy = screenPos[1] + height / 2;
+		        final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+		        Toast cheatSheet = Toast.makeText(context, hint, Toast.LENGTH_SHORT);
+		        if (midy < displayFrame.height()) {
+		            cheatSheet.setGravity(Gravity.TOP | Gravity.RIGHT,
+		                    screenWidth - screenPos[0] - width / 2, height);
+		        } else {
+		            cheatSheet.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, height);
+		        }
+		        cheatSheet.show();
+		        return true;
+		    }
+		}
+		
+		
+		
 		
 		  @Override
 			public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -226,6 +303,8 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			  
 		      return true;
 		}
+		
+		
 		
 		
 
