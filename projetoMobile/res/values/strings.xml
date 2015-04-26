@@ -51,7 +51,8 @@
     <string name="visualizar_itinerario">Visualizar</string>
     <string name="enviar_mensagem">Enviar mensagem</string>
     <string name="icone_notificacao">Notificações</string>
-    
+    <string name="label_sim">Sim</string>
+    <string name="label_nao">Não</string>
 
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
@@ -131,5 +132,6 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_listar_prestacao_servico">ListarPrestacaoServicoActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_lista_notificacoes">ListaNotificacoesActivity</string>
 
 </resources>
