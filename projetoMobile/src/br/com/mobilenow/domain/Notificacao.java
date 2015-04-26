@@ -2,7 +2,10 @@ package br.com.mobilenow.domain;
 
 import java.util.Date;
 
-public class Notificacao {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Notificacao implements Parcelable{
 	
 	
 	private Integer _id;
@@ -15,6 +18,53 @@ public class Notificacao {
 	private Date dataSolicitacao;
 	private Integer statusNotificacao;
 	private Integer idSolicitacao;
+	
+	/**
+	 * Implementação da interface Parcelable
+	 */
+	@Override
+	public int describeContents() {		
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(_id);
+		dest.writeString(mensagem);
+		dest.writeInt(idSolicitante);
+		dest.writeInt(idSolicitado);
+		dest.writeInt(idPrestacao);
+		dest.writeInt(tipoSolicitacao);
+		dest.writeString(fotoPerfil);
+		dest.writeLong(dataSolicitacao.getTime());
+		dest.writeInt(statusNotificacao);
+		dest.writeInt(idSolicitacao);
+	}
+	
+	private Notificacao(Parcel in) {
+		_id = in.readInt();
+		mensagem = in.readString();
+		idSolicitante = in.readInt();
+		idSolicitado = in.readInt();
+		idPrestacao = in.readInt();
+		tipoSolicitacao = in.readInt();
+		fotoPerfil = in.readString();
+		dataSolicitacao = new Date(in.readLong());
+		statusNotificacao = in.readInt();
+		idSolicitacao = in.readInt();
+    }
+	
+	 public static final Parcelable.Creator<Notificacao> CREATOR = new Parcelable.Creator<Notificacao>() {
+	        @Override
+	        public Notificacao createFromParcel(Parcel in) {
+	            return new Notificacao(in);
+	        }
+
+	        @Override
+	        public Notificacao[] newArray(int size) {
+	            return new Notificacao[size];
+	        }
+	    };
 	
 	
 	public Notificacao() {
