@@ -109,7 +109,8 @@ public class SolicitacaoService {
 		json.put("mensagem", this.getMsgPorTipoEStatusSolicitacao(solicitacao));
 		json.put("idSolicitante", solicitacao.getSolicitante().getId());
 		json.put("idSolicitado", solicitacao.getSolicitado().getId());
-		json.put("imagemPefil", solicitacao.getSolicitante().getFotoPerfil());
+		json.put("imagemPefil", solicitacao.getSolicitante().getFotoPerfil() + "+" 
+				.concat(solicitacao.getSolicitante().getLogin()));
 		json.put("idPrestacao", solicitacao.getPrestarServico().getId());
 		json.put("tipoSolicitacao", solicitacao.getTipoSolicitacao());
 		json.put("idSolicitacao", solicitacao.getId());
