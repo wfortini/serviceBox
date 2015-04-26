@@ -6,8 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -256,6 +258,12 @@ public class ServiceBoxMobileUtil {
 		
 		String urlTemp = "";
 		
+		if(loginPath == null){			
+			Map<String, String> param = extrairLogin(fotoPerfil);
+			fotoPerfil = param.get("nomeFoto");
+			loginPath = param.get("login");			
+		}
+		
 		if(urlServer != null && !urlServer.equals("")){
 			
 			urlTemp = urlServer.concat(":8080/projetoWeb/imagemPerfil?fileName=").concat(fotoPerfil)
@@ -265,6 +273,31 @@ public class ServiceBoxMobileUtil {
 		}
 		return urlTemp;
 	}
+   
+   private static Map<String, String> extrairLogin(String param){
+	   
+	   String foto = "";
+	   String login = "";
+	   Map<String, String> dados = new HashMap<String, String>();
+	   
+	   if(param == null)
+		   return null;
+	   
+	   int posicao = param.indexOf("+");
+	   if(posicao >= 0){		   
+		   foto = param.substring(0, posicao);
+		   login = param.substring(posicao + 1); // não pegar o +		   
+		   dados.put("nomeFoto", foto);
+		   dados.put("login", login);
+	   }else{
+		   dados.put("nomeFoto", "default.jpg");
+		   dados.put("login", "default");
+	   }
+	   
+	   
+	   
+	  return dados; 
+   }
    
    public static Date stringToTime(String time){
 	   Date date = null;

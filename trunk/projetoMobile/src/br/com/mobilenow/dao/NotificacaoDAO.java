@@ -139,6 +139,41 @@ public class NotificacaoDAO {
                 new String[] { String.valueOf(notificacao.getIdSolicitacao())})) != -1;		
     	
     }
+    
+    public List<Notificacao> listarNotificacoesPorStatus(){
+		
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor =
+		db.rawQuery("SELECT _id, mensagem, idSolicitante, " +
+				"idSolicitado, idPrestacao, fotoPrefil, tipoSolicitacao, dataSolicitacao, statusNotificacao," +
+				" idSolicitacao" +
+				" FROM " + TABELA_NOTIFICACAO + " WHERE statusNotificacao = 1 Or statusNotificacao = 2" +
+						" or statusNotificacao = 3 ", null);
+		
+				cursor.moveToFirst();
+				List<Notificacao> notificacoes = new ArrayList<Notificacao>();
+				
+				for (int i = 0; i < cursor.getCount(); i++) {
+					
+					Notificacao n = new Notificacao();
+					n.set_id(cursor.getInt(0));
+					n.setMensagem(cursor.getString(1));
+					n.setIdSolicitante(cursor.getInt(2));
+					n.setIdSolicitado(cursor.getInt(3));
+					n.setIdPrestacao(cursor.getInt(4));
+					n.setFotoPerfil(cursor.getString(5));
+					n.setTipoSolicitacao(cursor.getInt(6));
+					n.setDataSolicitacao(new Date(cursor.getLong(7)));
+					n.setStatusNotificacao(cursor.getInt(8));
+					n.setIdSolicitacao(cursor.getInt(9));
+					
+					notificacoes.add(n);	
+					cursor.moveToNext();
+					
+				}
+				cursor.close();				
+				return notificacoes;
+	}
 	
 	
 
