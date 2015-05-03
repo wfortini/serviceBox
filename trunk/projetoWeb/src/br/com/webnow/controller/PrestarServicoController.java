@@ -20,6 +20,7 @@ import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
 import br.com.webnow.domain.PrestarServico;
+import br.com.webnow.exception.ServicoNaoDisponivelException;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 import br.com.webnow.service.prestarservico.PrestarServicoService;
@@ -41,30 +42,33 @@ public class PrestarServicoController {
 	 
 	 
 	 @RequestMapping(value = "/prestarServico", method = RequestMethod.POST)
-	 public @ResponseBody PrestarServicoResponse prestarServico(@RequestBody PrestarServicoRequest request){
+	 public @ResponseBody Response prestarServico(@RequestBody PrestarServicoRequest request){
 		 
 		 PrestarServico prestar = null; 
-		 PrestarServicoResponse response = null;
+		 Response response = null;
 		 try {
 			  prestar = prestarServicoService.prestarServico(request.getNodeId(), 
 					  request.getServicoPrestado(), request.getDescricao(), ServiceBoxWebUtil.preencherObjetoItinerario(request), 
 					  ServiceBoxWebUtil.preencherObjetoPlanejamento(request));
 			  if(prestar != null && prestar.getId() != null){
 				  
-				  response = new PrestarServicoResponse(true,"Prestação de serviço adicionado com sucesso.",
+				  response = new Response(true,"Prestação de serviço adicionado com sucesso.",
 						  prestar.getId(),Response.SUCESSO);                 
                   return response;
 				  
 			  }else{
 				  
-				  response = new PrestarServicoResponse(true,"Falha ao adicionar Prestação de Serviço.",
+				  response = new Response(true,"Falha ao adicionar Prestação de Serviço.",
 						  prestar.getId(),Response.FALHA);                 
                   return response;
 				  
 			  }
+		 }catch(ServicoNaoDisponivelException se){
+			 logger.error("Erro ao adicionar prestacao servico: ", se.getMessage());
+			 return new Response(false, se.getMessage(), null, Response.SERVICO_NAO_INCLUSO);
 		} catch (Exception e) {
 			logger.error("Erro ao adicionar prestacao servico: ", e.getMessage());
-			return new PrestarServicoResponse(false, "Falha na prestação de serviço", null, Response.ERRO_DESCONHECIDO);
+			return new Response(false, "Falha na prestação de serviço", null, Response.ERRO_DESCONHECIDO);
 		}	
 		 
 	 }
@@ -83,8 +87,9 @@ public class PrestarServicoController {
 			partida.setLongitude(request.getLongitudePartida());
 			destino.setLatitude(request.getLatitudeDestino());
 			destino.setLongitude(request.getLongitudeDestino());
-			response.setPrestacaoLocalizadas(ServiceBoxWebUtil.preencherPrestacaoLocalizada(this.prestarServicoService.buscarServicosPorCoordenadasComDistancia(
-					partida, destino, request.getServicoPrestado(), request.getDistanciaMaxima())));
+			response.setPrestacaoLocalizadas(ServiceBoxWebUtil.preencherPrestacaoLocalizada(
+					this.prestarServicoService.buscarServicosPorCoordenadasComDistancia(
+					    partida, destino, request.getServicoPrestado(), request.getDistanciaMaxima())));
 			
 			response.setCode(Response.SUCESSO);
 			response.setMessage("Sucesso");

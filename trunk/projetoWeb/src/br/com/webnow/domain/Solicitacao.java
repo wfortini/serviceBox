@@ -5,6 +5,7 @@ import static org.neo4j.graphdb.Direction.INCOMING;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
@@ -15,9 +16,11 @@ public class Solicitacao extends BaseEntity implements Serializable{
 	private static final long serialVersionUID = -105851659887399602L;
 	
 	@RelatedTo(type = "SOLICITOU", direction = INCOMING)
+	@Fetch
 	private Usuario solicitante;
 	
 	@RelatedTo(type = "SOLICITADO", direction = INCOMING)
+	@Fetch
 	private Usuario solicitado;
 	
 	private Integer tipoSolicitacao;
