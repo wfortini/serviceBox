@@ -17,6 +17,22 @@ public abstract class Servico implements Parcelable{
 	private Date dataInicialPrestacao;	
 	private Integer tipoServico;
 	
+	public abstract String obterMensagem();
+	
+	public static Servico getIntance(TipoServico tipo) {
+
+	    switch (tipo) {
+	        case CARONA:
+	            return new Carona();
+	        case REBOQUE:
+	            return new Reboque();
+	        case ESTACIONAMENTO:
+	        	return new Estacionamento();
+	        default:
+	            return null;
+	    }
+	}
+	
 	public static Servico getConcreteClass(Parcel source) {
 
 	    switch (source.readInt()) {
@@ -71,9 +87,7 @@ public abstract class Servico implements Parcelable{
 	        }
 	    };
 	
-	public Integer getTipoServico() {
-		return tipoServico;
-	}
+	public abstract Integer getTipoServico() ;
 
 
 

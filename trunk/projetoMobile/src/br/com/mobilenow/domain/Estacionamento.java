@@ -8,6 +8,18 @@ public class Estacionamento extends Servico{
 	public Estacionamento() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public Integer getTipoServico() {
+		
+		return TipoServico.ESTACIONAMENTO.getCodigo();
+	}
+	
+	@Override
+	public String obterMensagem() {
+		
+		return "Você pediu uma vaga para estacionar";
+	}
 
 	public Estacionamento(Parcel source) {
 	    super(source);

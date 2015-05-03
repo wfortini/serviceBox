@@ -43,6 +43,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 	
 	public static final String TAG = ListarPrestacaoServicoActivity.class.getSimpleName();
 	public static final String LOCALIZAR_POR_ITINERARIO = "LOCALIZAR_POR_ITINERARIO";
+	public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
     	
     	private PrestacaoLocalizada prestacaoLocalizada;
     	private Itinerario itinerario;
+    	private Integer tipoServico;
 		
 		@Override
     	public void onCreate(Bundle savedInstanceState) {
@@ -102,8 +104,9 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		void init(View v, Bundle savedInstanceState){			
 			
 			listaPrestacaoServico = (ListView) v.findViewById(R.id.listaPrestacaoServico);            
-			listaPrestacaoServico.setOnItemClickListener(this);            
-		   new RequisicaoTask().execute();      
+			listaPrestacaoServico.setOnItemClickListener(this);  
+			tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
+		    new RequisicaoTask().execute();      
 		 
 		} // fim metodo init      
 		  
@@ -137,7 +140,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 								preencheObjetoPrestarServicoRequest(itinerario, null);    
 						request.setNodeId(ServiceBoxApplication.getUsuario().getNodeId());
 						request.setLogin(ServiceBoxApplication.getUsuario().getLogin());
-						request.setServicoPrestado(TipoServico.CARONA.getCodigo()); //TODO: aqui tenho que alterar pra obetr serviço dinamicamente
+						request.setServicoPrestado(tipoServico);
 						
 			             Response response = null;
 			             if (GuiUtils.checkOnline()){
@@ -218,6 +221,7 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
 		    intent.putExtra(InfoActivity.INFO_SERVICO, info);
 		    intent.putExtra(InfoActivity.EXIBIR_INFO_NO_MODO, InfoActivity.INFO_MODO_SOLICITAR);
+		    intent.putExtra(InfoActivity.PRESTAR_SERVICO, tipoServico);
 		    getActivity().startActivity(intent);
 		  
 		  /**  usar da forma abaixo como no exemplo

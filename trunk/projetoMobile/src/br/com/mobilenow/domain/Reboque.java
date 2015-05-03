@@ -9,6 +9,16 @@ public class Reboque extends Servico{
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
+	public Integer getTipoServico() {		
+		return TipoServico.REBOQUE.getCodigo();
+	}
+	
+	@Override
+	public String obterMensagem() {		
+		return "Você solicitou um reboque.";
+	}
+	
 	public Reboque(Parcel source) {
 	    super(source);
 	    //mString = source.readString();

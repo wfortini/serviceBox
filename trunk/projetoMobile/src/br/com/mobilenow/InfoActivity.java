@@ -24,7 +24,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import br.com.mobilenow.dao.NotificacaoDAO;
+import br.com.mobilenow.domain.Carona;
 import br.com.mobilenow.domain.Notificacao;
+import br.com.mobilenow.domain.Servico;
 import br.com.mobilenow.util.Info;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
@@ -32,6 +34,7 @@ import br.com.servicebox.android.common.fragment.CommonFragment;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.common.domain.StatusSolicitacao;
+import br.com.servicebox.common.domain.TipoServico;
 import br.com.servicebox.common.domain.TipoSolicitacao;
 import br.com.servicebox.common.net.Response;
 
@@ -44,7 +47,8 @@ public class InfoActivity extends CommonActivity {
 	public static final String INFO_SERVICO = "INFO_SERVICO";
 	public static final String INFO_MODO_SOLICITAR = "INFO_MODO_SOLICITAR";
 	public static final String EXIBIR_INFO_NO_MODO = "EXIBIR_INFO_NO_MODO";
-    public static final int RESULT_CODE = 456;   
+    public static final int RESULT_CODE = 456; 
+    public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
 	
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class InfoActivity extends CommonActivity {
     	private TextView tvDiasDaSemana;    	
     	private TextView tvHorarioPlanejado;
     	private String exibirNoModo;
+    	private Integer tipoServico;
     	
     	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
     	
@@ -112,6 +117,7 @@ public class InfoActivity extends CommonActivity {
     	private void init(View v){
     		
     		exibirNoModo = getActivity().getIntent().getStringExtra(EXIBIR_INFO_NO_MODO);
+    		 tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
     		
     		StringBuilder html = retornaDiasSemana();    		 
     		
@@ -258,10 +264,10 @@ public class InfoActivity extends CommonActivity {
      					
      				}catch(ResourceAccessException rae){
      					CommonUtils.error(TAG, rae.getMessage());
-     					response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+     					response = new Response(false, "Falha na solicitação \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
      				} catch (Exception e) {
      					Log.e(TAG, e.getMessage());
-     					response = new Response(false, "Fallha na inclusão do serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+     					response = new Response(false, "Fallha na solicitação, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
      				}
      				
      				return response;
@@ -271,20 +277,7 @@ public class InfoActivity extends CommonActivity {
  					
  					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
  						GuiUtils.alert(response.getMessage());
- 						NotificacaoDAO dao = null;
- 						try {
- 							dao = new NotificacaoDAO(getActivity());
-							Notificacao noti = new Notificacao();
-							noti.setDataSolicitacao(new Date());
-							noti.setIdPrestacao(info.getNodeId().intValue());
-							noti.setIdSolicitante(ServiceBoxApplication.getUsuario().getNodeId().intValue());
-							noti.setIdSolicitacao(info.getNodeIdUsuario().intValue());
-							noti.setTipoSolicitacao(TipoSolicitacao.CARONA.getCodigo());
-							noti.setStatusNotificacao(
-									StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo());
-						} finally {
-							dao.close();
-						}					
+ 						incluirNotificacao();				
  					}else{
  						GuiUtils.alert(response.getMessage());
  					}			
@@ -304,7 +297,34 @@ public class InfoActivity extends CommonActivity {
      				this.retornoRegistro(result);
      			}
      			
-     		}    
+     		} 
+     	
+     	
+     
+     	private void incluirNotificacao(){
+     		
+     		Servico servico = Servico.getIntance(TipoServico.getTipoServico(tipoServico));
+     		
+     		NotificacaoDAO dao = null;
+				try {
+					dao = new NotificacaoDAO(getActivity());
+				Notificacao noti = new Notificacao();
+				noti.setDataSolicitacao(new Date());
+				noti.setIdPrestacao(info.getNodeId().intValue());
+				noti.setIdSolicitante(ServiceBoxApplication.getUsuario().getNodeId().intValue());
+				noti.setIdSolicitacao(info.getNodeIdUsuario().intValue());
+				noti.setMensagem(servico.obterMensagem());
+				noti.setFotoPerfil(info.getFotoPerfilUsuario() +"+".concat(
+						info.getLoginUsuario()));
+				noti.setTipoSolicitacao(servico.getTipoServico());
+				noti.setStatusNotificacao(
+						StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo());
+				dao.incluir(noti);
+			} finally {
+				dao.close();
+			}	
+     		
+     	}
          
          
          
