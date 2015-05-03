@@ -56,7 +56,7 @@
 					        android:id="@+id/linearImagens"
 					        android:layout_width="wrap_content"
 					        android:layout_height="wrap_content"
-					        android:layout_marginLeft="155dp"
+					        android:layout_marginLeft="60dp"
 					        android:layout_marginRight="5dp"
 					        android:orientation="horizontal" >
 				    
@@ -64,16 +64,34 @@
 						        android:id="@+id/imagem_aceita"
 						        android:layout_width="wrap_content"
 						        android:layout_height="fill_parent"
-						        android:visibility="invisible"				        			        
+						        android:visibility="invisible" 				        			        
 						        android:src="@drawable/ic_aceito" />
+						    
+						    <TextView
+						        android:id="@+id/lblAceito"
+						        android:layout_width="wrap_content"
+						        android:layout_height="wrap_content"	
+						        android:text="@string/label_aceito"			        
+						        android:layout_marginTop="3dp"
+						        android:visibility="invisible"
+						        android:textStyle="bold" />
 						    
 						    <ImageView
 						        android:id="@+id/imagem_negada"
 						        android:layout_width="wrap_content"
-						        android:layout_height="fill_parent"	
-						        android:visibility="invisible"			        			        
+						        android:visibility="invisible"
+						        android:layout_height="fill_parent"							       		        			        
 						        android:src="@drawable/ic_negado" />
-				    
+						    
+						    <TextView
+						        android:id="@+id/lblNegou"
+						        android:layout_width="wrap_content"
+						        android:layout_height="wrap_content"	
+						        android:text="@string/label_negado"	
+						        android:visibility="invisible"		        
+						        android:layout_marginTop="3dp"
+						        android:textStyle="bold" />
+				            
 				    
 				    </LinearLayout>
 
@@ -91,21 +109,29 @@
 			        <Button
 			            android:id="@+id/bt_notificacao_sim"
 			            style="@style/ServiceBox.YellowButton"
-			            android:layout_width="100dp"
+			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
-			            android:layout_weight="0.52"
-			            android:text="@string/label_sim"			           
+			            android:text="@string/label_sim"
+			            android:visibility="invisible"
 			            android:textSize="@dimen/bt_solicitar" />
 			
 			        <Button
 			            android:id="@+id/bt_notificacao_nao"
 			            style="@style/ServiceBox.YellowButton"
-			            android:layout_width="100dp"
+			            android:layout_width="70dp"
 			            android:layout_height="wrap_content"
-			            android:layout_weight="0.11"			           
 			            android:text="@string/label_nao"
+			            android:visibility="invisible"
 			            android:textSize="@dimen/bt_visualizar" />
-			
+			        
+			         <ImageButton
+			            android:id="@+id/bt_apagar_notificacao"
+			            android:layout_width="wrap_content"
+			            android:layout_height="fill_parent"			            
+			            android:visibility="invisible"
+			            android:src="@android:drawable/ic_menu_delete" />
+			        
+			        
 			    </LinearLayout>
             
    </LinearLayout>
