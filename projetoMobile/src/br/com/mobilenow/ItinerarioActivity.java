@@ -54,6 +54,7 @@ public class ItinerarioActivity extends CommonActivity {
     public static final String OFERECER_ITINERARIO = "OFERECER";
     public static final String LOCALIZAR_ITINERARIO = "LOCALIZAR";
     public static final String QUAL_OPERACAO = "QUAL_OPERACAO";
+    public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
    
 
     @Override
@@ -91,6 +92,7 @@ public class ItinerarioActivity extends CommonActivity {
     	private SeekBar distanciaLocalizacao;
     	private TextView labelBUscarEm;
     	private TextView labelDistancia;
+    	private Integer tipoServico;
     	
     	private double distanciaMaxima = 0.0;
     	
@@ -112,6 +114,7 @@ public class ItinerarioActivity extends CommonActivity {
     	 void init(View v)
          {
     		 operacaoEmAndamento = getActivity().getIntent().getStringExtra(QUAL_OPERACAO);
+    		 tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
     		 
              Button confirmaItinerariodBtn = (Button) v.findViewById(R.id.confirmar_itinerario);
              partida = (AutoCompleteTextView) v.findViewById(R.id.partida);
@@ -221,6 +224,7 @@ public class ItinerarioActivity extends CommonActivity {
     		 if(operacaoEmAndamento != null && operacaoEmAndamento.equals(LOCALIZAR_ITINERARIO)){
     			 Intent intent = new Intent(getActivity(), ListarPrestacaoServicoActivity.class);
     	         intent.putExtra(ListarPrestacaoServicoActivity.LOCALIZAR_POR_ITINERARIO, itinerario);
+    	         intent.putExtra(ListarPrestacaoServicoActivity.PRESTAR_SERVICO, tipoServico);
     	         getActivity().startActivity(intent);
     	         getActivity().finish();
     		 }else{ // vou criar uma prestação aqui

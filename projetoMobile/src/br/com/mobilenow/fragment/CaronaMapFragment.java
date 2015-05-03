@@ -26,6 +26,7 @@ import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.UsuarioActivity;
 import br.com.mobilenow.componente.SherlockMapFragment;
+import br.com.mobilenow.dao.NotificacaoDAO;
 import br.com.mobilenow.domain.Itinerario;
 import br.com.mobilenow.domain.Planejamento;
 import br.com.mobilenow.domain.PrestarServico;
@@ -92,10 +93,16 @@ public class CaronaMapFragment extends SherlockMapFragment{
 			super.onCreateOptionsMenu(menu, inflater);
 			menu.clear();
 			inflater.inflate(R.menu.carona_menu, menu);
-			
+			NotificacaoDAO dao = null;
 			final View menuNumNotificacoes = menu.findItem(R.id.menu_notificacao).getActionView();
 		    txtNumNotificacoes = (TextView) menuNumNotificacoes.findViewById(R.id.lbl_notificao);
-		    atualizarContadorDeNotificacao(numeroNotificacoes);
+		    try{
+		    	dao = new NotificacaoDAO(getActivity());
+		    	atualizarContadorDeNotificacao(dao.getCount());
+		    }finally{
+		       dao.close();	
+		    }
+		    
 		    new NotificacaoMenuItemListener(menuNumNotificacoes, "Show hot message") {
 		        @Override
 		        public void onClick(View v) {
@@ -185,10 +192,10 @@ public class CaronaMapFragment extends SherlockMapFragment{
 							
 						}catch(ResourceAccessException rae){
 							CommonUtils.error(TAG, rae.getMessage());
-							response = new Response(false, "Falha no cadastro do usuário \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
+							response = new Response(false, "Falha na prestação de serviço \n Servidor não responde.", null, Response.ERRO_DESCONHECIDO);
 						} catch (Exception e) {
 							Log.e(TAG, e.getMessage());
-							response = new Response(false, "Fallha no cadastro do usuário, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+							response = new Response(false, "Fallha na prestação de serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
 						}
 						
 						return response;
@@ -234,21 +241,25 @@ public class CaronaMapFragment extends SherlockMapFragment{
 				  
 				  Intent i = new Intent(getActivity(), ItinerarioActivity.class); 
 				  i.putExtra(ItinerarioActivity.QUAL_OPERACAO, ItinerarioActivity.LOCALIZAR_ITINERARIO);
+				  i.putExtra(ItinerarioActivity.PRESTAR_SERVICO, TipoServico.CARONA.getCodigo());
                   startActivity(i);
 				  
 			  } else if (item.getItemId() == R.id.item_menu_motorista_rodada_carona) {
 				  
-				  startActivityForResult(new Intent(getActivity(), UsuarioActivity.class), UsuarioActivity.RESULT_CODE);
+				 NotificacaoDAO dao = new NotificacaoDAO(getActivity());
+				 dao.deleteAll();
+				 dao.close();
 				  
 			  } else  if (item.getItemId() == R.id.item_menu_prestar_carona) {
 				  
 				  Intent i = new Intent(getActivity(), PrestarServicoActivity.class);
-                  i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, "carona");
+                  i.putExtra(PrestarServicoActivity.PRESTAR_SERVICO, TipoServico.CARONA.getCodigo());
                   startActivityForResult(i, REQUEST_PRESTA_SERVICO);
                   
 			  } else  if (item.getItemId() == R.id.item_menu_listar_carona){
 				  
-				  Intent i = new Intent(getActivity(), ListaServicoActivity.class);                 
+				  Intent i = new Intent(getActivity(), ListaServicoActivity.class); 
+				  i.putExtra(ListaServicoActivity.PRESTAR_SERVICO, TipoServico.CARONA.getCodigo());
                   startActivity(i);
 				  
 				 

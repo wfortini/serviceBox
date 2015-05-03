@@ -106,9 +106,11 @@ public class GcmIntentService extends IntentService {
 				notificacao.getIdSolicitado(), notificacao.getIdPrestacao());
 		
 		if(not != null && not.getIdSolicitacao() != null){
-		   retorno = dao.atualizarNotificacao(notificacao);	
+		   retorno = dao.atualizarNotificacaoPorIdSolicitacao(notificacao);	
 		   dao.close();
+		   Log.d(TAG, "Retorno do update apos resposta foi." + retorno);
 		   return retorno;
+		   
 			
 		}else{
 			retorno = dao.incluir(notificacao);

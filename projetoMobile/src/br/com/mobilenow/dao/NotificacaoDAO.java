@@ -36,7 +36,7 @@ public class NotificacaoDAO {
 		ContentValues values = new ContentValues();
 		values.put("mensagem", notificacao.getMensagem());
 		values.put("idSolicitante", notificacao.getIdSolicitante());
-		values.put("idSolicitado", notificacao.getIdPrestacao());
+		values.put("idSolicitado", notificacao.getIdSolicitado());
 		values.put("idPrestacao", notificacao.getIdPrestacao());
 		values.put("fotoPrefil", notificacao.getFotoPerfil());
 		values.put("tipoSolicitacao", notificacao.getTipoSolicitacao());
@@ -127,16 +127,39 @@ public class NotificacaoDAO {
 				return n;
 	}
     
-    public boolean atualizarNotificacao(Notificacao notificacao){
+    public boolean atualizarStatusNotificacao(Notificacao notificacao){
+    	
+        SQLiteDatabase db = helper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put("statusNotificacao", notificacao.getStatusNotificacao());			
+		
+		return (db.update(TABELA_NOTIFICACAO, values, "_id" + " = ?",
+               new String[] { String.valueOf(notificacao.get_id())})) != -1;		
+   	
+   }
+    
+  public boolean atualizarNotificacaoPorIdSolicitacao(Notificacao notificacao){
     	
          SQLiteDatabase db = helper.getWritableDatabase();
+         
+         String[] param = new String[3];
+     	
+     	if(notificacao.getIdSolicitante() != null)
+     		param[0] = String.valueOf(notificacao.getIdSolicitante());
+     	
+     	if(notificacao.getIdSolicitado() != null)
+     		param[1] = String.valueOf(notificacao.getIdSolicitado());
+     	
+     	if(notificacao.getIdPrestacao() != null)
+     		param[2] = String.valueOf(notificacao.getIdPrestacao());
 		
 		ContentValues values = new ContentValues();
 		values.put("statusNotificacao", notificacao.getStatusNotificacao());
 		values.put("mensagem", notificacao.getMensagem());	
 		
-		return (db.update(TABELA_NOTIFICACAO, values, "idSolicitacao" + " = ?",
-                new String[] { String.valueOf(notificacao.getIdSolicitacao())})) != -1;		
+		return (db.update(TABELA_NOTIFICACAO, values, " idSolicitante = ? AND idSolicitado = ? and idPrestacao = ? ",
+                param )) != -1;		
     	
     }
     
@@ -147,8 +170,8 @@ public class NotificacaoDAO {
 		db.rawQuery("SELECT _id, mensagem, idSolicitante, " +
 				"idSolicitado, idPrestacao, fotoPrefil, tipoSolicitacao, dataSolicitacao, statusNotificacao," +
 				" idSolicitacao" +
-				" FROM " + TABELA_NOTIFICACAO + " WHERE statusNotificacao = 1 Or statusNotificacao = 2" +
-						" or statusNotificacao = 3 ", null);
+				" FROM " + TABELA_NOTIFICACAO + " WHERE (statusNotificacao = 1 Or statusNotificacao = 2" +
+						" or statusNotificacao = 3) and fotoPrefil is not null", null);
 		
 				cursor.moveToFirst();
 				List<Notificacao> notificacoes = new ArrayList<Notificacao>();
@@ -174,6 +197,45 @@ public class NotificacaoDAO {
 				cursor.close();				
 				return notificacoes;
 	}
+    
+   public void deleteAll() {    	 
+        
+        SQLiteDatabase db = helper.getReadableDatabase();        
+        db.delete(TABELA_NOTIFICACAO, //table name
+                null, null); 
+       
+        db.close();
+ 
+    
+ 
+    }
+   
+   public void deletePorId(Integer idNotificacao){    	 
+       
+       SQLiteDatabase db = helper.getReadableDatabase();        
+       db.delete(TABELA_NOTIFICACAO, //table name
+               "_id = ?", 
+               new String[] { String.valueOf(idNotificacao) }); 
+      
+       db.close();
+
+   
+
+   }
+   
+   public  int getCount(){
+			
+			SQLiteDatabase db = helper.getReadableDatabase();
+			Cursor cursor =
+			db.rawQuery("SELECT _id FROM " + TABELA_NOTIFICACAO + " WHERE (statusNotificacao = 1 Or statusNotificacao = 2" +
+							" or statusNotificacao = 3) and fotoPrefil is not null", null);
+			
+					cursor.moveToFirst();
+					int retorno = cursor.getCount();
+					
+					cursor.close();				
+					return retorno;
+		}
 	
 	
 

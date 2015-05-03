@@ -37,6 +37,7 @@ public class ListaServicoActivity extends CommonActivity {
 	
 	public static final String TAG = ListaServicoActivity.class.getSimpleName();
 	public static final String LISTAR_SERVICO = "LISTAR_SERVICO";
+    public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class ListaServicoActivity extends CommonActivity {
 		private ProgressDialog progressDialog;
 		private List<PrestarServico> prestarLista = new ArrayList<PrestarServico>();
 		private ListView list;
+		private Integer tipoServico;
 		
 		@Override
 		public View onCreateView(org.holoeverywhere.LayoutInflater inflater,
@@ -73,7 +75,9 @@ public class ListaServicoActivity extends CommonActivity {
             
          }
 		
-		void init(View v, Bundle savedInstanceState){			
+		void init(View v, Bundle savedInstanceState){
+			
+			tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
 			
             list = (ListView) v.findViewById(R.id.list);            
             list.setOnItemClickListener(this);            
@@ -110,7 +114,7 @@ public class ListaServicoActivity extends CommonActivity {
 						MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 	                     
 						 map.add("idUsuario", ServiceBoxApplication.getUsuario().getNodeId().toString());						 			
-			             
+			             //TODO: dicionar o tipo de serviço tbm
 			             HttpHeaders headers = new HttpHeaders();
 			             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -131,7 +135,7 @@ public class ListaServicoActivity extends CommonActivity {
 						progressDialog.dismiss();
 					} catch (Exception e) {
 						Log.e(TAG, e.getMessage());
-						response = new Response(false, "FFalha na listagem das Prestações de serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
+						response = new Response(false, "Falha na listagem das Prestações de serviço, tente novamente mais tarde.", null, Response.ERRO_DESCONHECIDO);
 						progressDialog.dismiss();
 					}
 					

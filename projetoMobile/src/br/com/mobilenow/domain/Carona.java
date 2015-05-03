@@ -9,9 +9,18 @@ public class Carona extends Servico{
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
+	public Integer getTipoServico() {		
+		return TipoServico.CARONA.getCodigo();
+	}
+	
 	public Carona(Parcel source) {
 	    super(source);
 	    //mString = source.readString();
+	}
+	
+	public  String obterMensagem(){
+		return "Você pediu uma Carona.";
 	}
 
 	@Override

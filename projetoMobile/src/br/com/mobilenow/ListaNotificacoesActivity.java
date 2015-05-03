@@ -108,32 +108,7 @@ public class ListaNotificacoesActivity extends CommonActivity {
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 	 
-	//	PrestacaoLocalizada localizada = mAdapter.getItem(position);
-	//	Info info = ServiceBoxMobileUtil.preencherObjetoInfo(localizada);					
-	//	Intent intent = new Intent(getActivity(), InfoActivity.class);
-	//    intent.putExtra(InfoActivity.INFO_SERVICO, info);
-	//    intent.putExtra(InfoActivity.EXIBIR_INFO_NO_MODO, InfoActivity.INFO_MODO_SOLICITAR);
-	//    getActivity().startActivity(intent);
-	  
-	  /**  usar da forma abaixo como no exemplo
-	  @Override
-	  public void onCreate(Bundle savedInstanceState) {
-	      super.onCreate(savedInstanceState);
-	      if (savedInstanceState != null) {
-	          mCredentials = savedInstanceState.getParcelableArrayList(CREDENTIALS);
-	      } else {
-	          mCredentials = getActivity().getIntent().getParcelableArrayListExtra(CREDENTIALS);
-	      }
-	  }
-	 
-	} 
 	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	  super.onSaveInstanceState(outState);
-	  outState.putParcelableArrayList(CREDENTIALS, mCredentials);
-	}
-	**/ 
 	}
 	
 	}

@@ -224,12 +224,12 @@ public class PlanejamentoActivity extends CommonActivity {
 
         	 Planejamento plj = new Planejamento();
         	 plj.setSegunda(segunda.isChecked());
-        	 plj.setTerca(segunda.isChecked());
-        	 plj.setQuarta(segunda.isChecked());
-        	 plj.setQuinta(segunda.isChecked());
-        	 plj.setSexta(segunda.isChecked());
-        	 plj.setSabado(segunda.isChecked());
-        	 plj.setDomingo(segunda.isChecked());
+        	 plj.setTerca(terca.isChecked());
+        	 plj.setQuarta(quarta.isChecked());
+        	 plj.setQuinta(quinta.isChecked());
+        	 plj.setSexta(sexta.isChecked());
+        	 plj.setSabado(sabado.isChecked());
+        	 plj.setDomingo(domingo.isChecked());
         	 plj.setHoraFixa(tvHoraFixa.getText().toString());
         	 plj.setHoraEntre(tvFaixaHorarioEntre.getText().toString());
         	 plj.setHoraE(tvFaixaHorarioE.getText().toString());
