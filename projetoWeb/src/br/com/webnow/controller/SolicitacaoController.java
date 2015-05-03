@@ -82,7 +82,7 @@ public class SolicitacaoController {
 					  Integer.valueOf(respostaSolicitacao));
 			solicitacao.setStatusSolicitacao(this.sendGCM(solicitacao));
 			this.solicitacaoService.atualizar(solicitacao);
-			return new Response(true, "Solicita~]ao respondida  enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
+			return new Response(true, "Respondida  enviada  com sucesso.", solicitacao.getId(), Response.SUCESSO);
 			
 		}catch(SolicitacaoException ux){
     		return new Response(false, ux.getMessage(), null, Response.FALHA);	

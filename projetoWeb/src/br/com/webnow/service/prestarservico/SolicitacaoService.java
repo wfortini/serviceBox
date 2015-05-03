@@ -89,6 +89,8 @@ public class SolicitacaoService {
 			this.solicitacaoRepository.save(solicitacao);		
 			
 			return solicitacao;
+		}catch(SolicitacaoException se){
+			throw new SolicitacaoException(se.getMessage());
 		} catch (Exception e) {
 			logger.error("Erro ao atualizar status da solicitacao: ", e.getMessage());
 			e.printStackTrace();
@@ -131,7 +133,10 @@ public class SolicitacaoService {
 						" este pedido?";				
 			}else if(solicitacao.getStatusSolicitacao().equals(
 					StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO.getCodigo())){
-				msg = "O usuário " + solicitacao.getSolicitado().getNome() + ", aceitou seu pedido este pedido.";
+				msg = "O usuário " + solicitacao.getSolicitado().getNome() + ", aceitou seu pedido.";
+			}if(solicitacao.getStatusSolicitacao().equals(
+					StatusSolicitacao.SOLICITACAO_NEGADA_PELO_SOLICITADO.getCodigo())){
+				msg = "O usuário " + solicitacao.getSolicitado().getNome() + ", recusou seu pedido.";
 			}
 			
 			
