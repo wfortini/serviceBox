@@ -53,6 +53,8 @@
     <string name="icone_notificacao">Notificações</string>
     <string name="label_sim">Sim</string>
     <string name="label_nao">Não</string>
+    <string name="label_aceito">Aceito!</string>
+    <string name="label_negado">Negou!</string>
 
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
@@ -111,14 +113,14 @@
     <string name="conta_login_button">Acessar minha conta.</string>
     <string name="conta_cadastro_button">Cadastra-se agora!</string>
     <string name="title_activity_login">Login</string>
-    <string name="sign_in_instructions"><![CDATA[<b>Enter</b> an email, password and hit <b>Login</b>]]></string>
+    <string name="sign_in_instructions"><![CDATA[<b>Entre</b> com seu email, password e aperte <b>Login</b>]]></string>
     <string name="hint_email">email</string>
     <string name="hint_password">password</string>
-    <string name="hint_username">username</string>
+    <string name="hint_username">Nome usuário</string>
     <string name="account_forgot_password_button">Esqueceu seu password?</string>
     <string name="password_recovery_instructions">Digite seu e-mail para recuperar sua senha</string>
     <string name="account_own_server_button">Using your own domain?</string>
-    <string name="logging_in_message">Please wait. Logging you in…</string>
+    <string name="logging_in_message">Por favor, aguarde. A iniciar sessão ...</string>
     <string name="campo_email">email</string>
     <string name="campo_password">password</string>
     <string name="campo_username">username</string>
