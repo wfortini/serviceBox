@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import br.com.mobilenow.R;
 import br.com.mobilenow.ServiceBoxApplication;
@@ -121,6 +122,22 @@ public class NotificacaoListAdapter extends ArrayAdapter<Notificacao>{
 		TextView data = (TextView) convertView.findViewById(R.id.dataMensagem);	
 		Button btAceitar = (Button) convertView.findViewById(R.id.bt_notificacao_sim);
 		Button btNegar = (Button) convertView.findViewById(R.id.bt_notificacao_nao);
+		
+		ImageView imageAceito = (ImageView) convertView.findViewById(R.id.imagem_aceita);
+		TextView lblAceito = (TextView) convertView.findViewById(R.id.lblAceito);
+		ImageView imageNegado = (ImageView) convertView.findViewById(R.id.imagem_negada);
+		TextView lblNegou = (TextView) convertView.findViewById(R.id.lblNegou);
+		
+		if(StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO.getCodigo()
+				.equals(notificacao.getStatusNotificacao())){
+			imageAceito.setVisibility(View.VISIBLE);
+			lblAceito.setVisibility(View.VISIBLE);
+		}else if(StatusSolicitacao.SOLICITACAO_NEGADA_PELO_SOLICITADO.getCodigo()
+				.equals(notificacao.getStatusNotificacao())){
+			imageNegado.setVisibility(View.VISIBLE);
+			lblNegou.setVisibility(View.VISIBLE);
+			
+		}
 		
 		if(StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo().equals(
 				notificacao.getStatusNotificacao()) && 
