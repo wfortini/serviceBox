@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -117,7 +118,7 @@ public class InfoActivity extends CommonActivity {
     	private void init(View v){
     		
     		exibirNoModo = getActivity().getIntent().getStringExtra(EXIBIR_INFO_NO_MODO);
-    		 tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
+    		tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
     		
     		StringBuilder html = retornaDiasSemana();    		 
     		
@@ -166,10 +167,24 @@ public class InfoActivity extends CommonActivity {
 				
 				@Override
 				public void onClick(View v) {
-					confirmar();
+					  new RequisicaoTask().execute();
 					
 				}
 			});
+    		 
+    		 btVisualizar.setOnClickListener(new OnClickListener() {
+ 				
+ 				@Override
+ 				public void onClick(View v) {
+ 					
+ 					Intent intent = new Intent(getActivity(), VisualizarMapActivity.class);
+ 	    	        intent.putExtra(VisualizarMapActivity.INFO_SERVICO, info);
+ 	    	        intent.putExtra(ListarPrestacaoServicoActivity.PRESTAR_SERVICO, tipoServico);
+ 	    	        getActivity().startActivity(intent);
+ 	    	        getActivity().finish();
+ 					
+ 				}
+ 			});
     		 
     		 
       }
@@ -206,18 +221,8 @@ public class InfoActivity extends CommonActivity {
     		if(info.getPlanejamento().isSabado())
     			html.append("<b>SAB</b>&nbsp;");
 			return html;
-		}   	 
+		}    	 
     	 
-    	 /**
-          * Confirma que prestar o serviço
-          *         
-          */
-         public void confirmar() {
-        	 
-             new RequisicaoTask().execute();        	 
-        	 
-         	
-         }
          
          
          /** processamento assincrono **/	
