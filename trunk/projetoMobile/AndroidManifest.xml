@@ -132,6 +132,10 @@
             android:name=".ListaNotificacoesActivity"
             android:label="@string/title_activity_lista_notificacoes" >
         </activity>
+        <activity
+            android:name=".VisualizarMapActivity"
+            android:label="@string/title_activity_visualizar_map" >
+        </activity>
     </application>
 
 </manifest>
