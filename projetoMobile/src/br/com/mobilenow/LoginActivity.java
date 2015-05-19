@@ -1,16 +1,17 @@
 package br.com.mobilenow;
 
 import java.lang.ref.WeakReference;
-import java.nio.charset.Charset;
 
+import org.brickred.socialauth.android.DialogListener;
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.widget.TextView;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -18,14 +19,16 @@ import org.springframework.web.client.RestTemplate;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import br.com.mobilenow.util.LoginUtils;
 import br.com.mobilenow.util.LoginUtils.LoginActionHandler;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragmentUtils;
 import br.com.servicebox.android.common.fragment.CommonRetainedFragmentWithTaskAndProgress;
-import br.com.servicebox.android.common.fragment.CommonRetainedFragmentWithTaskAndProgress.RetainedTask;
 import br.com.servicebox.android.common.util.CommonUtils;
 import br.com.servicebox.android.common.util.GuiUtils;
 import br.com.servicebox.android.common.util.ObjectAccessor;
@@ -35,12 +38,73 @@ import br.com.servicebox.common.net.UsuarioResponse;
 public class LoginActivity extends CommonActivity {
 	
 	 private static final String TAG = LoginActivity.class.getSimpleName();
+	 private  SocialAuthAdapter adapter; 
+	 private ImageButton facebook_button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_acesso_login);
+		
+		 adapter = new SocialAuthAdapter(new ResponseListener() );
+		 
+		 facebook_button = (ImageButton)findViewById(R.id.bt_fb_login);
+	     facebook_button.setBackgroundResource(R.drawable.facebook);
+	     
+	     facebook_button.setOnClickListener(new OnClickListener() 
+	     {
+	        public void onClick(View v) 
+	        {
+	            adapter.authorize(LoginActivity.this, Provider.FACEBOOK);
+	        }
+	    });
+		
 		init();
+	}
+	
+	private final class ResponseListener implements DialogListener 
+	{
+	   public void onComplete(Bundle values) {
+	    
+	                       
+	   }
+	   
+	   @Override
+		public void onBack() {
+			// TODO Auto-generated method stub
+			
+		}
+	   
+	   @Override
+		public void onCancel() {
+			// TODO Auto-generated method stub
+			
+		}
+	   
+	   @Override
+		public void onError(SocialAuthError arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	 
+	// To get status of message after authentication
+	private final class MessageListener implements SocialAuthListener {
+	   		
+		@Override
+		public void onError(SocialAuthError arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void onExecute(String arg0, Object arg1) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
 	}
 	
 	void init() {
