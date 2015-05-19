@@ -287,12 +287,12 @@
 
         <Button
             android:id="@+id/bt_visualizar"
-            style="@style/ServiceBox.YellowButton"
+            style="@style/Holo.Button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.11"
             android:visibility="invisible"
-            android:text="@string/bt_registra"
+            android:text="@string/bt_visualizar_mapa"
             android:textSize="@dimen/bt_visualizar" />
 
     </LinearLayout>

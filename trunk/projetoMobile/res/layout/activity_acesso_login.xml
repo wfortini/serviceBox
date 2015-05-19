@@ -86,14 +86,12 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp" />
 
-                <Button
-                    android:id="@+id/account_own_server_button"
-                    style="@style/ServiceBox.OliveButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="accountOwnServerButtonAction"
-                    android:text="@string/account_own_server_button"
-                    android:visibility="visible" />
+                <ImageButton
+			            android:id="@+id/bt_fb_login"
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"			            
+			            android:visibility="visible"
+			            android:src="@drawable/facebook" />                
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

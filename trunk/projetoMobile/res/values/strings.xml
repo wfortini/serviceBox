@@ -55,7 +55,14 @@
     <string name="label_nao">Não</string>
     <string name="label_aceito">Aceito!</string>
     <string name="label_negado">Negou!</string>
-
+    
+    
+    <!-- activity info -->
+    <string name="bt_visualizar_mapa">Visualizar Rota</string>
+    <string name="bt_solicitar_carona">Solicitar carona</string>
+    <string name="bt_solicitar_reboque">Solicitar Reboque</string>
+    <!-- fim activity info -->
+    
     <!-- carona -->
     <string name="item_menu_pegar_carona">Pegar Carona.</string>
     <string name="item_menu_oferecr_carona">Oferecer Carona.</string>
@@ -135,5 +142,6 @@
     <string name="title_activity_listar_prestacao_servico">ListarPrestacaoServicoActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_lista_notificacoes">ListaNotificacoesActivity</string>
+    <string name="title_activity_visualizar_map">Visualização</string>
 
 </resources>
