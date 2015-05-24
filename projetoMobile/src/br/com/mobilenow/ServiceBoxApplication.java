@@ -1,6 +1,7 @@
 package br.com.mobilenow;
 
 
+import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.holoeverywhere.app.Application;
 
 import android.content.Context;
@@ -20,6 +21,7 @@ public class ServiceBoxApplication extends Application{
 	
 	private RequestQueue mRequestQueue;
 	private ImageLoader mImageLoader;
+	private static SocialAuthAdapter SocialAdapter;
 	
 	static final String TAG = ServiceBoxApplication.class.getSimpleName();
 	
@@ -54,9 +56,16 @@ public class ServiceBoxApplication extends Application{
 
 	public static void setUsuario(Usuario usuario) {
 		ServiceBoxApplication.usuario = usuario;
+	}	
+	
+	public static SocialAuthAdapter getSocialAdapter() {
+		return SocialAdapter;
 	}
-	
-	
+
+	public static void setSocialAdapter(SocialAuthAdapter socialAdapter) {
+		SocialAdapter = socialAdapter;
+	}
+
 	public RequestQueue getRequestQueue() {
 		if (mRequestQueue == null) {
 			mRequestQueue = Volley.newRequestQueue(getApplicationContext());

@@ -39,72 +39,13 @@ public class LoginActivity extends CommonActivity {
 	
 	 private static final String TAG = LoginActivity.class.getSimpleName();
 	 private  SocialAuthAdapter adapter; 
-	 private ImageButton facebook_button;
+	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_acesso_login);
-		
-		 adapter = new SocialAuthAdapter(new ResponseListener() );
-		 
-		 facebook_button = (ImageButton)findViewById(R.id.bt_fb_login);
-	     facebook_button.setBackgroundResource(R.drawable.facebook);
-	     
-	     facebook_button.setOnClickListener(new OnClickListener() 
-	     {
-	        public void onClick(View v) 
-	        {
-	            adapter.authorize(LoginActivity.this, Provider.FACEBOOK);
-	        }
-	    });
-		
+		setContentView(R.layout.activity_acesso_login);		
 		init();
-	}
-	
-	private final class ResponseListener implements DialogListener 
-	{
-	   public void onComplete(Bundle values) {
-	    
-	                       
-	   }
-	   
-	   @Override
-		public void onBack() {
-			// TODO Auto-generated method stub
-			
-		}
-	   
-	   @Override
-		public void onCancel() {
-			// TODO Auto-generated method stub
-			
-		}
-	   
-	   @Override
-		public void onError(SocialAuthError arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
-	 
-	// To get status of message after authentication
-	private final class MessageListener implements SocialAuthListener {
-	   		
-		@Override
-		public void onError(SocialAuthError arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void onExecute(String arg0, Object arg1) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		
 	}
 	
 	void init() {
