@@ -32,6 +32,11 @@
         <item name="android:background">@drawable/btn_bg_olive_trovebox</item>
         <item name="android:textColor">@color/ab_fg_black</item>
     </style>
+    
+    <style name="ServiceBox.socialButton" parent="Box.Button">
+        <item name="android:background">@drawable/btn_bg_olive_trovebox</item>
+        <item name="android:textColor">@color/ab_fg_black</item>
+    </style>
    
 
 </resources>
