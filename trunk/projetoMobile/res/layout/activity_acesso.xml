@@ -15,32 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/login_logo" />
-    </FrameLayout>
-
-    <RelativeLayout
-        android:id="@+id/google_login_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:visibility="gone" >
-
-        <Button
-            android:id="@+id/account_google_login_button"
-            style="@style/ServiceBox.BeigeWithIconButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="accountGoogleLoginButtonAction"
-            android:text="@string/account_google_login_button" />
-
-        <TextView
-            android:id="@+id/instant_sign_in_instructions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/account_google_login_button"
-            android:layout_centerHorizontal="true"
-            android:text="@string/instant_sign_in_instructions"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </RelativeLayout>
+    </FrameLayout>  
     
 
     <RelativeLayout
@@ -71,5 +46,22 @@
         android:layout_height="wrap_content"
         android:onClick="cadastroButtonAction"
         android:text="@string/conta_cadastro_button" />
+    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        
+    <ImageButton
+        android:id="@+id/bt_fb_login"
+         style="@style/Box.Button"       
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"      
+        android:onClick="contaLoginFacebook"
+        android:src="@drawable/facebook_32"        
+        android:visibility="visible" />
+    
+    
 
+   </RelativeLayout>
 </LinearLayout>
