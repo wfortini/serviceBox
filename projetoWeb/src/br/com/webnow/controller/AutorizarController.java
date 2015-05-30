@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.servicebox.common.domain.Credenciais;
+import br.com.servicebox.common.domain.TipoAcesso;
 import br.com.servicebox.common.net.UsuarioResponse;
 import br.com.servicebox.common.net.Response;
 import br.com.webnow.domain.Usuario;
@@ -160,5 +161,109 @@ public class AutorizarController {
 			return new Response(false, "Falha no cadastro do usuário", null, Response.ERRO_DESCONHECIDO);
 		}
     }
+	
+	/**
+	 * Autentica o usuario via rede social caso o usuario exista na base / ou inclui o mesmo
+	 * @param login
+	 * @param pwd
+	 * @return
+	 */
+	 @RequestMapping(value = "/autenticarRedeSocial", method = RequestMethod.POST)
+	 public @ResponseBody UsuarioResponse autenticarRedeSocial(
+			 @RequestParam(value = "socialId") String socialId,
+			 @RequestParam(value = "login", required=false) String login, 
+            @RequestParam(value = "nome") String nome, 
+            @RequestParam(value = "sobrenome") String sobrenome, 
+            @RequestParam(value = "senha", required=false) String senha, 
+            @RequestParam(value = "sexo") String sexo,
+            @RequestParam(value = "apelido", required=false) String apelido,
+            @RequestParam(value = "telefone", required=false) String telefone,
+            @RequestParam(value = "regIdGCM", required=true) String regIdGCM,
+            @RequestParam(value = "imagemPerfil") String imagemPerfil) {
+		
+		 Usuario usuario = null;
+		 UsuarioResponse loginResponse = new UsuarioResponse();
+		 try {
+			
+			 usuario = this.verificarSeUsuarioExiste(socialId, login, regIdGCM, imagemPerfil);
+			 
+			 if(usuario == null || usuario.getId() == null){
+				 
+				 usuario = new Usuario(login, "", nome, sobrenome, sexo, apelido);
+				 usuario.setFotoPerfil(imagemPerfil);
+				 usuario.setTelefone(telefone);
+				 usuario.setRegIdGCM(regIdGCM);
+				 usuario.setLoginRealizadoPor(TipoAcesso.FACEBOOK.getCodigo());
+				 usuario.setSocialId(Long.valueOf(socialId));
+				 usuario.setDataCadastro(new Date());
+				 
+				 usuario = usuarioRepository.registrar(usuario);	
+			 }		 
+				
+			
+			if (usuario != null && usuario.getId() != null){						
+				
+				loginResponse = new UsuarioResponse();
+				loginResponse.setmCredenciais(new Credenciais[]{new Credenciais()});
+				loginResponse.setNodeId(usuario.getId());
+				loginResponse.setNome(usuario.getNome());
+				loginResponse.setApelido(usuario.getApelido());
+				loginResponse.setDataCadastro(usuario.getDataCadastro());
+				loginResponse.setFotoPerfil(usuario.getFotoPerfil());
+				loginResponse.setLogin(usuario.getLogin());
+				loginResponse.setPassword(usuario.getPassword());
+				loginResponse.setSexo(usuario.getSexo());
+				loginResponse.setSobreNome(usuario.getSobreNome());
+				loginResponse.setServicoJSONs(ServiceBoxWebUtil.preencherServicoJSON(usuario));
+				
+				
+				loginResponse.setCode(Response.SUCESSO);
+				loginResponse.setMessage("Usuário autorizado");				
+				loginResponse.setSucesso(true);
+				return loginResponse;
+			}else{				
+				
+				loginResponse.setCode(Response.USUARIO_NAO_AUTORIZADO);
+				loginResponse.setMessage("Usuário não autorizado.");
+				loginResponse.setSucesso(false);
+				return loginResponse;
+			}
+		} catch (Exception e) {
+			logger.error("Erro ao tentar autenticar usuario Android: ", e);
+			loginResponse = new UsuarioResponse();
+			loginResponse.setCode(Response.ERRO_DESCONHECIDO);
+			loginResponse.setMessage("Erro ao autenticar o usuário");			
+			loginResponse.setSucesso(false);
+			return loginResponse;
+			
+		}
+		 
+	 }
+	 
+	 private Usuario verificarSeUsuarioExiste(String socialId, String emailLogin, String regGCM, String imagePerfil){
+		 
+		 Usuario usuario = this.usuarioRepository.findBySocialId(Long.valueOf(socialId));
+		 if(usuario != null && usuario.getId() != null){
+			 return usuario;
+		 }
+		 
+		 usuario = this.usuarioRepository.findByLogin(emailLogin);
+		 if(usuario != null && usuario.getId() != null){
+			 usuario.setSocialId(Long.valueOf(socialId));
+			 usuario = this.usuarioRepository.save(usuario);
+			 return usuario;
+		 }
+		 
+		// usuario = this.usuarioRepository.findByRegIdGCM(regGCM);
+		 usuario = this.usuarioRepository.findByLogin("wellington"); //TODO: so para teste
+		 if(usuario != null && usuario.getId() != null){
+			 usuario.setSocialId(Long.valueOf(socialId));
+			 usuario.setLogin(emailLogin);
+			 usuario = this.usuarioRepository.save(usuario);
+			return usuario; 
+		 }
+		 
+		return usuario; 
+	 }
 
 }
