@@ -28,6 +28,11 @@ public class Usuario extends BaseEntity implements Serializable{
 	private String password;
 	
 	@Indexed
+	private Long socialId;
+	
+	private Integer loginRealizadoPor;
+	
+	@Indexed
 	private String nome;
 	
 	private String sobreNome;
@@ -185,6 +190,24 @@ public class Usuario extends BaseEntity implements Serializable{
 	public void setRegIdGCM(String regIdGCM) {
 		this.regIdGCM = regIdGCM;
 	}
+
+	public Long getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(Long socialId) {
+		this.socialId = socialId;
+	}
+
+	public Integer getLoginRealizadoPor() {
+		return loginRealizadoPor;
+	}
+
+	public void setLoginRealizadoPor(Integer loginRealizadoPor) {
+		this.loginRealizadoPor = loginRealizadoPor;
+	}
+	
+	
 	
 	
 	
