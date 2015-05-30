@@ -1,4 +1,4 @@
-<resources>    
+<resources xmlns:android="http://schemas.android.com/apk/res/android">    
     
     <style name="Box"/>
     
@@ -37,6 +37,55 @@
         <item name="android:background">@drawable/btn_bg_olive_trovebox</item>
         <item name="android:textColor">@color/ab_fg_black</item>
     </style>
+    
+    <!--  facebook -->
+    
+    <style name="com_facebook_button" parent="Box.Button">
+        <item name="android:background">@drawable/com_facebook_button_background</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:textColor">#ffffff</item>        
+        <item name="android:height">15dp</item>
+        <item name="android:width">20dp</item>
+    </style>
+
+    <style name="com_facebook_button_like" parent="com_facebook_button">
+        <item name="android:background">@drawable/com_facebook_button_like_background</item>
+    </style>
+
+    <style name="com_facebook_loginview_default_style" parent="com_facebook_button">
+        <item name="android:background">@drawable/com_facebook_button_background</item>
+         <item name="android:textColor">#ffffff</item>
+         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:drawableLeft">@drawable/com_facebook_button_icon</item>
+    </style>
+
+    <style name="com_facebook_loginview_silver_style" parent="com_facebook_loginview_default_style">
+        <item name="android:background">@drawable/com_facebook_button_login_silver_background</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:drawableLeft">@null</item>
+        <item name="android:textColor">#4b5164</item>
+    </style>
+
+    <style name="com_facebook_button_send" parent="com_facebook_button">
+        <item name="android:background">@drawable/com_facebook_button_send_background</item>
+        <item name="android:drawableLeft">@drawable/com_facebook_button_send_icon</item>
+       <!--  <item name="android:text">@string/com_facebook_send_button_text</item> -->
+    </style>
+
+    <style name="com_facebook_button_share" parent="com_facebook_button">
+        <item name="android:drawableLeft">@drawable/com_facebook_button_icon</item>
+        <!-- <item name="android:text">@string/com_facebook_share_button_text</item>-->
+    </style>
+    
    
 
 </resources>
