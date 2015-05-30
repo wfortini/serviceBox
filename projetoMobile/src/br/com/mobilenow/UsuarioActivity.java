@@ -197,6 +197,8 @@ public class UsuarioActivity extends CommonActivity{
 				sexo = "F";
 			}
 			
+			
+			
 			Button btRegistrar = (Button) getView().findViewById(R.id.registrar);
 			btRegistrar.setOnClickListener(this);		    
 		    v.findViewById(R.id.image_upload).setOnClickListener(this);	   
