@@ -17,10 +17,12 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.web.client.RestTemplate;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.text.TextUtils;
 import android.util.Log;
+import br.com.mobilenow.MainActivity;
 import br.com.mobilenow.R;
 import br.com.mobilenow.domain.Carona;
 import br.com.mobilenow.domain.Estacionamento;
@@ -43,6 +45,9 @@ import br.com.servicebox.common.net.Response;
 import br.com.servicebox.common.net.UsuarioResponse;
 
 public class ServiceBoxMobileUtil {
+	
+	private static final String REG_ID = "REG_ID";
+	private static final String APP_VERSION = "appVersion";
 	
 	private static final String TAG = ServiceBoxMobileUtil.class.getSimpleName();
 	
@@ -372,7 +377,11 @@ public class ServiceBoxMobileUtil {
 			return info;
 	   
    }
-   
+   /**
+    * Retorna versao do app conforme pacote
+    * @param context
+    * @return versao do app
+    */
    public static int getAppVersion(Context context) {
 		try {
 			PackageInfo packageInfo = context.getPackageManager()
@@ -383,5 +392,42 @@ public class ServiceBoxMobileUtil {
 					"I never expected this! Going down, going down!" + e);
 			throw new RuntimeException(e);
 		}
+	}
+   
+   /**
+    * retorna regId do GCM cada não haja alteração no pacote do app
+    * @param context
+    * @param prefs
+    * @return REgId GCM
+    */
+   public static String getRegistrationId(Context context, final SharedPreferences prefs) {
+	   
+		String registrationId = prefs.getString(REG_ID, "");
+		if (registrationId.isEmpty()) {
+			Log.i(TAG, "Registration not found.");
+			return "";
+		}
+		int registeredVersion = prefs.getInt(APP_VERSION, Integer.MIN_VALUE);
+		int currentVersion = getAppVersion(context);
+		if (registeredVersion != currentVersion) {
+			Log.i(TAG, "App version changed.");
+			return "";
+		}
+		return registrationId;
+	}
+   
+   /**
+    * quarda o regId
+    * @param context
+    * @param regId
+    * @param prefs com Activity exe: MainActivity.class.getSimpleName() e modo exe: Context.MODE_PRIVATE
+    */
+   public static  void storeRegistrationId(Context context, String regId, final SharedPreferences prefs) {
+		int appVersion = getAppVersion(context);
+		Log.i(TAG, "Saving regId on app version " + appVersion);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(REG_ID, regId);
+		editor.putInt(APP_VERSION, appVersion);
+		editor.commit();
 	}
 }

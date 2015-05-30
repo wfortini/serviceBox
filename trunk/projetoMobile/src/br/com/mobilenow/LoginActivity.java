@@ -103,8 +103,8 @@ public class LoginActivity extends CommonActivity {
 		    }
 		};
 		
-		boolean mDelayedLoginProcessing = false;
-		UsuarioResponse mLastResponse;
+		private boolean mDelayedLoginProcessing = false;
+		private UsuarioResponse mLastResponse;
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -159,6 +159,7 @@ public class LoginActivity extends CommonActivity {
 		        processLoginResonse(getSupportActivity());
 		    }
 		}
+		
 		class LogInUsuarioTask extends RetainedTask {
 		    private Credencial credencial;
 		    UsuarioResponse responseResult = null;
