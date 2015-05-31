@@ -184,8 +184,14 @@ public class AutorizarController {
 		 Usuario usuario = null;
 		 UsuarioResponse loginResponse = new UsuarioResponse();
 		 try {
-			
-			 usuario = this.verificarSeUsuarioExiste(socialId, login, regIdGCM, imagemPerfil);
+			 usuario = new Usuario(login, null, nome, sobrenome, sexo, apelido);
+			 usuario.setFotoPerfil(imagemPerfil);
+			 usuario.setRegIdGCM(regIdGCM);
+			 usuario.setDataCadastro(new Date());
+			 usuario.setSocialId(new Long(socialId));
+			 usuario.setLoginRealizadoPor(TipoAcesso.FACEBOOK.getCodigo());
+			 
+			 usuario = this.verificarSeUsuarioExiste(usuario);
 			 
 			 if(usuario == null || usuario.getId() == null){
 				 
@@ -240,30 +246,33 @@ public class AutorizarController {
 		 
 	 }
 	 
-	 private Usuario verificarSeUsuarioExiste(String socialId, String emailLogin, String regGCM, String imagePerfil){
+	 private Usuario verificarSeUsuarioExiste(Usuario usuarioAndroid){
 		 
-		 Usuario usuario = this.usuarioRepository.findBySocialId(Long.valueOf(socialId));
+		 Usuario usuario = this.usuarioRepository.findBySocialId(usuarioAndroid.getSocialId());
 		 if(usuario != null && usuario.getId() != null){
 			 return usuario;
 		 }
 		 
-		 usuario = this.usuarioRepository.findByLogin(emailLogin);
+		 usuario = this.usuarioRepository.findByLogin(usuarioAndroid.getLogin());
 		 if(usuario != null && usuario.getId() != null){
-			 usuario.setSocialId(Long.valueOf(socialId));
+			 usuario.setSocialId(Long.valueOf(usuarioAndroid.getSocialId()));
 			 usuario = this.usuarioRepository.save(usuario);
 			 return usuario;
 		 }
 		 
-		// usuario = this.usuarioRepository.findByRegIdGCM(regGCM);
-		 usuario = this.usuarioRepository.findByLogin("wellington"); //TODO: so para teste
+		  usuario = this.usuarioRepository.findByRegIdGCM(usuarioAndroid.getRegIdGCM());
+		 //usuario = this.usuarioRepository.findByLogin("wellington"); //TODO: so para teste
 		 if(usuario != null && usuario.getId() != null){
-			 usuario.setSocialId(Long.valueOf(socialId));
-			 usuario.setLogin(emailLogin);
+			 usuario.setSocialId(Long.valueOf(usuarioAndroid.getSocialId()));
+			 usuario.setLogin(usuarioAndroid.getLogin());
 			 usuario = this.usuarioRepository.save(usuario);
 			return usuario; 
-		 }
+		 }	 
 		 
-		return usuario; 
+		/**
+		 * Se chegat até aqui, significa que usuario não existe e devemos incluir ele 
+		 */
+		return this.usuarioRepository.save(usuarioAndroid); 
 	 }
 
 }
