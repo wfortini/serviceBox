@@ -5,7 +5,9 @@ import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ProgressDialog;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import br.com.mobilenow.exception.GCMException;
 import br.com.mobilenow.util.LoginUtils;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
@@ -38,14 +39,16 @@ public class AcessoActivity extends CommonActivity {
 	private static final String PROJETO_ID = "994547673653";
 	private GoogleCloudMessaging gcm;
 	private UsuarioResponse mResponse;
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_acesso);
-		
-		ServiceBoxApplication.setSocialAdapter(new SocialAuthAdapter(new ResponseListener()));
-		
+		 
+		 if (GuiUtils.checkOnline()){
+		    ServiceBoxApplication.setSocialAdapter(new SocialAuthAdapter(new ResponseListener()));
+		 }
 	}
 	
 	public void contaLoginButtonAction(View view) {
@@ -75,13 +78,8 @@ public class AcessoActivity extends CommonActivity {
 	   public void onComplete(Bundle values) {	          
 		 
 		   /** so entra aqui apos login no facebook **/
-		   CommonUtils.debug(TAG, "Passou por onComplete FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-		   Profile user = ServiceBoxApplication.getSocialAdapter().getUserProfile();
-		   if(user != null && user.getValidatedId() != null)
-		        new RequisicaoTask().execute(user);
-		   
-		  
-	                       
+		   CommonUtils.debug(TAG, "Executando onComplete ...........................................");
+		   ServiceBoxApplication.getSocialAdapter().getUserProfileAsync(new ProfileDataListener());                       
 	   }
 	   
 	   @Override
@@ -98,20 +96,42 @@ public class AcessoActivity extends CommonActivity {
 	   
 	   @Override
 		public void onError(SocialAuthError arg0) {
-		   CommonUtils.debug(TAG, "Passou por onError FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+		   CommonUtils.debug(TAG, "Passou por onError ............ " + arg0.getMessage());
 			
 		}
 	}
+	
+	//----------------------------------------------------------------------------------------------
+	private final class ProfileDataListener implements SocialAuthListener<Profile> {
+
+		@Override
+		public void onExecute(String provider, Profile t) {
+			CommonUtils.debug(TAG, "obtendo profile de forma assincrona ..............................");
+			if(t != null && t.getValidatedId() != null)
+			     new RequisicaoTask().execute(t);
+		}
+
+		@Override
+		public void onError(SocialAuthError e) {
+			CommonUtils.debug(TAG, "Erro obtendo profile de forma assincrona .........  " + e.getMessage());
+		}
+	}
+	// -------------------------------------------------------------------------------------------------
 	
 	/** processamento assincrono **/	
    private class RequisicaoTask extends AsyncTask<Profile, Void, UsuarioResponse>{
 			
 	         UsuarioResponse response = null;
 			
-			@Override
-	        protected void onPreExecute() {
-				super.onPreExecute();				
-			}
+	         @Override
+		        protected void onPreExecute() {
+					super.onPreExecute();
+					progressDialog = new ProgressDialog(AcessoActivity.this);
+					progressDialog.setTitle(R.string.aguarde_por_favor);
+					progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+					progressDialog.setCancelable(false);
+					progressDialog.show();
+				}
 
 			@Override
 			protected UsuarioResponse doInBackground(Profile... params) {			 
@@ -121,6 +141,7 @@ public class AcessoActivity extends CommonActivity {
 							                   concat(":8080/projetoWeb/autenticarRedeSocial.json");
 					
 					String regGCM = registrarDispositivoGCM();
+					persistRegIdGCM(regGCM);
 					Profile userSocial = params[0];
 					
 					RestTemplate restTemplate = ServiceBoxMobileUtil.getRestTemplate();
@@ -189,11 +210,21 @@ public class AcessoActivity extends CommonActivity {
 			
 			@Override
 			protected void onPostExecute(UsuarioResponse result) {				
-				super.onPostExecute(result);				
+				super.onPostExecute(result);
+				progressDialog.dismiss();
 				this.retornoRegistro(result);
 			}
 			
-		} 
+		}
+   
+   /**
+    * Salva nas preferencias no usuario seu Registro no GCM
+    * @param id String
+    */
+   private void persistRegIdGCM(String id){	   
+	   ServiceBoxMobileUtil.storeRegistrationId(ServiceBoxApplication.getContext(), id, 
+			   getSharedPreferences(AcessoActivity.class.getSimpleName(), Context.MODE_PRIVATE));	   
+   }
    
    /**
 	 * Registrar Dispositivo android no GCM e setar o id na variavel RegId
