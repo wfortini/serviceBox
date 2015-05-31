@@ -388,8 +388,7 @@ public class ServiceBoxMobileUtil {
 					.getPackageInfo(context.getPackageName(), 0);
 			return packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
-			Log.d("RegisterActivity",
-					"I never expected this! Going down, going down!" + e);
+			CommonUtils.debug(TAG, "Erro obter version" + e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -404,13 +403,13 @@ public class ServiceBoxMobileUtil {
 	   
 		String registrationId = prefs.getString(REG_ID, "");
 		if (registrationId.isEmpty()) {
-			Log.i(TAG, "Registration not found.");
+			CommonUtils.debug(TAG, "Registro não existe.");
 			return "";
 		}
 		int registeredVersion = prefs.getInt(APP_VERSION, Integer.MIN_VALUE);
 		int currentVersion = getAppVersion(context);
 		if (registeredVersion != currentVersion) {
-			Log.i(TAG, "App version changed.");
+			CommonUtils.debug(TAG, "Versão do App alterada");
 			return "";
 		}
 		return registrationId;
@@ -424,7 +423,7 @@ public class ServiceBoxMobileUtil {
     */
    public static  void storeRegistrationId(Context context, String regId, final SharedPreferences prefs) {
 		int appVersion = getAppVersion(context);
-		Log.i(TAG, "Saving regId on app version " + appVersion);
+		CommonUtils.debug(TAG, "Salvando regId GCM " + appVersion);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(REG_ID, regId);
 		editor.putInt(APP_VERSION, appVersion);
