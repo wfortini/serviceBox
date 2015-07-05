@@ -23,16 +23,16 @@ http://www.springframework.org/schema/util/spring-util.xsd">
     </context:component-scan>
 
     <context:spring-configured/>
-
-   <!-- <neo4j:config storeDirectory="d:/data/graph.db" base-package="br.com.webnow.domain"/> -->
+    
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- <property name="location" value="classpath:neo4art.properties" /> -->
+		<property name="location" value="neo4art.properties" />
+	</bean>  
+   
     <neo4j:repositories base-package="br.com.webnow.repository"/>  
     <neo4j:config graphDatabaseService="graphDatabaseService" base-package="br.com.webnow.domain" />
-    <import resource="neo4j-java.xml"/>     
+    <import resource="neo4j-embedded-context.xml"/>     
     
-    <!-- 
-    <bean id="graphDatabaseService" class="org.springframework.data.neo4j.rest.SpringRestGraphDatabase" scope="singleton">
-        <constructor-arg value="http://localhost:7474/db/data" />
-    </bean -->
     
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
       <property name="maxUploadSize" value="268435456"/> <!-- 256 megs -->
