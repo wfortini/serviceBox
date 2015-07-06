@@ -228,9 +228,14 @@ public class ServiceBoxWebUtil {
 				  ur.setDataCadastro(sl.getUsuario().getDataCadastro());
 				  ur.setFotoPerfil(sl.getUsuario().getFotoPerfil());
 				  ur.setSexo(sl.getUsuario().getSexo());
-				  ur.setTelefone(sl.getUsuario().getTelefone());
-				  ur.setRegIdGCM(sl.getUsuario().getRegIdGCM());
+				  if(sl.getUsuario().getTelefone() != null){
+					  ur.setTelefone(sl.getUsuario().getTelefone());  
+				  }else{
+					  ur.setTelefone("");
+				  }
 				  
+				  ur.setRegIdGCM(sl.getUsuario().getRegIdGCM());
+				  ur.setSocialId(sl.getUsuario().getSocialId());		  
 				  
 				  pl.setUsuario(ur);
 				  
@@ -239,7 +244,12 @@ public class ServiceBoxWebUtil {
 				 json.setNodeId(sl.getPrestarServico().getId());
 				json.setAtivo(sl.getPrestarServico().isAtiva());
 				json.setData(sl.getPrestarServico().getData());
-				json.setDescricao(sl.getPrestarServico().getDescricao());
+				if(sl.getPrestarServico().getDescricao() != null){
+					json.setDescricao(sl.getPrestarServico().getDescricao());	
+				}else{
+					json.setDescricao("");
+				}
+				
 				json.setDistanciaMaxima(sl.getPrestarServico().getDistanciaMaxima());
 				json.setDistanciaPartidaDestino(sl.getPrestarServico().getDistanciaPartidaDestino());
 				json.setDomingo(sl.getPrestarServico().isDomingo());
