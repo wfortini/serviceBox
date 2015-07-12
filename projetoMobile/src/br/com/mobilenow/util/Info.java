@@ -11,7 +11,7 @@ import br.com.mobilenow.domain.Usuario;
 
 public class Info implements Parcelable{
 	
-	private Long nodeId;	
+	private Long nodeIdPrestacao;	
 	private Date data;
 	private boolean ativa;
 	private String descricao;
@@ -29,7 +29,9 @@ public class Info implements Parcelable{
    private Date dataCadastroUsuario;
    private String telefoneUsuario;
    private String regIdGCMUsuario;
+   private Long socialId;
 
+   
 	public Info() {
 		// TODO Auto-generated constructor stub
 	}
@@ -38,7 +40,7 @@ public class Info implements Parcelable{
 		this.planejamento = prestar.getPlanejamento();
 		this.itinerario = prestar.getItinerario();
 		
-		this.nodeId = prestar.getNodeId();
+		this.nodeIdPrestacao = prestar.getNodeId();
 		this.data = prestar.getData();
 		this.descricao = prestar.getDescricao();
 		this.ativa = prestar.isAtiva();
@@ -53,6 +55,7 @@ public class Info implements Parcelable{
 		this.dataCadastroUsuario = usuario.getDataCadastro();
 		this.telefoneUsuario = usuario.getTelefone();
 		this.regIdGCMUsuario = usuario.getRegIdGCM();
+		this.socialId = usuario.getSocialId();
 	}
 	
 
@@ -78,11 +81,12 @@ public class Info implements Parcelable{
 		dest.writeString(getFotoPerfilUsuario());
 		dest.writeLong(getDataCadastroUsuario().getTime());
 		dest.writeString(getTelefoneUsuario());
-		dest.writeLong(nodeId);
+		dest.writeLong(nodeIdPrestacao);
 		dest.writeByte((byte) (ativa ? 1 : 0));
 		dest.writeLong(data.getTime());
 		dest.writeString(descricao);
 		dest.writeString(regIdGCMUsuario);
+		dest.writeLong(socialId);
 		
 	}
 	
@@ -99,11 +103,12 @@ public class Info implements Parcelable{
         fotoPerfilUsuario = in.readString();
         dataCadastroUsuario = new Date(in.readLong());
         telefoneUsuario = in.readString();        
-        nodeId = in.readLong();
+        nodeIdPrestacao = in.readLong();
         ativa = in.readByte() == 1;
         data = new Date(in.readLong());
         descricao = in.readString();
         regIdGCMUsuario = in.readString();
+        socialId = in.readLong();
         
     }
 	
@@ -230,12 +235,14 @@ public class Info implements Parcelable{
 		this.telefoneUsuario = telefoneUsuario;
 	}
 
-	public Long getNodeId() {
-		return nodeId;
+	
+
+	public Long getNodeIdPrestacao() {
+		return nodeIdPrestacao;
 	}
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
+	public void setNodeIdPrestacao(Long nodeIdPrestacao) {
+		this.nodeIdPrestacao = nodeIdPrestacao;
 	}
 
 	public Date getData() {
@@ -269,6 +276,16 @@ public class Info implements Parcelable{
 	public void setRegIdGCMUsuario(String regIdGCMUsuario) {
 		this.regIdGCMUsuario = regIdGCMUsuario;
 	}
+
+	public Long getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(Long socialId) {
+		this.socialId = socialId;
+	}
+	
+	
 	
 	
 

@@ -18,6 +18,11 @@
         <item name="android:textColor">@color/ab_fg_black</item>
     </style>
     
+    <style name="ServiceBox.blue.button" parent="Box.Button">
+        <item name="android:background">@drawable/btn_bg_bege_com_icone_servicebox</item>
+        <item name="android:textColor">@color/ab_fg_black</item>
+    </style>
+    
     <style name="ServiceBox.YellowButton" parent="Box.Button">
         <item name="android:background">@drawable/btn_bg_yellow_trovebox</item>
         <item name="android:textColor">@color/ab_fg_black</item>

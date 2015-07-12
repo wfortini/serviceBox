@@ -201,6 +201,7 @@ public class ListaServicoActivity extends CommonActivity {
 			PrestarServico servicoSelecionad = mAdapter.getItem(position);
 			Info info = new Info(servicoSelecionad, ServiceBoxApplication.getUsuario());			
 			Intent intent = new Intent(getActivity(), InfoActivity.class);
+			 intent.putExtra(InfoActivity.PRESTAR_SERVICO, tipoServico);
             intent.putExtra(InfoActivity.INFO_SERVICO, info);
             getActivity().startActivity(intent);
             

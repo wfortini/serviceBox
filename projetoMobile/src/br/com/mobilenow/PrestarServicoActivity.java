@@ -1,16 +1,11 @@
 package br.com.mobilenow;
 
-import java.nio.charset.Charset;
-
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ProgressDialog;
 import org.holoeverywhere.widget.Switch;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
@@ -23,6 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import br.com.mobilenow.domain.Carona;
+import br.com.mobilenow.domain.Servico;
 import br.com.mobilenow.util.ServiceBoxMobileUtil;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
@@ -34,9 +31,9 @@ import br.com.servicebox.common.net.ServicoResponse;
 
 public class PrestarServicoActivity extends CommonActivity {
 
-	public static final String TAG = PrestarServicoActivity.class.getSimpleName();
+	private static final String TAG = PrestarServicoActivity.class.getSimpleName();
     public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +49,8 @@ public class PrestarServicoActivity extends CommonActivity {
     	
     	Switch prestarSimNao;
     	private ProgressDialog progressDialog;
+    	private Integer tipoServico;
+
     	
     	@Override
         public View onCreateView(LayoutInflater inflater,
@@ -70,8 +69,13 @@ public class PrestarServicoActivity extends CommonActivity {
         void init(View v)
         {          
 
+        	tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
+        	Servico s = Servico.getIntance(TipoServico.getTipoServico(tipoServico));        	
+        	boolean servicoDisponivel = ServiceBoxApplication.getUsuario().isPrestaServico(s);
+        	
             Button confirmarBtn = (Button) v.findViewById(R.id.confirmarBtn);
             prestarSimNao = (Switch) v.findViewById(R.id.prestar_servico_switch);
+            prestarSimNao.setChecked(servicoDisponivel);
             
             confirmarBtn.setOnClickListener(new OnClickListener() {
 
@@ -120,9 +124,9 @@ public class PrestarServicoActivity extends CommonActivity {
     					
     					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();                   
     					
-    					 map.add("login", ServiceBoxApplication.getUsuario().getLogin());
+    					 map.add("id", ServiceBoxApplication.getUsuario().getNodeId().toString());
     					 map.add("disponibilizarServico", String.valueOf(prestarSimNao.isChecked()));
-    					 map.add("tipoServico", TipoServico.CARONA.getCodigo().toString());
+    					 map.add("tipoServico", TipoServico.getTipoServico(tipoServico).getCodigo().toString());
     					 
     		             HttpHeaders headers = new HttpHeaders();
     		             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -150,7 +154,9 @@ public class PrestarServicoActivity extends CommonActivity {
 					
 					if(Response.SUCESSO == response.getCode() && response.isSucesso()){
 						GuiUtils.alert(response.getMessage());
-						// getActivity().finish();					
+						//adiciono o servico desejado - OBS: talvez seja necessario retorno do servidor o serviço
+						ServiceBoxApplication.getUsuario()
+						    .addServico(Servico.getIntance(TipoServico.getTipoServico(tipoServico)));				
 					}else{
 						GuiUtils.alert(response.getMessage());
 					}			

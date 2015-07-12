@@ -270,20 +270,39 @@
     </ScrollView> 
     
     <LinearLayout
-        android:id="@+id/linear1"
+        android:id="@+id/linearRecomendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+        
+        <Button
+            android:id="@+id/bt_recomendar"
+            style="@style/ServiceBox.YellowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/lbl_recomendar"
+            android:visibility="visible"
+            android:textSize="14sp" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:visibility="invisible" >
+        
+        
 
         <Button
             android:id="@+id/bt_solicitar"
             style="@style/ServiceBox.YellowButton"
-            android:layout_width="114dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.52"
-            android:text="@string/solicitar_carona"
-            android:visibility="invisible"
-            android:textSize="@dimen/bt_solicitar" />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Solicitar Estacionamento"
+            android:visibility="visible"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/bt_visualizar"
@@ -291,9 +310,9 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.11"
-            android:visibility="invisible"
             android:text="@string/bt_visualizar_mapa"
-            android:textSize="@dimen/bt_visualizar" />
+            android:visibility="visible"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

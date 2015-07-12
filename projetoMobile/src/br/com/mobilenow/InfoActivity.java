@@ -25,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import br.com.mobilenow.dao.NotificacaoDAO;
-import br.com.mobilenow.domain.Carona;
 import br.com.mobilenow.domain.Notificacao;
 import br.com.mobilenow.domain.Servico;
 import br.com.mobilenow.util.Info;
@@ -75,6 +74,7 @@ public class InfoActivity extends CommonActivity {
     	private TextView tvHorarioPlanejado;
     	private String exibirNoModo;
     	private Integer tipoServico;
+    	private Servico servico;
     	
     	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
     	
@@ -83,6 +83,7 @@ public class InfoActivity extends CommonActivity {
     	
     	private Button btSolicitar;
     	private Button btVisualizar;
+    	private Button btRecomendar;
     	
     	@Override
     	public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class InfoActivity extends CommonActivity {
     		
     		exibirNoModo = getActivity().getIntent().getStringExtra(EXIBIR_INFO_NO_MODO);
     		tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
+    		servico = Servico.getIntance(TipoServico.getTipoServico(tipoServico));
     		
     		StringBuilder html = retornaDiasSemana();    		 
     		
@@ -156,14 +158,24 @@ public class InfoActivity extends CommonActivity {
     		 
     		 btSolicitar = (Button) v.findViewById(R.id.bt_solicitar);
     		 btVisualizar = (Button) v.findViewById(R.id.bt_visualizar);
+    		 btRecomendar = (Button) v.findViewById(R.id.bt_recomendar);
     		 
     		 if(exibirNoModo != null && exibirNoModo.equals(INFO_MODO_SOLICITAR)){
     			 btSolicitar.setVisibility(View.VISIBLE);
     			 btVisualizar.setVisibility(View.VISIBLE);
+    			 btSolicitar.setText(CommonUtils.getStringResource(
+    					 R.string.lbl_solicitar) + " " +servico.obterMensagem());
     		 }
     		 
+    		 // se usuario for o mesmo, não exibe botao recomendar
+    		 if(ServiceBoxApplication.getUsuario().getNodeId().equals(info.getNodeIdUsuario()) ||
+    				 (ServiceBoxApplication.getUsuario().getSocialId() != null && 
+    				     ServiceBoxApplication.getUsuario().getSocialId().equals(info.getSocialId()))){
+    			 btRecomendar.setVisibility(View.INVISIBLE);
+    		 }
     		 
-    		 btSolicitar.setOnClickListener(new OnClickListener() {
+    		// realizar solicitação de serviço 
+    		btSolicitar.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -171,20 +183,36 @@ public class InfoActivity extends CommonActivity {
 					
 				}
 			});
-    		 
-    		 btVisualizar.setOnClickListener(new OnClickListener() {
+    	
+    	 // abrir activity visualizar mapa	 
+    	 btVisualizar.setOnClickListener(new OnClickListener() {
  				
  				@Override
  				public void onClick(View v) {
  					
  					Intent intent = new Intent(getActivity(), VisualizarMapActivity.class);
  	    	        intent.putExtra(VisualizarMapActivity.INFO_SERVICO, info);
- 	    	        intent.putExtra(ListarPrestacaoServicoActivity.PRESTAR_SERVICO, tipoServico);
+ 	    	        intent.putExtra(VisualizarMapActivity.PRESTAR_SERVICO, tipoServico);
  	    	        getActivity().startActivity(intent);
  	    	        getActivity().finish();
  					
  				}
  			});
+    		 
+            // abrir activity recomendações
+    		btRecomendar.setOnClickListener(new OnClickListener() {
+  				
+  				@Override
+  				public void onClick(View v) {
+  					
+  					Intent intent = new Intent(getActivity(), RecomendacaoActivity.class);
+  	    	        intent.putExtra(RecomendacaoActivity.INFO_SERVICO_RECOMENDAR, info);
+  	    	        intent.putExtra(RecomendacaoActivity.PRESTAR_SERVICO, tipoServico);
+  	    	        getActivity().startActivity(intent);
+  	    	        getActivity().finish();
+  					
+  				}
+  			});	 
     		 
     		 
       }
@@ -254,7 +282,7 @@ public class InfoActivity extends CommonActivity {
      					 map.add("idUsuarioSolicitante", ServiceBoxApplication.getUsuario().getNodeId().toString());     					
      					 map.add("idUsuarioSolicitado", info.getNodeIdUsuario().toString());
      					 map.add("tipoSolicitacao", TipoSolicitacao.CARONA.getCodigo().toString());
-     					 map.add("idPrestacao", info.getNodeId().toString());     					 
+     					 map.add("idPrestacao", info.getNodeIdPrestacao().toString());     					 
      					 
      		             HttpHeaders headers = new HttpHeaders();
      		             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -308,14 +336,14 @@ public class InfoActivity extends CommonActivity {
      
      	private void incluirNotificacao(){
      		
-     		Servico servico = Servico.getIntance(TipoServico.getTipoServico(tipoServico));
+     		
      		
      		NotificacaoDAO dao = null;
 				try {
 					dao = new NotificacaoDAO(getActivity());
 				Notificacao noti = new Notificacao();
 				noti.setDataSolicitacao(new Date());
-				noti.setIdPrestacao(info.getNodeId().intValue());
+				noti.setIdPrestacao(info.getNodeIdPrestacao().intValue());
 				noti.setIdSolicitante(ServiceBoxApplication.getUsuario().getNodeId().intValue());
 				noti.setIdSolicitacao(info.getNodeIdUsuario().intValue());
 				noti.setMensagem(servico.obterMensagem());

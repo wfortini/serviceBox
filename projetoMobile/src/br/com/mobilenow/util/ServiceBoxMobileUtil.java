@@ -154,6 +154,7 @@ public class ServiceBoxMobileUtil {
   	 usuario.setTelefone(response.getTelefone());
   	 usuario.setDataCadastro(response.getDataCadastro());
   	 usuario.setRegIdGCM(response.getRegIdGCM());
+  	 usuario.setSocialId(response.getSocialId());
   	 
   	 if (response.getServicoJSONs() != null){
                
@@ -263,6 +264,10 @@ public class ServiceBoxMobileUtil {
 		
 		String urlTemp = "";
 		
+		if(fotoPerfil.contains("facebook")){
+			return fotoPerfil;
+		}
+		
 		if(loginPath == null){			
 			Map<String, String> param = extrairLogin(fotoPerfil);
 			fotoPerfil = param.get("nomeFoto");
@@ -324,7 +329,7 @@ public class ServiceBoxMobileUtil {
 	         info.setDescricao(localizada.getPrestarServicoJSON().getDescricao());
 	         info.setAtiva(localizada.getPrestarServicoJSON().isAtivo());
 	        info.setData(localizada.getPrestarServicoJSON().getData());
-	        info.setNodeId(localizada.getPrestarServicoJSON().getNodeId());
+	        info.setNodeIdPrestacao(localizada.getPrestarServicoJSON().getNodeId());
 		   
 		   Itinerario itinerario = new Itinerario();
 		   GeoPartida partida = new GeoPartida();
