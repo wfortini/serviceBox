@@ -29,12 +29,20 @@ public class UsuarioResponse extends Response{
 	 private Date dataCadastro;
 	 private String telefone;
 	 private String regIdGCM;
+	 private Long socialId;
 	 
 	 private ServicoJSON[] servicoJSONs;
 	
 	public UsuarioResponse() {
 		
 	} 
+	
+	public UsuarioResponse(boolean sucesso, String message, Long nodeId, int code){
+		this.setSucesso(sucesso);
+		this.setMessage(message);
+		this.setNodeId(nodeId);
+		this.setCode(code);
+	}
    
      
     
@@ -133,6 +141,16 @@ public class UsuarioResponse extends Response{
 	public void setRegIdGCM(String regIdGCM) {
 		this.regIdGCM = regIdGCM;
 	}
+
+	public Long getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(Long socialId) {
+		this.socialId = socialId;
+	}
+	
+	
 	
 	
 	
