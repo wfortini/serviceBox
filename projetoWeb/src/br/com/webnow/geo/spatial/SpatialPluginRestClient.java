@@ -16,7 +16,7 @@ public class SpatialPluginRestClient {
 		
 		String url = databaseURL + "/db/data/ext/SpatialPlugin";
 		
-		String response = rest.getForObject(databaseURL, String.class);
+		String response = rest.getForObject(url, String.class);
 		
 		return response;
 	}
