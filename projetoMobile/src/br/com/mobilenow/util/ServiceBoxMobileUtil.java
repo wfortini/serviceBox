@@ -206,54 +206,57 @@ public class ServiceBoxMobileUtil {
 	   
 	   List<PrestarServico> lista = new ArrayList<PrestarServico>();
 	   
-	   for(PrestarServicoJSON json : response.getPrestarServicoJSON()){
-		   
-		   PrestarServico servico = new PrestarServico();
-		   
-		   servico.setDescricao(json.getDescricao());
-		   servico.setAtiva(json.isAtivo());
-		   servico.setData(json.getData());
-		   servico.setNodeId(json.getNodeId());
-		   
-		   Itinerario itinerario = new Itinerario();
-		   GeoPartida partida = new GeoPartida();
-		   GeoDestino destino = new GeoDestino();
-		   
-			partida.setEnderecoPartida(json.getEnderecoPartida());
-			partida.setLatitude(json.getLatitudePartida());
-			partida.setLongitude(json.getLongitudePartida());
-			
-			destino.setEnderecoDestino(json.getEnderecoDestino());
-			destino.setLatitude(json.getLatitudeDestino());
-			destino.setLongitude(json.getLongitudeDestino());
-			
-			itinerario.setPartida(partida);
-			itinerario.setDestino(destino);
-			itinerario.setSoAmigos(json.isSoAmigos());
-			itinerario.setSoAmigosDosAmigos(json.isSoAmigosDosAmigos());
-			itinerario.setTodos(json.isTodos());
-			itinerario.setDistanciaMaxima(json.getDistanciaMaxima());
-			itinerario.setDistanciaPartidaDestino(json.getDistanciaPartidaDestino());
-			
-			servico.setItinerario(itinerario);
-			
-			Planejamento planejamento = new Planejamento();
-			planejamento.setDomingo(json.isDomingo());
-			planejamento.setSegunda(json.isSegunda());
-			planejamento.setTerca(json.isTerca());
-			planejamento.setQuarta(json.isQuarta());
-			planejamento.setQuinta(json.isQuinta());
-			planejamento.setSexta(json.isSexta());
-			planejamento.setSabado(json.isSabado());
-			planejamento.setHoraFixa(json.getHoraFixa());
-			planejamento.setHoraEntre(json.getHoraEntre());
-			planejamento.setHoraE(json.getHoraE());
-			planejamento.setLugares(json.getLugares());
-			
-			servico.setPlanejamento(planejamento);
-			
-			lista.add(servico);
-		   
+	   if(response != null && response.getPrestarServicoJSON() != null){
+	   
+		   for(PrestarServicoJSON json : response.getPrestarServicoJSON()){
+			   
+			   PrestarServico servico = new PrestarServico();
+			   
+			   servico.setDescricao(json.getDescricao());
+			   servico.setAtiva(json.isAtivo());
+			   servico.setData(json.getData());
+			   servico.setNodeId(json.getNodeId());
+			   
+			   Itinerario itinerario = new Itinerario();
+			   GeoPartida partida = new GeoPartida();
+			   GeoDestino destino = new GeoDestino();
+			   
+				partida.setEnderecoPartida(json.getEnderecoPartida());
+				partida.setLatitude(json.getLatitudePartida());
+				partida.setLongitude(json.getLongitudePartida());
+				
+				destino.setEnderecoDestino(json.getEnderecoDestino());
+				destino.setLatitude(json.getLatitudeDestino());
+				destino.setLongitude(json.getLongitudeDestino());
+				
+				itinerario.setPartida(partida);
+				itinerario.setDestino(destino);
+				itinerario.setSoAmigos(json.isSoAmigos());
+				itinerario.setSoAmigosDosAmigos(json.isSoAmigosDosAmigos());
+				itinerario.setTodos(json.isTodos());
+				itinerario.setDistanciaMaxima(json.getDistanciaMaxima());
+				itinerario.setDistanciaPartidaDestino(json.getDistanciaPartidaDestino());
+				
+				servico.setItinerario(itinerario);
+				
+				Planejamento planejamento = new Planejamento();
+				planejamento.setDomingo(json.isDomingo());
+				planejamento.setSegunda(json.isSegunda());
+				planejamento.setTerca(json.isTerca());
+				planejamento.setQuarta(json.isQuarta());
+				planejamento.setQuinta(json.isQuinta());
+				planejamento.setSexta(json.isSexta());
+				planejamento.setSabado(json.isSabado());
+				planejamento.setHoraFixa(json.getHoraFixa());
+				planejamento.setHoraEntre(json.getHoraEntre());
+				planejamento.setHoraE(json.getHoraE());
+				planejamento.setLugares(json.getLugares());
+				
+				servico.setPlanejamento(planejamento);
+				
+				lista.add(servico);
+			   
+		     }
 	   }
 	   
 	  return lista; 

@@ -82,6 +82,7 @@ public class ListaNotificacoesActivity extends CommonActivity {
 	   try{
 		listViewNotificacoes = (ListView) v.findViewById(R.id.listaNotificacoes);            
 		listViewNotificacoes.setOnItemClickListener(this);
+		listViewNotificacoes.setEmptyView(v.findViewById(R.id.elementoVazio));
 		
 		dao = new NotificacaoDAO(getActivity());
 		notificacoes = dao.listarNotificacoesPorStatus();		

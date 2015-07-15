@@ -146,11 +146,24 @@
 
     <!-- Configurações -->
     <string name="ip_servidor_servicebox">http://192.168.0.5</string>
-    <string name="title_activity_lista_servico">ListaServicoActivity</string>
-    <string name="title_activity_info">InfoActivity</string>
-    <string name="title_activity_listar_prestacao_servico">ListarPrestacaoServicoActivity</string>
-    <string name="title_activity_lista_notificacoes">ListaNotificacoesActivity</string>
+    <string name="title_activity_lista_servico">Serviços</string>
+    <string name="title_activity_info">Informações</string>
+    <string name="title_activity_listar_prestacao_servico">Ações</string>
+    <string name="title_activity_lista_notificacoes">Notificações</string>
     <string name="title_activity_visualizar_map">Visualização</string>
     <string name="title_activity_recomendacao">Recomendações</string>
+    
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+    
+     <string name="vazio">Nada foi emcontrado!</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import br.com.mobilenow.MainActivity;
 import br.com.mobilenow.ServiceBoxApplication;
 import br.com.mobilenow.TabbedActivity;
 import br.com.servicebox.android.common.util.CommonUtils;

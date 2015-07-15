@@ -67,6 +67,13 @@
             android:launchMode="singleTask"
             android:logo="@drawable/actionbar_logo" >
         </activity>
+        
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:logo="@drawable/actionbar_logo" >
+        </activity>
+        
         <activity
             android:name=".UsuarioActivity"
             android:label="@string/registrar_usuario" >
