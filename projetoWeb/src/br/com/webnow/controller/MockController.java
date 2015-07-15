@@ -8,22 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.servicebox.common.net.PrestarServicoRequest;
 import br.com.webnow.domain.Carona;
 import br.com.webnow.domain.Estacionamento;
 import br.com.webnow.domain.GeoDestino;
 import br.com.webnow.domain.GeoPartida;
-import br.com.webnow.domain.PrestarServico;
 import br.com.webnow.domain.Reboque;
-import br.com.webnow.domain.Servico;
 import br.com.webnow.domain.TipoServico;
-import br.com.webnow.domain.Usuario;
+import br.com.webnow.geo.spatial.SpatialPluginRestClient;
 import br.com.webnow.repository.UsuarioRepository;
 import br.com.webnow.repository.servico.ServicoRepository;
 import br.com.webnow.returno.cypher.ServicoLocalizado;
 import br.com.webnow.service.prestarservico.PrestarServicoService;
 import br.com.webnow.service.prestarservico.ServicoService;
-import br.com.webnow.util.ServiceBoxWebUtil;
 
 @Controller
 public class MockController {
@@ -40,12 +36,16 @@ public class MockController {
 	 @Autowired
 	 private PrestarServicoService prestarServicoService;
 	 
+	 @Autowired
+	 private SpatialPluginRestClient spartial;
+	 
 	
 	 @RequestMapping(value = "/rodar", method = RequestMethod.POST)
 	 public String registrar() {
 
 	        try {        	
 	        	
+	        	this.spartial.findPlugin();
 	        	
 	        	
 	        	//Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");

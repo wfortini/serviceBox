@@ -34,7 +34,7 @@ public class ServicoController {
 	
 	@RequestMapping(value = "/adicionarServico", method = RequestMethod.POST)
     public @ResponseBody ServicoResponse adicionarServico(            
-            @RequestParam(value = "login") String login, 
+            @RequestParam(value = "id") String id, 
             @RequestParam(value = "disponibilizarServico") String disponibilizarServico, 
             @RequestParam(value = "tipoServico") String tipoServico
             ) 
@@ -43,7 +43,7 @@ public class ServicoController {
     	ServicoResponse response = null;
     	try {
     		
-    		Usuario usuario = usuarioRepository.findByLogin(login);
+    		Usuario usuario = usuarioRepository.findById(Long.valueOf(id));
     		Servico servico = servicoRepository.findByPropertyValue("tipoServico", Integer.valueOf(tipoServico));
     		
     		if(Boolean.valueOf(disponibilizarServico)){
