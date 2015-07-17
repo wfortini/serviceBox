@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import br.com.mobilenow.adapter.MenuListAdapter;
 import br.com.mobilenow.fragment.CaronaMapFragment;
+import br.com.mobilenow.fragment.EstacionamentoMapFragment;
+import br.com.mobilenow.fragment.ReboqueMapFragment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -57,7 +59,7 @@ public class TabbedActivity extends SherlockFragmentActivity {
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
 
-		private final String[] TITULO = { 	"Carona", 
+		private final String[] TITULO = { 	"Carona", "Estacionamento", "Reboque"
 											};
 
 		public MyPagerAdapter(FragmentManager fm) {
@@ -80,13 +82,23 @@ public class TabbedActivity extends SherlockFragmentActivity {
 				
 				Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(makeFragmentName(R.id.pager, position));
 				System.out.println("*********** fragmentByTag = " + fragmentByTag);
-				return CaronaMapFragment.newInstance(position, "Fragment with menu");
+				return CaronaMapFragment.newInstance(position, "Fragment com menu");
 				
-			} else 
-				return null; //SimpleCardFragment.newInstance(position);
+			} else if(position==1){
+				Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(makeFragmentName(R.id.pager, position));
+			    System.out.println("*********** fragmentByTag = " + fragmentByTag);
+			   return EstacionamentoMapFragment.newInstance(position, "Fragment com menu");//SimpleCardFragment.newInstance(position);
+			}else if(position==2){
+				Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(makeFragmentName(R.id.pager, position));
+				System.out.println("*********** fragmentByTag = " + fragmentByTag);
+				return ReboqueMapFragment.newInstance(position, "Fragment com menu");
+			}else{
+				return null;
 			}
 		}
 
 	}
+	
+}
 
 

@@ -51,8 +51,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 	private Handler handlerNotificacao = new Handler();
 	private Itinerario itinerario;	
 	private ProgressDialog progressDialog;
-	private ArrayList<? extends Parcelable> prestarLista = new ArrayList<PrestarServico>();
-	private int numeroNotificacoes = 2;
+	private ArrayList<? extends Parcelable> prestarLista = new ArrayList<PrestarServico>();	
 	private TextView txtNumNotificacoes = null;
 	
 	
@@ -118,8 +117,7 @@ public class CaronaMapFragment extends SherlockMapFragment{
 		}
 		
 		
-	  private void atualizarContadorDeNotificacao(final int new_hot_number) {
-		    numeroNotificacoes = new_hot_number;
+	  private void atualizarContadorDeNotificacao(final int new_hot_number) {		    
 		    if (txtNumNotificacoes == null) return;
 		    runOnUiThread(new Runnable() {
 		        @Override

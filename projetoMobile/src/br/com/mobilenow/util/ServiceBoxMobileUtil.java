@@ -379,6 +379,7 @@ public class ServiceBoxMobileUtil {
 			info.setSexoUsuario(localizada.getUsuario().getSexo());
 			info.setTelefoneUsuario(localizada.getUsuario().getTelefone());
 			info.setRegIdGCMUsuario(localizada.getUsuario().getRegIdGCM());
+			info.setSocialId(localizada.getUsuario().getSocialId());
 			
 			info.setPlanejamento(planejamento);
 			
