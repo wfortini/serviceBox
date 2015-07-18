@@ -221,6 +221,7 @@ public class AutorizarController {
 				loginResponse.setSexo(usuario.getSexo());
 				loginResponse.setSobreNome(usuario.getSobreNome());
 				loginResponse.setServicoJSONs(ServiceBoxWebUtil.preencherServicoJSON(usuario));
+				loginResponse.setSocialId(usuario.getSocialId());
 				
 				
 				loginResponse.setCode(Response.SUCESSO);
