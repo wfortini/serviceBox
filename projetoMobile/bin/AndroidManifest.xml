@@ -143,6 +143,12 @@
             android:name=".VisualizarMapActivity"
             android:label="@string/title_activity_visualizar_map" >
         </activity>
+         <activity
+            android:name=".RecomendacaoActivity"
+            android:label="@string/title_activity_recomendacao" 
+            android:theme="@style/Theme.ServiceBox.DialogActivity.Light">
+        </activity>
+        
     </application>
 
 </manifest>

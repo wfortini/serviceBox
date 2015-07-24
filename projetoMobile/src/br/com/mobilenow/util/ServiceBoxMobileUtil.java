@@ -268,6 +268,12 @@ public class ServiceBoxMobileUtil {
 		String urlTemp = "";
 		
 		if(fotoPerfil.contains("facebook")){
+			CommonUtils.info(TAG, "Foto facebook ".concat(fotoPerfil));
+			int posicao = fotoPerfil.indexOf("+");
+			if(posicao >= 0){
+				CommonUtils.info(TAG, "Foto facebook ".concat(fotoPerfil.substring(0, posicao)));
+				return fotoPerfil.substring(0, posicao);
+			}
 			return fotoPerfil;
 		}
 		
@@ -284,6 +290,7 @@ public class ServiceBoxMobileUtil {
 			
 			
 		}
+		CommonUtils.info(TAG, "Foto normal".concat(urlTemp));
 		return urlTemp;
 	}
    

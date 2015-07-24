@@ -59,8 +59,7 @@ public class InfoActivity extends CommonActivity {
 	                .replace(android.R.id.content, new InfoUiFragment())
 	                .commit();
 	    }
-	}
-    
+	}   
     
     public static class InfoUiFragment extends CommonFragment{    	
     	
@@ -76,11 +75,9 @@ public class InfoActivity extends CommonActivity {
     	private Integer tipoServico;
     	private Servico servico;
     	
-    	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
+    	private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();    	
     	
-    	
-    	private Info info;
-    	
+    	private Info info;    	
     	private Button btSolicitar;
     	private Button btVisualizar;
     	private Button btRecomendar;
