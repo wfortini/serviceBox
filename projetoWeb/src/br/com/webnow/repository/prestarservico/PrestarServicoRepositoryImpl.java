@@ -81,6 +81,10 @@ public class PrestarServicoRepositoryImpl implements PrestarServicoRepositoryExt
             				nodeUsuario.getProperty("regIdGCM") != null){
             			u.setRegIdGCM((String) nodeUsuario.getProperty("regIdGCM"));
             		}
+            		
+            		if(nodeUsuario.hasProperty("socialId") && nodeUsuario.getProperty("socialId") != null){
+            			u.setSocialId((Long) nodeUsuario.getProperty("socialId"));
+            		}
             		 
             		if(nodeUsuario.hasProperty("telefone") && nodeUsuario.getProperty("telefone") != null){
             			u.setTelefone((String) nodeUsuario.getProperty("telefone") );	
