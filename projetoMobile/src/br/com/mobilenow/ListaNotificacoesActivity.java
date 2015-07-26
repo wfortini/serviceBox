@@ -38,8 +38,8 @@ public class ListaNotificacoesActivity extends CommonActivity {
 	public static class ListarNotificacoesFragment extends CommonFragment implements
     OnItemClickListener {
 
-	//private NotificacaoListAdapter mAdapter;
-	private LazyAdapter	mAdapter;
+	private NotificacaoListAdapter mAdapter;
+	//private LazyAdapter	mAdapter;
 	//private ProgressDialog progressDialog;
 	private List<Notificacao> notificacoes = new ArrayList<Notificacao>();
 	private ListView listViewNotificacoes;
@@ -88,7 +88,7 @@ public class ListaNotificacoesActivity extends CommonActivity {
 		
 		dao = new NotificacaoDAO(getActivity());
 		notificacoes = dao.listarNotificacoesPorStatus();		
-		mAdapter = new LazyAdapter(getActivity(), notificacoes);
+		mAdapter = new NotificacaoListAdapter(getActivity(), notificacoes);
 		mAdapter.setUrl(getString(R.string.ip_servidor_servicebox));
 		listViewNotificacoes.setAdapter(mAdapter);
 		mAdapter.notifyDataSetChanged();

@@ -18,23 +18,17 @@
                 <RelativeLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_marginRight="5dp" >
+                    android:layout_marginRight="5dp" >                   
                     
-                    <ImageView
-						 android:id="@+id/imagem_perfil_notificacao"
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/imagem_perfil_notificacao"
                         android:layout_width="105dp"
                         android:layout_height="105dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"                        
                         android:scaleType="centerCrop" />
-
-<!--                     <com.android.volley.toolbox.NetworkImageView -->
-<!--                         android:id="@+id/imagem_perfil_notificacao" -->
-<!--                         android:layout_width="105dp" -->
-<!--                         android:layout_height="105dp" -->
-<!--                         android:layout_alignParentLeft="true" -->
-<!--                         android:layout_alignParentTop="true"                         -->
-<!--                         android:scaleType="centerCrop" /> -->
+                    
                 </RelativeLayout>
 
                 <LinearLayout
