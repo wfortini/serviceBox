@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import br.com.mobilenow.dao.NotificacaoDAO;
 import br.com.mobilenow.domain.Notificacao;
 import br.com.mobilenow.domain.Servico;
@@ -146,13 +147,25 @@ public class InfoActivity extends CommonActivity {
         	tvPartida.setText(info.getItinerario().getPartida().getEnderecoPartida());
         	tvDestino.setText(info.getItinerario().getDestino().getEnderecoDestino());
         	
-        	NetworkImageView thumbNail = (NetworkImageView) v.findViewById(R.id.imagem_perfil);
+        	ImageView thumbNail = (ImageView) v.findViewById(R.id.imagem_perfil_info);
         	
+        	if(imageLoader == null){
+        		imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
+        	}
         	// thumbnail image
-    		thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
+        	thumbNail.setAdjustViewBounds(true);
+        	
+        	String urlTemp = ServiceBoxMobileUtil.getUrlImagemPerfil(
     				getString(R.string.ip_servidor_servicebox), info.getFotoPerfilUsuario(), 
-    				info.getLoginUsuario()), imageLoader);
-    		 
+    				info.getLoginUsuario());
+        	
+//    		thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
+//    				getString(R.string.ip_servidor_servicebox), info.getFotoPerfilUsuario(), 
+//    				info.getLoginUsuario()), imageLoader);
+    		
+    		imageLoader.get(urlTemp, ImageLoader.getImageListener(thumbNail, 
+    				R.drawable.ic_negado, R.drawable.ic_negado));
+    		
     		 btSolicitar = (Button) v.findViewById(R.id.bt_solicitar);
     		 btVisualizar = (Button) v.findViewById(R.id.bt_visualizar);
     		 btRecomendar = (Button) v.findViewById(R.id.bt_recomendar);

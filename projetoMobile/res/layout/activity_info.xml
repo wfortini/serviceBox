@@ -37,13 +37,21 @@
                     android:layout_marginRight="5dp" >
 
                     <!-- Thumbnail Image -->
-				    <com.android.volley.toolbox.NetworkImageView
-				        android:id="@+id/imagem_perfil"
+<!-- 				    <com.android.volley.toolbox.NetworkImageView -->
+<!-- 				        android:id="@+id/imagem_perfil_info" -->
+<!-- 				        android:layout_width="85dp" -->
+<!-- 				        android:layout_height="85dp" -->
+<!-- 				        android:layout_alignParentLeft="true" -->
+<!-- 				        android:scaleType="centerCrop" -->
+<!-- 				        android:layout_marginRight="8dp" />   -->
+				        
+				    <ImageView
+				        android:id="@+id/imagem_perfil_info"
 				        android:layout_width="85dp"
 				        android:layout_height="85dp"
 				        android:layout_alignParentLeft="true"
 				        android:scaleType="centerCrop"
-				        android:layout_marginRight="8dp" />                     
+				        android:layout_marginRight="8dp" />   
                     
                 </RelativeLayout>
 

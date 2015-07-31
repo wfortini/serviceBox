@@ -268,11 +268,15 @@ public class ServiceBoxMobileUtil {
 		String urlTemp = "";
 		
 		if(fotoPerfil.contains("facebook")){
-			CommonUtils.info(TAG, "Foto facebook ".concat(fotoPerfil));
+			CommonUtils.info(TAG, "Foto facebook 1 ".concat(fotoPerfil));
+			fotoPerfil = fotoPerfil.replace("http", "https");
+			CommonUtils.info(TAG, "Foto facebook 2 ".concat(fotoPerfil));
 			int posicao = fotoPerfil.indexOf("+");
 			if(posicao >= 0){
-				CommonUtils.info(TAG, "Foto facebook ".concat(fotoPerfil.substring(0, posicao)));
-				return fotoPerfil.substring(0, posicao);
+				CommonUtils.info(TAG, "Foto facebook 3 ".concat(fotoPerfil.substring(0, posicao)));
+				String resultado = fotoPerfil.substring(0, posicao).trim();
+				CommonUtils.info(TAG, "Foto facebook 4 ".concat(resultado));
+				return resultado;
 			}
 			return fotoPerfil;
 		}
