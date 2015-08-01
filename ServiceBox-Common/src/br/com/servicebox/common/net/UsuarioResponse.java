@@ -35,6 +35,13 @@ public class UsuarioResponse extends Response{
 	public UsuarioResponse() {
 		
 	} 
+	
+	public UsuarioResponse(boolean sucesso, String message, Long nodeId, int code){
+		this.setSucesso(sucesso);
+		this.setMessage(message);
+		this.setNodeId(nodeId);
+		this.setCode(code);
+	}
    
      
     
