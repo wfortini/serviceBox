@@ -154,6 +154,7 @@ public class ServiceBoxMobileUtil {
   	 usuario.setTelefone(response.getTelefone());
   	 usuario.setDataCadastro(response.getDataCadastro());
   	 usuario.setRegIdGCM(response.getRegIdGCM());
+  	 usuario.setSocialId(response.getSocialId());
   	 
   	 if (response.getServicoJSONs() != null){
                
@@ -205,54 +206,57 @@ public class ServiceBoxMobileUtil {
 	   
 	   List<PrestarServico> lista = new ArrayList<PrestarServico>();
 	   
-	   for(PrestarServicoJSON json : response.getPrestarServicoJSON()){
-		   
-		   PrestarServico servico = new PrestarServico();
-		   
-		   servico.setDescricao(json.getDescricao());
-		   servico.setAtiva(json.isAtivo());
-		   servico.setData(json.getData());
-		   servico.setNodeId(json.getNodeId());
-		   
-		   Itinerario itinerario = new Itinerario();
-		   GeoPartida partida = new GeoPartida();
-		   GeoDestino destino = new GeoDestino();
-		   
-			partida.setEnderecoPartida(json.getEnderecoPartida());
-			partida.setLatitude(json.getLatitudePartida());
-			partida.setLongitude(json.getLongitudePartida());
-			
-			destino.setEnderecoDestino(json.getEnderecoDestino());
-			destino.setLatitude(json.getLatitudeDestino());
-			destino.setLongitude(json.getLongitudeDestino());
-			
-			itinerario.setPartida(partida);
-			itinerario.setDestino(destino);
-			itinerario.setSoAmigos(json.isSoAmigos());
-			itinerario.setSoAmigosDosAmigos(json.isSoAmigosDosAmigos());
-			itinerario.setTodos(json.isTodos());
-			itinerario.setDistanciaMaxima(json.getDistanciaMaxima());
-			itinerario.setDistanciaPartidaDestino(json.getDistanciaPartidaDestino());
-			
-			servico.setItinerario(itinerario);
-			
-			Planejamento planejamento = new Planejamento();
-			planejamento.setDomingo(json.isDomingo());
-			planejamento.setSegunda(json.isSegunda());
-			planejamento.setTerca(json.isTerca());
-			planejamento.setQuarta(json.isQuarta());
-			planejamento.setQuinta(json.isQuinta());
-			planejamento.setSexta(json.isSexta());
-			planejamento.setSabado(json.isSabado());
-			planejamento.setHoraFixa(json.getHoraFixa());
-			planejamento.setHoraEntre(json.getHoraEntre());
-			planejamento.setHoraE(json.getHoraE());
-			planejamento.setLugares(json.getLugares());
-			
-			servico.setPlanejamento(planejamento);
-			
-			lista.add(servico);
-		   
+	   if(response != null && response.getPrestarServicoJSON() != null){
+	   
+		   for(PrestarServicoJSON json : response.getPrestarServicoJSON()){
+			   
+			   PrestarServico servico = new PrestarServico();
+			   
+			   servico.setDescricao(json.getDescricao());
+			   servico.setAtiva(json.isAtivo());
+			   servico.setData(json.getData());
+			   servico.setNodeId(json.getNodeId());
+			   
+			   Itinerario itinerario = new Itinerario();
+			   GeoPartida partida = new GeoPartida();
+			   GeoDestino destino = new GeoDestino();
+			   
+				partida.setEnderecoPartida(json.getEnderecoPartida());
+				partida.setLatitude(json.getLatitudePartida());
+				partida.setLongitude(json.getLongitudePartida());
+				
+				destino.setEnderecoDestino(json.getEnderecoDestino());
+				destino.setLatitude(json.getLatitudeDestino());
+				destino.setLongitude(json.getLongitudeDestino());
+				
+				itinerario.setPartida(partida);
+				itinerario.setDestino(destino);
+				itinerario.setSoAmigos(json.isSoAmigos());
+				itinerario.setSoAmigosDosAmigos(json.isSoAmigosDosAmigos());
+				itinerario.setTodos(json.isTodos());
+				itinerario.setDistanciaMaxima(json.getDistanciaMaxima());
+				itinerario.setDistanciaPartidaDestino(json.getDistanciaPartidaDestino());
+				
+				servico.setItinerario(itinerario);
+				
+				Planejamento planejamento = new Planejamento();
+				planejamento.setDomingo(json.isDomingo());
+				planejamento.setSegunda(json.isSegunda());
+				planejamento.setTerca(json.isTerca());
+				planejamento.setQuarta(json.isQuarta());
+				planejamento.setQuinta(json.isQuinta());
+				planejamento.setSexta(json.isSexta());
+				planejamento.setSabado(json.isSabado());
+				planejamento.setHoraFixa(json.getHoraFixa());
+				planejamento.setHoraEntre(json.getHoraEntre());
+				planejamento.setHoraE(json.getHoraE());
+				planejamento.setLugares(json.getLugares());
+				
+				servico.setPlanejamento(planejamento);
+				
+				lista.add(servico);
+			   
+		     }
 	   }
 	   
 	  return lista; 
@@ -262,6 +266,20 @@ public class ServiceBoxMobileUtil {
    public static String getUrlImagemPerfil(String urlServer, String fotoPerfil, String loginPath){
 		
 		String urlTemp = "";
+		
+		if(fotoPerfil.contains("facebook")){
+			CommonUtils.info(TAG, "Foto facebook 1 ".concat(fotoPerfil));
+			fotoPerfil = fotoPerfil.replace("http", "https");
+			CommonUtils.info(TAG, "Foto facebook 2 ".concat(fotoPerfil));
+			int posicao = fotoPerfil.indexOf("+");
+			if(posicao >= 0){
+				CommonUtils.info(TAG, "Foto facebook 3 ".concat(fotoPerfil.substring(0, posicao)));
+				String resultado = fotoPerfil.substring(0, posicao).trim();
+				CommonUtils.info(TAG, "Foto facebook 4 ".concat(resultado));
+				return resultado;
+			}
+			return fotoPerfil;
+		}
 		
 		if(loginPath == null){			
 			Map<String, String> param = extrairLogin(fotoPerfil);
@@ -276,6 +294,7 @@ public class ServiceBoxMobileUtil {
 			
 			
 		}
+		CommonUtils.info(TAG, "Foto normal".concat(urlTemp));
 		return urlTemp;
 	}
    
@@ -324,7 +343,7 @@ public class ServiceBoxMobileUtil {
 	         info.setDescricao(localizada.getPrestarServicoJSON().getDescricao());
 	         info.setAtiva(localizada.getPrestarServicoJSON().isAtivo());
 	        info.setData(localizada.getPrestarServicoJSON().getData());
-	        info.setNodeId(localizada.getPrestarServicoJSON().getNodeId());
+	        info.setNodeIdPrestacao(localizada.getPrestarServicoJSON().getNodeId());
 		   
 		   Itinerario itinerario = new Itinerario();
 		   GeoPartida partida = new GeoPartida();
@@ -371,6 +390,7 @@ public class ServiceBoxMobileUtil {
 			info.setSexoUsuario(localizada.getUsuario().getSexo());
 			info.setTelefoneUsuario(localizada.getUsuario().getTelefone());
 			info.setRegIdGCMUsuario(localizada.getUsuario().getRegIdGCM());
+			info.setSocialId(localizada.getUsuario().getSocialId());
 			
 			info.setPlanejamento(planejamento);
 			

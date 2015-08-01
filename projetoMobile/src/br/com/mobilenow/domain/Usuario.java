@@ -32,6 +32,7 @@ public class Usuario implements Parcelable{
 	private Date dataCadastro;
 	private String telefone;
 	private String regIdGCM;
+	private Long socialId;
 	
 	private Set<Usuario> amigos;	
 	private Set<Servico> servicosDisponiveis;	
@@ -62,6 +63,7 @@ public class Usuario implements Parcelable{
 		dest.writeLong(dataCadastro.getTime());
 		dest.writeString(telefone);
 		dest.writeString(regIdGCM);
+		dest.writeLong(socialId);
 		//dest.writeTypedList(new ArrayList<Usuario>(getAmigos()));
 		//dest.writeTypedList(new ArrayList<Servico>(servicosDisponiveis));
 		
@@ -79,6 +81,7 @@ public class Usuario implements Parcelable{
 		dataCadastro = new Date(in.readLong());
 		telefone = in.readString();
 		regIdGCM = in.readString();
+		socialId = in.readLong();
 		
 		/**
 		if(amigos == null)
@@ -296,5 +299,15 @@ public class Usuario implements Parcelable{
 		
 		return "Node Id: " + this.getNodeId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
 	}
+
+	public Long getSocialId() {
+		return socialId;
+	}
+
+	public void setSocialId(Long socialId) {
+		this.socialId = socialId;
+	}
+	
+	
 
 }

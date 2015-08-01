@@ -53,7 +53,10 @@ public class NotificacaoListAdapter extends ArrayAdapter<Notificacao>{
 	public NotificacaoListAdapter(Activity activity, List<Notificacao> list) {
 		super(activity, android.R.layout.simple_list_item_1, list);
 		this.activity = activity;
-		this.lista = list;		
+		this.lista = list;	
+		
+		if (inflater == null)
+			inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 	}
 
@@ -99,55 +102,71 @@ public class NotificacaoListAdapter extends ArrayAdapter<Notificacao>{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		if (inflater == null)
-			inflater = (LayoutInflater) activity
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		if (convertView == null)
+		
+		ViewHolder holder;
+		final Notificacao notificacao;
+		
+		if (convertView == null){
 			convertView = inflater.inflate(R.layout.lista_item_notificacao, null);
+			
+			holder = new ViewHolder();
+			
+			holder.thumbNail = (NetworkImageView) convertView.findViewById(R.id.imagem_perfil_notificacao);
+			
+			
+			
+			holder.mensagem = (TextView) convertView.findViewById(R.id.mensagem);		
+			holder.data = (TextView) convertView.findViewById(R.id.dataMensagem);	
+			holder.btAceitar = (Button) convertView.findViewById(R.id.bt_notificacao_sim);
+			holder.btNegar = (Button) convertView.findViewById(R.id.bt_notificacao_nao);
+			
+			holder.imageAceito = (ImageView) convertView.findViewById(R.id.imagem_aceita);
+			holder.lblAceito = (TextView) convertView.findViewById(R.id.lblAceito);
+			holder.imageNegado = (ImageView) convertView.findViewById(R.id.imagem_negada);
+			holder.lblNegou = (TextView) convertView.findViewById(R.id.lblNegou);
+			
+			convertView.setTag(holder);
+			
+		}else{
+			
+			holder = (ViewHolder) convertView.getTag();
+		}		
+		
 		
 		if (imageLoader == null)
 			imageLoader = ServiceBoxApplication.getInstance().getImageLoader();
 		
-		NetworkImageView thumbNail = (NetworkImageView) convertView
-				.findViewById(R.id.imagem_perfil_notificacao);
-		
-		final Notificacao notificacao = lista.get(position);	
+		notificacao = lista.get(position);	
 		// thumbnail image
-				thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
+		holder.thumbNail.setImageUrl(ServiceBoxMobileUtil.getUrlImagemPerfil(
 						getUrl(), notificacao.getFotoPerfil(), 
 						null), imageLoader);
 		
-		TextView mensagem = (TextView) convertView.findViewById(R.id.mensagem);		
-		TextView data = (TextView) convertView.findViewById(R.id.dataMensagem);	
-		Button btAceitar = (Button) convertView.findViewById(R.id.bt_notificacao_sim);
-		Button btNegar = (Button) convertView.findViewById(R.id.bt_notificacao_nao);
+		holder.mensagem.setText(notificacao.getMensagem());
+		holder.data.setText("Criação em: "+ServiceBoxMobileUtil.dateToString(notificacao.getDataSolicitacao(),
+				DateFormat.SHORT));
 		
-		ImageView imageAceito = (ImageView) convertView.findViewById(R.id.imagem_aceita);
-		TextView lblAceito = (TextView) convertView.findViewById(R.id.lblAceito);
-		ImageView imageNegado = (ImageView) convertView.findViewById(R.id.imagem_negada);
-		TextView lblNegou = (TextView) convertView.findViewById(R.id.lblNegou);
 		
 		if(StatusSolicitacao.SOLICITACAO_ACEITA_PELO_SOLICITADO.getCodigo()
 				.equals(notificacao.getStatusNotificacao())){
-			imageAceito.setVisibility(View.VISIBLE);
-			lblAceito.setVisibility(View.VISIBLE);
+			holder.imageAceito.setVisibility(View.VISIBLE);
+			holder.lblAceito.setVisibility(View.VISIBLE);
 		}else if(StatusSolicitacao.SOLICITACAO_NEGADA_PELO_SOLICITADO.getCodigo()
 				.equals(notificacao.getStatusNotificacao())){
-			imageNegado.setVisibility(View.VISIBLE);
-			lblNegou.setVisibility(View.VISIBLE);
+			holder.imageNegado.setVisibility(View.VISIBLE);
+			holder.lblNegou.setVisibility(View.VISIBLE);
 			
 		}
 		
 		if(StatusSolicitacao.SOLICITACAO_ENVIADA_PARA_SOLICITADO.getCodigo().equals(
 				notificacao.getStatusNotificacao()) && 
 				        ServiceBoxApplication.getUsuario().getNodeId().intValue() != notificacao.getIdSolicitante()){
-			btAceitar.setVisibility(View.VISIBLE);
-			btNegar.setVisibility(View.VISIBLE);
+			holder.btAceitar.setVisibility(View.VISIBLE);
+			holder.btNegar.setVisibility(View.VISIBLE);
 			
 		}
 		
-		btAceitar.setOnClickListener(new OnClickListener() {
+		holder.btAceitar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -158,7 +177,7 @@ public class NotificacaoListAdapter extends ArrayAdapter<Notificacao>{
 			}
 		});
 		
-		btNegar.setOnClickListener(new OnClickListener() {
+		holder.btNegar.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -168,14 +187,22 @@ public class NotificacaoListAdapter extends ArrayAdapter<Notificacao>{
 				
 			}
 		});
-		
-		mensagem.setText(notificacao.getMensagem());
-		data.setText("Criação em: "+ServiceBoxMobileUtil.dateToString(notificacao.getDataSolicitacao(),
-				DateFormat.SHORT));
-		
-		
 
 		return convertView;
+	}
+	
+	private static class ViewHolder{
+		
+		public NetworkImageView thumbNail;
+		public TextView mensagem;		
+		public TextView data;	
+		public Button btAceitar;
+		public Button btNegar;		
+		public ImageView imageAceito;
+		public TextView lblAceito;
+		public ImageView imageNegado;
+		public TextView lblNegou;
+		
 	}
 	
 	/** processamento assincrono **/	

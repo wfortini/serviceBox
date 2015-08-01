@@ -128,7 +128,7 @@ public class AcessoActivity extends CommonActivity {
 					super.onPreExecute();
 					progressDialog = new ProgressDialog(AcessoActivity.this);
 					progressDialog.setTitle(R.string.aguarde_por_favor);
-					progressDialog.setMessage(CommonUtils.getStringResource(R.string.processando));
+					progressDialog.setMessage(CommonUtils.getStringResource(R.string.sincronizando_seu_dado));
 					progressDialog.setCancelable(false);
 					progressDialog.show();
 				}

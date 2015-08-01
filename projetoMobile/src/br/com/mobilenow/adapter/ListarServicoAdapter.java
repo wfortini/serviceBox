@@ -35,6 +35,9 @@ public class ListarServicoAdapter extends ArrayAdapter<PrestarServico>{
 		this.lista = list;
 		this.usuario = ServiceBoxApplication.getUsuario();
 		
+		if (inflater == null)
+			inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 	}
 
 	@Override
@@ -72,10 +75,7 @@ public class ListarServicoAdapter extends ArrayAdapter<PrestarServico>{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		if (inflater == null)
-			inflater = (LayoutInflater) activity
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		if (convertView == null)
 			convertView = inflater.inflate(R.layout.lista_item_listaservico, null);
 		

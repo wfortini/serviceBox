@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import br.com.mobilenow.adapter.LazyAdapter;
 import br.com.mobilenow.adapter.NotificacaoListAdapter;
 import br.com.mobilenow.dao.NotificacaoDAO;
 import br.com.mobilenow.domain.Notificacao;
@@ -37,13 +38,14 @@ public class ListaNotificacoesActivity extends CommonActivity {
 	public static class ListarNotificacoesFragment extends CommonFragment implements
     OnItemClickListener {
 
-	private NotificacaoListAdapter mAdapter;		
-	private ProgressDialog progressDialog;
+	private NotificacaoListAdapter mAdapter;
+	//private LazyAdapter	mAdapter;
+	//private ProgressDialog progressDialog;
 	private List<Notificacao> notificacoes = new ArrayList<Notificacao>();
 	private ListView listViewNotificacoes;
-    private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();  	
+   // private ImageLoader imageLoader = ServiceBoxApplication.getInstance().getImageLoader();  	
 	
-	private Notificacao notificacao;	
+	//private Notificacao notificacao;	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class ListaNotificacoesActivity extends CommonActivity {
 	   try{
 		listViewNotificacoes = (ListView) v.findViewById(R.id.listaNotificacoes);            
 		listViewNotificacoes.setOnItemClickListener(this);
+		listViewNotificacoes.setEmptyView(v.findViewById(R.id.elementoVazio));
 		
 		dao = new NotificacaoDAO(getActivity());
 		notificacoes = dao.listarNotificacoesPorStatus();		

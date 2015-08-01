@@ -43,6 +43,7 @@ public class VisualizarMapActivity extends CommonActivity {
 	
 	public static final String TAG = VisualizarMapActivity.class.getSimpleName();
 	public static final String INFO_SERVICO = "INFO_SERVICO";
+	public static final String PRESTAR_SERVICO = "PRESTAR_SERVICO";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

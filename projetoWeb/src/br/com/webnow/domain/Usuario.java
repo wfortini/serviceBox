@@ -41,6 +41,8 @@ public class Usuario extends BaseEntity implements Serializable{
 	private String fotoPerfil;
 	private Date dataCadastro;
 	private String telefone;
+	
+	@Indexed
 	private String regIdGCM;
 
 	@RelatedTo(type = "AMIGO", direction = Direction.BOTH)
@@ -54,7 +56,7 @@ public class Usuario extends BaseEntity implements Serializable{
 	private Set<PrestarServico> prestarServicos;
 		
 	@RelatedTo(type = "FOI_RECOMENDADO", direction = INCOMING)
-	private Set<Recomentacao> recomendacoes;
+	private Set<Recomendacao> recomendacoes;
 	
 	public Set<Usuario> getAmigos() {
 		return amigos;
@@ -83,6 +85,11 @@ public class Usuario extends BaseEntity implements Serializable{
     
 	public boolean addAmigos(Usuario amigo) {
 		return this.amigos.add(amigo);
+	}
+	
+	public boolean addRecomendacao(Recomendacao rec) {
+		
+		return this.recomendacoes.add(rec);
 	}
 	
 	public boolean isAmigo(Usuario other) {
@@ -175,11 +182,11 @@ public class Usuario extends BaseEntity implements Serializable{
 		return "Node Id: " + this.getId() + ", Login: " + this.getLogin() + ", Nome: " + this.getNome();
 	}
 
-	public Set<Recomentacao> getRecomendacoes() {
+	public Set<Recomendacao> getRecomendacoes() {
 		return recomendacoes;
 	}
 
-	public void setRecomendacoes(Set<Recomentacao> recomendacoes) {
+	public void setRecomendacoes(Set<Recomendacao> recomendacoes) {
 		this.recomendacoes = recomendacoes;
 	}
 

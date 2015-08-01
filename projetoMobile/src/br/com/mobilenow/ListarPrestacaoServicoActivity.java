@@ -104,7 +104,8 @@ public class ListarPrestacaoServicoActivity extends CommonActivity {
 		void init(View v, Bundle savedInstanceState){			
 			
 			listaPrestacaoServico = (ListView) v.findViewById(R.id.listaPrestacaoServico);            
-			listaPrestacaoServico.setOnItemClickListener(this);  
+			listaPrestacaoServico.setOnItemClickListener(this); 
+			listaPrestacaoServico.setEmptyView(v.findViewById(R.id.elementoVazio));
 			tipoServico = getActivity().getIntent().getIntExtra(PRESTAR_SERVICO, 0);
 		    new RequisicaoTask().execute();      
 		 
