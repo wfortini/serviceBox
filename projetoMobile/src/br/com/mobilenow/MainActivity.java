@@ -1,5 +1,7 @@
 package br.com.mobilenow;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -10,9 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import br.com.mobilenow.fragment.CaronaMapFragment;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class MainActivity extends SherlockFragmentActivity {
 
