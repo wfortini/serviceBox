@@ -3,21 +3,17 @@ package br.com.mobilenow;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import br.com.mobilenow.adapter.LazyAdapter;
 import br.com.mobilenow.adapter.NotificacaoListAdapter;
 import br.com.mobilenow.dao.NotificacaoDAO;
 import br.com.mobilenow.domain.Notificacao;
 import br.com.servicebox.android.common.activity.CommonActivity;
 import br.com.servicebox.android.common.fragment.CommonFragment;
-
-import com.android.volley.toolbox.ImageLoader;
 
 public class ListaNotificacoesActivity extends CommonActivity {
 
