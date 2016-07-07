@@ -45,8 +45,9 @@ public class MockController {
 
 	        try {        	
 	        	
-	        	this.spartial.findPlugin();
+	        	String returnado = this.spartial.findPlugin();
 	        	
+	        	System.out.println(returnado);
 	        	
 	        	//Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");
 	        	//usuario = usuarioRepository.registrar(usuario);

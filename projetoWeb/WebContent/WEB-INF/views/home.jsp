@@ -183,7 +183,7 @@
 					</div>
 			     	<div class="error">${error}</div>	
 					<div class="box-content">
-						<form class="form-horizontal" action="<c:url value="/rodar" />" method="POST">
+						<form class="form-horizontal" action="<c:url value="/rodar" />" method="POST" name="formHome" id="formHome">
 							<fieldset>
 							  <div class="control-group">
 								<label class="control-label" for="login">Login</label>
@@ -249,7 +249,7 @@
 							  </div>
 							  
 							  <div class="form-actions">
-								<button type="submit" class="btn btn-primary">Salvar</button>
+								<button type="submit" class="btn btn-primary" >Salvar</button>
 								<button class="btn">Cancelar</button>
 							  </div>
 							</fieldset>
@@ -362,6 +362,34 @@
 	<script src="<c:url value="/resources/js/jquery.history.js"/>"></script>
 	<!-- application script for Charisma demo -->
 	<script src="<c:url value="/resources/js/charisma.js"/>"></script>
+	
+	<script type="text/javascript">	
+			function changeAction(acao) { 
+				var form = document.getElementById("formHome");
+				if(form) {
+					form.action ="<c:url value="/rodar" />";
+					form.submit();
+				}
+			}
+			
+			
+			
+			function rodar(){
+				
+				
+				var acao = "<c:url value="/rodar" />";				
+				
+				$("#formHome").attr("action", acao);
+				$("#formHome").submit();
+				
+				alert(acao);
+			}
+			
+			
+			
+			
+			
+		</script>
 	
 		
 </body>
