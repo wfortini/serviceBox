@@ -49,7 +49,7 @@ public class ReboqueMapFragment extends SherlockMapFragment{
 	private Itinerario itinerario;	
 	private ProgressDialog progressDialog;
 	private ArrayList<? extends Parcelable> prestarLista = new ArrayList<PrestarServico>();
-	private int numeroNotificacoes = 2;
+	private int numeroNotificacoes = 0;
 	private TextView txtNumNotificacoes = null;
 	
 	
