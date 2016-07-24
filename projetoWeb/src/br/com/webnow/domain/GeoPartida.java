@@ -31,7 +31,7 @@ public class GeoPartida extends BaseEntity implements Serializable{
 	    this.wkt = String.format(enLocale, "POINT( %.2f %.2f )", this.getLongitude(), this.getLatitude());
 	}
 	
-	@Indexed(indexName="localPartida", indexType=IndexType.POINT)
+	//@Indexed(indexName="localPartida", indexType=IndexType.POINT)
 	private String wkt;
 	
 	public void setWkt(double longitude, double latitude) {

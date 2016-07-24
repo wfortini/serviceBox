@@ -45,9 +45,9 @@ public class MockController {
 
 	        try {        	
 	        	
-	        	String returnado = this.spartial.findPlugin();
+	        	this.spartial.addSimplePointLayer();
 	        	
-	        	System.out.println(returnado);
+	        	//System.out.println(returnado);
 	        	
 	        	//Usuario usuario = new Usuario("wellington", "12345", "Wellington", "Nascimento", "M", "Wallace");
 	        	//usuario = usuarioRepository.registrar(usuario);

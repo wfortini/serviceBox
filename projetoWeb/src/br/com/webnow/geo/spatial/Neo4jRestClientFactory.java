@@ -17,6 +17,8 @@ public class Neo4jRestClientFactory {
 	
 	
 	private static String databaseUser;
+	
+	private static RestTemplate restTemplate;
 
 	  private static String databasePassword;
 
@@ -34,18 +36,21 @@ public class Neo4jRestClientFactory {
 
 	  public static RestTemplate getInstance()
 	  {
-	    CredentialsProvider credsProvider = new BasicCredentialsProvider();
-
-	    credsProvider.setCredentials(
-	            new AuthScope(null, -1),
-	            new UsernamePasswordCredentials(databaseUser, databasePassword));
-
-	    HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
-
-	    RestTemplate restTemplate = new RestTemplate();
-
-	    restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
-
+		  
+		if(restTemplate == null){
+			    CredentialsProvider credsProvider = new BasicCredentialsProvider();
+		
+			    credsProvider.setCredentials(
+			            new AuthScope(null, -1),
+			            new UsernamePasswordCredentials(databaseUser, databasePassword));
+		
+			    HttpClient httpClient = HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
+		
+			    restTemplate = new RestTemplate();
+		
+			    restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+		}
+		
 	    return restTemplate;
 	  }
 

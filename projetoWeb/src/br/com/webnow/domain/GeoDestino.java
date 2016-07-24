@@ -26,7 +26,7 @@ public class GeoDestino extends BaseEntity implements Serializable{
 	private Double longitude;
 	
 	
-	@Indexed(indexName="localDestino", indexType=IndexType.POINT)
+	//@Indexed(indexName="localDestino", indexType=IndexType.POINT)
 	private String wkt;
 	
 	private void updateWkt(){
